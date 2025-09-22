@@ -1,0 +1,31 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-surface text-neutral-900 font-sans antialiased;
+  }
+}
+
+* {
+  scrollbar-color: theme('colors.brand.blue') theme('colors.neutral.100');
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.neutral.100');
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2E318A 0%, #00A6E7 100%);
+  border-radius: 8px;
+}
