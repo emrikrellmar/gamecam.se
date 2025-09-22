@@ -33,7 +33,7 @@ export const products: Product[] = [
       "Beginners enjoy the stats for added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents' strengths and weaknesses for a decisive edge.",
     description:
       'GAMETRAQ brings broadcast-grade capture, AI-led tagging, and coach-ready dashboards into a compact ceiling-mounted unit. Automated rally segmentation, ball tracking, and player heatmaps let clubs personalise feedback for every skill level.',
-    priceLabel: 'Pre-order starting at 3,499 €',
+    priceLabel: 'Get a price estimate in € + shipping',
     priceEnvKey: 'VITE_STRIPE_PRICE_GAMETRAQ',
     heroGradient: 'from-brand-blue/5 via-brand-cyan/5 to-brand-purple/10',
     image: '/assets/gametraq.png',
@@ -48,10 +48,6 @@ export const products: Product[] = [
         description:
           'Schedule highlights for players, coaches, or fans with one-click exports to social channels and club apps.'
       },
-      {
-        title: 'Coach trusted',
-        description: 'Rodry Ovide | Pro Coach coaching Paquito Navarro at the moment contributes to our pro workflows.'
-      }
     ],
     stats: [
       { label: 'Resolution', value: '4K @ 60FPS' },
@@ -78,7 +74,7 @@ export const products: Product[] = [
       'SHOTGUN delivers programmable pace, spin, and trajectories so coaches can run precision sessions or let players train solo with dynamic drills.',
     description:
       'Designed with coaches, SHOTGUN mixes power and finesse. Deliver lobs, volleys, and custom trajectories with 120-ball capacity, AI tempo tracking, and battery or mains operation. Everything is controlled from a rugged, glove-friendly touchscreen.',
-    priceLabel: 'Pre-order starting at 2,199 €',
+    priceLabel: 'Order starting at 2,950€ + shipping',
     priceEnvKey: 'VITE_STRIPE_PRICE_SHOTGUN',
     heroGradient: 'from-brand-pink/5 via-brand-purple/5 to-brand-blue/10',
     image: '/assets/shotgun.png',
@@ -91,15 +87,11 @@ export const products: Product[] = [
         title: 'Dynamic spin control',
         description: 'Dial in side and top spin with +/- 12 deg oscillation and repeatable presets for every shot.'
       },
-      {
-        title: 'Companion app',
-        description: 'Build drill playlists, monitor battery status, and sync with GAMETRAQ data for targeted sessions.'
-      }
     ],
     stats: [
-      { label: 'Ball Capacity', value: '120 balls' },
+      { label: 'Ball Capacity', value: '180 balls' },
       { label: 'Feed Rate', value: '20-70 balls per minute' },
-      { label: 'Battery', value: 'Up to 5 hours' }
+      { label: 'Battery', value: 'Up to 6 hours' }
     ],
     technicalHighlights: [
       'Carbon fiber and aluminum construction for transportability',
@@ -116,4 +108,9 @@ export const products: Product[] = [
 ];
 
 export const getProductBySlug = (slug: string) => products.find((product) => product.slug === slug);
+
+
+
+
+
 
