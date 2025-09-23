@@ -23,37 +23,37 @@ function ProductPage() {
     product.slug === 'gametraq'
       ? [
           {
-            title: 'AI Data Analytics – Instantly',
+            title: 'AI Data Analytics, Instantly',
             description:
-              'Get automatic heat-maps, shot error stats, running distance, and zone control after every game — no manual tagging needed. Just play and get an SMS with a link to the insights. Share it with your coach so he can make personified drills for you.'
+              'Get automatic heat-maps, shot error stats, running distance, and zone control after every game, no manual tagging needed. Just play and get an SMS with a link to the insights. Share it with your coach so he can make personified drills for you.'
           },
           {
             title: 'New Revenue Stream For Your Club',
             description:
-              'Turn gameplay into income. With every match, your club earns as players unlock powerful stats and video insights. Offer smarter training, attract data-driven players, and modernize your courts — all while growing your revenue.'
+              'Turn gameplay into income. With every match, your club earns as players unlock powerful stats and video insights. Offer smarter training, attract data-driven players, and modernize your courts, all while growing your revenue.'
           },
           {
             title: 'Built-In Streaming to YouTube & Instagram',
             description:
-              'Turn your court into a content channel. GAMETRAQ streams matches live in landscape or portrait directly to your club’s YouTube or Instagram — perfect for tournaments, league play, or daily games. Just schedule and go live with one click.'
+              'Turn your court into a content channel. GAMETRAQ streams matches live in landscape or portrait directly to your clubs YouTube or Instagram, perfect for tournaments, league play, or daily games. Just schedule and go live with one click.'
           },
           {
             title: 'Save Ball Rally Button',
             description:
-              'Hit the Ball Rally Button after a great rally — and replay it instantly on the club TV. The included device turns any screen into a highlight hub where players gather, laugh, and stay longer. Build community. Boost bar sales. Celebrate the game.'
+              'Hit the Ball Rally Button after a great rally, and replay it instantly on the club TV. The included device turns any screen into a highlight hub where players gather, laugh, and stay longer. Build community. Boost bar sales. Celebrate the game.'
           }
         ]
       : product.slug === 'shotgun'
         ? [
             {
-              title: 'Pre-Made Training Drills – Because Thinking is Overrated',
+              title: 'Pre-Made Training Drills, because Thinking is Overrated',
               description:
-                'Equipped with six pre-programmed training modes, the SHOTGUN is designed to support players at every level—from beginners refining their fundamentals to professionals seeking a high-intensity challenge. With adjustable speed and power settings, your training is fully customizable. Plus, its wireless design eliminates cable clutter, ensuring a safe and uninterrupted training experience.'
+                'Equipped with six pre-programmed training modes, the SHOTGUN is designed to support players at every level from beginners refining their fundamentals to professionals seeking a high-intensity challenge. With adjustable speed and power settings, your training is fully customizable. Plus, its wireless design eliminates cable clutter, ensuring a safe and uninterrupted training experience.'
             },
             {
-              title: 'Dynamic Ball Feeding – Because Life’s Unpredictable',
+              title: 'Dynamic Ball Feeding, because Life is Unpredictable',
               description:
-                'Think you can anticipate the next shot? The SHOTGUN keeps you engaged with randomized ball placement, simulating the unpredictability of real match play—minus the questionable line calls. Uniquely engineered to vary shot height within the same drill, it sharpens footwork, increases intensity, and removes idle moments.'
+                'Think you can anticipate the next shot? The SHOTGUN keeps you engaged with randomized ball placement, simulating the unpredictability of real match play, minus the questionable line calls. Uniquely engineered to vary shot height within the same drill, it sharpens footwork, increases intensity, and removes idle moments.'
             },
             {
               title: 'Reliable Like Your Favorite Racket',
@@ -83,6 +83,7 @@ function ProductPage() {
             <div className="flex flex-wrap items-center gap-3">
               <CheckoutButton
                 priceEnvKey={product.priceEnvKey}
+                checkoutUrl={product.checkoutUrl}
                 label="Buy now"
                 className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               />

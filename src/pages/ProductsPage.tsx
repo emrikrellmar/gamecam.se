@@ -31,7 +31,7 @@ function ProductsPage() {
               ))}
             </div>
             <div className="flex flex-wrap gap-3">
-              <CheckoutButton priceEnvKey={gametraq.priceEnvKey} label="Buy GAMETRAQ" />
+              <CheckoutButton priceEnvKey={gametraq.priceEnvKey} checkoutUrl={gametraq.checkoutUrl} label="Buy GAMETRAQ" />
               <Link
                 to={`/products/${gametraq.slug}`}
                 className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-5 py-2.5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
@@ -72,7 +72,7 @@ function ProductsPage() {
               ))}
             </div>
             <div className="flex flex-wrap gap-3">
-              <CheckoutButton priceEnvKey={shotgun.priceEnvKey} label="Buy SHOTGUN" />
+              <CheckoutButton priceEnvKey={shotgun.priceEnvKey} checkoutUrl={shotgun.checkoutUrl} label="Buy SHOTGUN" />
               <Link
                 to={`/products/${shotgun.slug}`}
                 className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-5 py-2.5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"

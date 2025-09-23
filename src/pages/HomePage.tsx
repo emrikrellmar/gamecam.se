@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CheckoutButton from '../components/CheckoutButton';
 import AnimatedCounter from '../components/AnimatedCounter';
 import { products } from '../data/products';
@@ -81,6 +81,7 @@ function HomePage() {
                 </Link>
                 <CheckoutButton
                   priceEnvKey={product.priceEnvKey}
+                  checkoutUrl={product.checkoutUrl}
                   label={`Buy ${product.name}`}
                   className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
                 />

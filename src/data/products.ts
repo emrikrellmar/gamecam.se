@@ -1,4 +1,4 @@
-﻿export interface ProductFeature {
+export interface ProductFeature {
   title: string;
   description: string;
 }
@@ -16,6 +16,7 @@ export interface Product {
   description: string;
   priceLabel: string;
   priceEnvKey: string;
+  checkoutUrl?: string;
   heroGradient: string;
   image: string;
   features: ProductFeature[];
@@ -33,8 +34,9 @@ export const products: Product[] = [
       "Beginners enjoy the stats for added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents' strengths and weaknesses for a decisive edge.",
     description:
       'GAMETRAQ brings broadcast-grade capture, AI-led tagging, and coach-ready dashboards into a compact ceiling-mounted unit. Automated rally segmentation, ball tracking, and player heatmaps let clubs personalise feedback for every skill level.',
-    priceLabel: 'Get a price estimate in € + shipping',
+    priceLabel: 'Order starting at 2,950€ + shipping',
     priceEnvKey: 'VITE_STRIPE_PRICE_GAMETRAQ',
+    checkoutUrl: 'https://buy.stripe.com/test_14A8wR0uo9NM55i5EicAo01',
     heroGradient: 'from-brand-blue/5 via-brand-cyan/5 to-brand-purple/10',
     image: '/assets/gametraq.png',
     features: [

@@ -5,7 +5,7 @@ interface AnimatedCounterProps {
   duration?: number;
 }
 
-const AnimatedCounter = ({ value, duration = 3500 }: AnimatedCounterProps) => {
+const AnimatedCounter = ({ value, duration = 5000 }: AnimatedCounterProps) => {
   const frameRef = useRef<number>();
   const [displayValue, setDisplayValue] = useState(value);
 

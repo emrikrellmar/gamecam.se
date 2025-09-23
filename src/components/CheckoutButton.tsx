@@ -1,4 +1,4 @@
-﻿import { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { Stripe } from '@stripe/stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -16,7 +16,8 @@ const getStripe = () => {
 };
 
 interface CheckoutButtonProps {
-  priceEnvKey: string;
+  priceEnvKey?: string;
+  checkoutUrl?: string;
   label?: string;
   className?: string;
   successUrlOverride?: string;
@@ -28,6 +29,7 @@ const defaultClassName =
 
 function CheckoutButton({
   priceEnvKey,
+  checkoutUrl,
   label = 'Buy Now',
   className = defaultClassName,
   successUrlOverride,
@@ -36,17 +38,29 @@ function CheckoutButton({
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = useCallback(async () => {
-    const env = import.meta.env as Record<string, string | undefined>;
-    const priceId = env[priceEnvKey];
+    if (checkoutUrl) {
+      setLoading(true);
+      window.location.href = checkoutUrl;
+      return;
+    }
 
-    if (!priceId) {
-      window.console.warn(`Missing Stripe price id for env key ${priceEnvKey}`);
+    if (!priceEnvKey) {
+      window.console.warn('Missing Stripe price env key on CheckoutButton.');
       window.alert('Purchase configuration is not complete yet. Please contact support.');
       return;
     }
 
     if (!publishableKey) {
       window.alert('Stripe is not configured. Please add your publishable key.');
+      return;
+    }
+
+    const env = import.meta.env as Record<string, string | undefined>;
+    const priceId = env[priceEnvKey];
+
+    if (!priceId) {
+      window.console.warn(`Missing Stripe price id for env key ${priceEnvKey}`);
+      window.alert('Purchase configuration is not complete yet. Please contact support.');
       return;
     }
 
@@ -75,14 +89,13 @@ function CheckoutButton({
     if (error) {
       window.console.error(error.message);
       window.alert('We could not redirect to checkout. Please try again.');
+      setLoading(false);
     }
-
-    setLoading(false);
-  }, [priceEnvKey, successUrlOverride, cancelUrlOverride]);
+  }, [checkoutUrl, priceEnvKey, successUrlOverride, cancelUrlOverride]);
 
   return (
     <button onClick={handleCheckout} className={className} disabled={loading}>
-      {loading ? 'Preparing checkout…' : label}
+      {loading ? 'Preparing checkout' : label}
     </button>
   );
 }
