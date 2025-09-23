@@ -1,3 +1,36 @@
+﻿const timeline = [
+  {
+    year: '2020',
+    title: 'GameCam founded',
+    description:
+      'Magnus Jansson and Vivek launch GameCam with a vision to bring AI-native capture and broadcast to padel courts.'
+  },
+  {
+    year: '2021',
+    title: 'First live AI broadcasts',
+    description:
+      'Prototype rigs stream 4K matches with automated overlays, validating the low-latency compute stack in real clubs.'
+  },
+  {
+    year: '2022',
+    title: 'GAMETRAQ pilots',
+    description:
+      'Nordic clubs deploy ceiling-mounted units that auto-tag rallies, benchmark players, and share highlight reels in minutes.'
+  },
+  {
+    year: '2023',
+    title: 'SHOTGUN joins the lineup',
+    description:
+      'Adaptive training machine links with GAMETRAQ insights to automate drill playlists for academies and pro teams.'
+  },
+  {
+    year: '2024',
+    title: 'Global expansion',
+    description:
+      'GameCam hardware arrives in 15 countries with 200+ club installs, using AI to analyze more than 44,000 games.'
+  }
+];
+
 function StoryPage() {
   return (
     <div className="space-y-12">
@@ -11,7 +44,7 @@ function StoryPage() {
       </section>
 
       <section className="space-y-6 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card text-sm leading-relaxed text-neutral-700">
-       <h2 className="text-lg font-semibold text-brand-blue">Magnus Jansson</h2>
+        <h2 className="text-lg font-semibold text-brand-blue">Magnus Jansson</h2>
         <p>
           Magnus Jansson is a visionary technologist and entrepreneur with a deep passion for pushing the boundaries of
           immersive media and intelligent vision systems. From reshaping virtual reality experiences to reinventing how racket
@@ -43,21 +76,43 @@ function StoryPage() {
           </p>
         </div>
 
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-brand-blue">GameCam: Elevating padel through technology</h2>
-          <p>
-            In 2020 Magnus partnered with Vivek from BTH to launch GameCam, a next-generation live-streaming and analytics
-            platform built specifically for padel. What began as a high-speed, AI-powered broadcast camera has evolved into a
-            comprehensive vision technology ecosystem for racket sports.
-          </p>
-          <p>At the heart of GameCam lies the the AI powered camera GAMETRAQ, a cutting-edge system delivering:</p>
-          <ul className="list-disc space-y-2 pl-6">
-            <li>4K live broadcasting</li>
-            <li>AI-generated player statistics</li>
-            <li>Real-time game analysis</li>
-            <li>Cloud-based video storage and review tools</li>
-          </ul>
-          <p>These technologies are powered by our core strengths in:</p>
+        <div className="space-y-4">
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-brand-blue">GameCam: Elevating padel through technology</h2>
+            <p>
+              In 2020 Magnus partnered with Vivek from BTH to launch GameCam, a next-generation live-streaming and analytics
+              platform built specifically for padel. What began as a high-speed, AI-powered broadcast camera has evolved into a
+              comprehensive vision technology ecosystem for racket sports.
+            </p>
+            <p>At the heart of GameCam lies the AI powered camera GAMETRAQ, a cutting-edge system delivering:</p>
+            <ul className="list-disc space-y-2 pl-6">
+              <li>4K live broadcasting</li>
+              <li>AI-generated player statistics</li>
+              <li>Real-time game analysis</li>
+              <li>Cloud-based video storage and review tools</li>
+            </ul>
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="text-lg font-semibold text-brand-blue">Company milestones</h2>
+            <div className="relative space-y-10 pl-8 sm:pl-12">
+              <span className="pointer-events-none absolute left-3 top-0 h-full w-0.5 bg-gradient-to-b from-brand-blue/40 via-brand-cyan/40 to-brand-pink/40" />
+              {timeline.map((item) => (
+                <article
+                  key={item.year}
+                  className="relative rounded-3xl border border-brand-blue/10 bg-neutral-50 p-6 shadow-card transition hover:border-brand-blue/25 hover:shadow-xl"
+                >
+                  <span className="pointer-events-none absolute -left-4 top-6 flex h-8 w-8 items-center justify-center">
+                    <span className="absolute inline-flex h-6 w-6 rounded-full bg-brand-blue/30 animate-ping-slow" />
+                    <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-brand-blue shadow-[0_0_0_4px_rgba(255,255,255,1)]" />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">{item.year}</p>
+                  <h4 className="mt-2 text-lg font-semibold text-brand-blue">{item.title}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-neutral-700">{item.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -101,7 +156,7 @@ function StoryPage() {
         </div>
 
         <div className="space-y-1 text-sm text-brand-blue">
-          <p className="font-semibold uppercase tracking-[0.3em]">Stay curious. Be hungry. Act friendly.</p>
+          <p className="font-semibold uppercase tracking-[0.3em]">"Stay curious. Be hungry. Act friendly." — Magnus Jansson, CEO</p>
         </div>
       </section>
     </div>

@@ -7,7 +7,7 @@ const faqs = [
   {
     question: 'Do you offer installation services for GAMETRAQ?',
     answer:
-      'Yes. Our team we can offer installation services for nordic countries. For other regions we coordinate with certified partners or support your in-house technicians with remote guidance.'
+      'Yes. Our team can offer installation services for nordic countries. For other regions we coordinate with certified partners or support your in-house technicians with remote guidance.'
   },
   {
     question: 'Does your products have warranty?',
@@ -34,11 +34,11 @@ function SupportPage() {
           <h2 className="text-lg font-semibold text-brand-blue">Contact</h2>
           <p>support@gamecam.se</p>
           <p>Or</p>
-          <p>Book google meet</p>
+          <p>Book a google meet</p>
         </div>
         <div className="space-y-3 text-sm text-neutral-700">
           <h2 className="text-lg font-semibold text-brand-blue">Service windows</h2>
-          <p>Monday - Friday</p>
+          <p>Monday — Friday</p>
           <p>08:00-12:00, 13-17:00 CET</p>          
         </div>
         <div className="space-y-3 text-sm text-neutral-700">

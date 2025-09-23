@@ -1,10 +1,12 @@
 ﻿import { Navigate, useParams } from 'react-router-dom';
+import { useRef } from 'react';
 import CheckoutButton from '../components/CheckoutButton';
 import { getProductBySlug } from '../data/products';
 
 function ProductPage() {
   const { slug } = useParams();
   const product = slug ? getProductBySlug(slug) : undefined;
+  const specsRef = useRef<HTMLDivElement | null>(null);
 
   if (!product) {
     return <Navigate to="/" replace />;
@@ -129,8 +131,8 @@ function ProductPage() {
         </section>
       )}
 
-      <section className="space-y-6">
         <h2 className="text-2xl font-semibold text-brand-blue">What sets {product.name} apart</h2>
+      <section className="space-y-6">
         <div className="grid gap-5 md:grid-cols-3">
           {keyFeatures.map((feature) => (
             <article key={feature.title} className="rounded-3xl border border-brand-blue/15 bg-white p-5 shadow-card">
@@ -141,6 +143,7 @@ function ProductPage() {
         </div>
       </section>
 
+        <h2 className="text-2xl font-semibold text-brand-blue">{product.name} specifications</h2>
       <section id="specs" className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
           <h2 className="text-2xl font-semibold text-brand-blue">Technical highlights</h2>
@@ -169,6 +172,9 @@ function ProductPage() {
 }
 
 export default ProductPage;
+
+
+
 
 
 

@@ -1,39 +1,98 @@
-﻿const teamMembers = [
+﻿interface TeamContact {
+  label: string;
+  href: string;
+  display: string;
+}
+
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+  contacts?: TeamContact[];
+}
+
+const teamMembers: TeamMember[] = [
   {
     name: 'Developer Collective',
     role: 'Engineering Team',
     image: '/assets/developers.png',
-    bio: 'A squad of 6+ software engineers, computer vision specialists, and embedded developers who push updates weekly, maintain our AI stack, and turn product ideas into reliable on-court experiences.'
+    bio: 'A squad of 6+ software engineers, computer vision specialists, and embedded developers who push updates weekly, maintain our AI stack, and turn product ideas into reliable on-court experiences.',
   },
   {
     name: 'Magnus Jansson',
     role: 'CEO',
     image: '/assets/magnus.png',
-    bio: 'Magnus sets the product vision and keeps GameCam pioneering new ways to merge camera innovation with intelligent analytics for padel clubs.'
+    bio: 'Magnus sets the product vision and keeps GameCam pioneering new ways to merge camera innovation with intelligent analytics.',
+    contacts: [
+            {
+        label: 'WhatsApp',
+        href: 'https://wa.me/46701984567',
+        display: '+46 70 198 45 67'
+      },
+      {
+        label: 'Email',
+        href: 'mailto:magnus@gamecam.se',
+        display: 'magnus@gamecam.se'
+      }
+    ]
   },
   {
     name: 'Morten Wiegandt',
     role: 'Sales, Partnerships & Customer Relationships',
     image: '/assets/morten.png',
-    bio: 'Morten leads commercial strategy and builds long-term relationships with clubs, federations, and partners across our key markets.'
+    bio: 'Morten leads commercial strategy and builds long-term relationships with clubs, federations, and partners across our key markets.',
+    contacts: [
+      {
+        label: 'WhatsApp',
+        href: 'https://wa.me/46701984567',
+        display: '+46 70 198 45 67'
+      },
+      {
+        label: 'Email',
+        href: 'mailto:morten@gamecam.se',
+        display: 'morten@gamecam.se'
+      }
+    ]
   },
   {
     name: 'Emrik Rellmar',
     role: 'Project Lead',
     image: '/assets/emrik.png',
-    bio: 'Emrik coordinates teams across tech, product, and business so every deployment hits milestones and delivers the right experience for players.'
+    bio: 'Emrik coordinates teams across tech, product, and business so every deployment hits milestones and delivers the right experience for players.',
+    contacts: [
+      {
+        label: 'Email',
+        href: 'mailto:emrik@gamecam.se',
+        display: 'emrik@gamecam.se'
+      }
+    ]
   },
   {
     name: 'Eloisa Laass',
     role: 'Administration & Support',
     image: '/assets/eloisa.png',
-    bio: 'Eloisa looks after day-to-day operations and ensures every club receives timely, friendly support before, during, and after installation.'
+    bio: 'Eloisa looks after day-to-day operations and ensures every club receives timely, friendly support before, during, and after installation.',
+    contacts: [
+      {
+        label: 'Email',
+        href: 'mailto:eloisa@gamecam.se',
+        display: 'admin@gamecam.se'
+      }
+    ]
   },
   {
-    name: 'Vivek S',
+    name: 'Vivek Sangari',
     role: 'Head of Tech & Support',
     image: '/assets/vivek.png',
-    bio: 'Vivek leads our engineering and support squads, turning customer feedback into rock-solid firmware, edge compute, and service tooling.'
+    bio: 'Vivek leads our engineering and support squads, turning customer feedback into rock-solid firmware, edge compute, and service tooling.',
+    contacts: [
+      {
+        label: 'Email',
+        href: 'mailto:support@gamecam.se',
+        display: 'support@gamecam.se'
+      }
+    ]
   }
 ];
 
@@ -70,6 +129,23 @@ function AboutPage() {
                 <h3 className="text-xl font-semibold text-brand-blue">{member.name}</h3>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">{member.role}</p>
                 <p className="text-sm leading-relaxed">{member.bio}</p>
+                {member.contacts && (
+                  <ul className="space-y-1 pt-3 text-sm">
+                    {member.contacts.map((contact) => (
+                      <li key={`${member.name}-${contact.label}`}> 
+                        <a
+                          href={contact.href}
+                          target={contact.href.startsWith('http') ? '_blank' : undefined}
+                          rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          className="inline-flex items-center gap-2 rounded-full border border-brand-blue/10 bg-neutral-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+                        >
+                          <span>{contact.label}</span>
+                          <span className="font-normal tracking-normal text-neutral-700">{contact.display}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </article>
           ))}
@@ -98,8 +174,4 @@ function AboutPage() {
 }
 
 export default AboutPage;
-
-
-
-
 
