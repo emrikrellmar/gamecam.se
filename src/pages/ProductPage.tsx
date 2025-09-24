@@ -209,6 +209,29 @@ function ProductPage() {
                   <span>1-year limited warranty covering materials and workmanship under normal use.</span>
                 </li>
               </>
+            ) : product.slug === 'gametraq' ? (
+              <>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Camera system</span>
+                  <span>4K ceiling-mounted capture with automated rally tagging and player tracking.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Edge compute</span>
+                  <span>Integrated 12-TOPS AI module with over-the-air firmware updates.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Connectivity</span>
+                  <span>Dual-band Wi-Fi 6 and Gigabit Ethernet for resilient streaming and uploads.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Streaming</span>
+                  <span>Native RTMP output to YouTube and Instagram with portrait and landscape support.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Analytics & storage</span>
+                  <span>Cloud dashboards, SMS stat delivery, and secure video archive for coaches and players.</span>
+                </li>
+              </>
             ) : (
               product.technicalHighlights.map((item) => (
                 <li key={item} className="flex items-start gap-3">
