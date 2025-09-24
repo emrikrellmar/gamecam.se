@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import CheckoutButton from '../components/CheckoutButton';
 import AnimatedCounter from '../components/AnimatedCounter';
 import { products } from '../data/products';
@@ -7,6 +7,15 @@ const stats = [
   { label: 'Products installed in countries', value: '15' },
   { label: 'Products installed in clubs globally', value: '200+' },
   { label: 'AI analyzed games', value: '44,000+' }
+];
+
+const customerLogos = [
+  { name: 'Nordic Wellness Padel', image: '/assets/images/nordicwellnespadel.webp' },
+  { name: 'Padel Sense', image: '/assets/images/padelsense.webp' },
+  { name: 'Padel Zenter', image: '/assets/images/padelzenter.webp' },
+  { name: 'PDL Padel', image: '/assets/images/PDL.webp' },
+  { name: 'Stiga Padel', image: '/assets/images/stigapadel.webp' },
+  { name: 'Taktika Padel', image: '/assets/images/Taktika-Padel.webp' }
 ];
 
 function HomePage() {
@@ -34,12 +43,20 @@ function HomePage() {
             >
               Talk to our team
             </Link>
+            <a
+              href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-8 py-5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+            >
+              Book a demo
+            </a>
           </div>
         </div>
         <div className="grid gap-4">
           <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-4 shadow-card">
             <img
-              src="/assets/court_with_gametraq.png"
+              src="/assets/images/court_with_gametraq.png"
               alt="Gamecam hardware on court"
               className="h-full w-full rounded-2xl object-cover"
             />
@@ -52,6 +69,22 @@ function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Trusted by</p>
+            <h2 className="text-2xl font-semibold text-brand-blue">Leading padel clubs in Europe</h2>
+          </div>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+          {customerLogos.map((customer) => (
+            <div key={customer.name} className="flex items-center justify-center rounded-2xl border border-brand-blue/10 bg-neutral-50 p-4">
+              <img src={customer.image} alt={`${customer.name} logo`} className="h-12 w-auto object-contain" loading="lazy" />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -118,7 +151,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-
-
-

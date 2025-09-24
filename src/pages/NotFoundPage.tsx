@@ -1,11 +1,11 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function NotFoundPage() {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-11 rounded-3xl border border-brand-blue/15 bg-white p-10 text-center shadow-card">
-      <img src="/assets/gamecam_logo_horizontal_black.png" alt="Gamecam" className="h-40 w-auto" />
+      <img src="/assets/images/gamecam_logo_horizontal_black.png" alt="Gamecam" className="h-40 w-auto" />
       <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-blue/70">404</p>
-      <h1 className="text-3xl font-bold text-brand-blue">We could not find that page. 😔</h1>
+      <h1 className="text-3xl font-bold text-brand-blue">We could not find that page. Let's get you back on court.</h1>
       <p className="max-w-md text-sm text-neutral-700">
         You might have mistyped the address or followed a stale link. Head back to the homepage to continue exploring
         Gamecam and all of our products.

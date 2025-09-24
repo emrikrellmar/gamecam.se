@@ -16,13 +16,13 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Developer Collective',
     role: 'Engineering Team',
-    image: '/assets/developers.png',
+    image: '/assets/images/developers.png',
     bio: 'A squad of 6+ software engineers, computer vision specialists, and embedded developers who push updates weekly, maintain our AI stack, and turn product ideas into reliable on-court experiences.',
   },
   {
     name: 'Magnus Jansson',
     role: 'CEO',
-    image: '/assets/magnus.png',
+    image: '/assets/images/magnus.png',
     bio: 'Magnus sets the product vision and keeps GameCam pioneering new ways to merge camera innovation with intelligent analytics.',
     contacts: [
             {
@@ -40,7 +40,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Morten Wiegandt',
     role: 'Sales, Partnerships & Customer Relationships',
-    image: '/assets/morten.png',
+    image: '/assets/images/morten.png',
     bio: 'Morten leads commercial strategy and builds long-term relationships with clubs, federations, and partners across our key markets.',
     contacts: [
       {
@@ -58,7 +58,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Emrik Rellmar',
     role: 'Project Lead',
-    image: '/assets/emrik.png',
+    image: '/assets/images/emrik.png',
     bio: 'Emrik coordinates teams across tech, product, and business so every deployment hits milestones and delivers the right experience for players.',
     contacts: [
       {
@@ -71,7 +71,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Eloisa Laass',
     role: 'Administration & Support',
-    image: '/assets/eloisa.png',
+    image: '/assets/images/eloisa.png',
     bio: 'Eloisa looks after day-to-day operations and ensures every club receives timely, friendly support before, during, and after installation.',
     contacts: [
       {
@@ -84,7 +84,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Vivek Sangari',
     role: 'Head of Tech & Support',
-    image: '/assets/vivek.png',
+    image: '/assets/images/vivek.png',
     bio: 'Vivek leads our engineering and support squads, turning customer feedback into rock-solid firmware, edge compute, and service tooling.',
     contacts: [
       {

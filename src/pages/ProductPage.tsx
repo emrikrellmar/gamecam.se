@@ -1,4 +1,4 @@
-﻿import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useRef } from 'react';
 import CheckoutButton from '../components/CheckoutButton';
 import { getProductBySlug } from '../data/products';
@@ -15,9 +15,15 @@ function ProductPage() {
   const heroGradient = product.heroGradient ?? 'from-brand-blue/10 via-brand-purple/10 to-brand-pink/10';
   const productVideo =
     product.slug === 'gametraq'
-      ? '/assets/GAMETRAQ.mov'
+      ? '/assets/videos/GAMETRAQ.mov'
       : product.slug === 'shotgun'
-        ? '/assets/SHOTGUN.mov'
+        ? '/assets/videos/SHOTGUN.mov'
+        : undefined;
+  const productDeck =
+    product.slug === 'gametraq'
+      ? '/assets/pdfs/GAMETRAQDECK.pdf'
+      : product.slug === 'shotgun'
+        ? '/assets/pdfs/SHOTGUNDECK.pdf'
         : undefined;
   const keyFeatures: { title: string; description: string }[] =
     product.slug === 'gametraq'
@@ -93,6 +99,24 @@ function ProductPage() {
               >
                 View specifications
               </a>
+              {productDeck && (
+                <a
+                  href={productDeck}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 bg-white/70 px-6 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+                >
+                  Download product deck
+                </a>
+              )}
+              <a
+                href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 bg-white/70 px-6 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+              >
+                Book a demo
+              </a>
             </div>
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/80">
               <span className="h-2 w-2 rounded-full bg-brand-pink" />
@@ -127,6 +151,19 @@ function ProductPage() {
               controls
               preload="metadata"
               className="aspect-video w-full max-h-[540px] rounded-[24px] object-cover"
+            />
+          </div>
+        </section>
+      )}
+
+      {product.slug === 'shotgun' && (
+        <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
+          <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+            <img
+              src="/assets/images/SHOTGUN_on_court.webp"
+              alt="SHOTGUN unit on a padel court"
+              className="h-full w-full rounded-[24px] object-cover"
+              loading="lazy"
             />
           </div>
         </section>
@@ -173,25 +210,3 @@ function ProductPage() {
 }
 
 export default ProductPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

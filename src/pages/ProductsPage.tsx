@@ -38,6 +38,14 @@ function ProductsPage() {
               >
                 View product page
               </Link>
+              <a
+                href="/assets/pdfs/GAMETRAQDECK.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-5 py-2.5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+              >
+                Download product deck
+              </a>
             </div>
           </div>
           <div className="space-y-4">
@@ -79,13 +87,21 @@ function ProductsPage() {
               >
                 View product page
               </Link>
+              <a
+                href="/assets/pdfs/SHOTGUNDECK.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-5 py-2.5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+              >
+                Download product deck
+              </a>
             </div>
           </div>
           <div className="space-y-4">
             <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-neutral-50 p-5 text-center shadow-card">
               <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-56 w-auto object-contain" />
             </div>
-            <div className="rounded-3xl border border-brand-blue/15 bg-brand-pink/5 p-5 text-sm text-brand-blue">
+            <div className="rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-5 text-sm text-brand-blue">
               <p className="font-semibold">Train like never before</p>
               <p className="mt-2 text-neutral-700">
                 Train with AI powered drills to perfect your game and get better than your opponents
@@ -108,6 +124,21 @@ function ProductsPage() {
           >
             Visit support {'->'}
           </Link>
+        </article>
+        <article className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+          <h3 className="text-lg font-semibold text-brand-blue">Book a live demo</h3>
+          <p className="mt-2 text-sm text-neutral-700">
+            Walk through our hardware, dashboards, and AI workflows with a GameCam specialist. See exactly how the
+            experience fits your club before you buy.
+          </p>
+          <a
+            href="https://calendly.com/magnus-gamecam/new-meeting"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center text-sm font-semibold text-brand-pink transition hover:text-brand-blue"
+          >
+            Book a demo {'->'}
+          </a>
         </article>
       </section>
     </div>

@@ -9,7 +9,7 @@ function Footer() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/15 bg-white shadow-inner">
-              <img src="/assets/gamecam_icon.png" alt="Gamecam icon" className="h-8 w-8 object-contain" />
+              <img src="/assets/images/gamecam_icon.png" alt="Gamecam icon" className="h-8 w-8 object-contain" />
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-blue">GameCam</p>
@@ -50,4 +50,3 @@ function Footer() {
 }
 
 export default Footer;
-
