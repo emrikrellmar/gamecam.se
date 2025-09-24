@@ -186,12 +186,37 @@ function ProductPage() {
         <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
           <h2 className="text-2xl font-semibold text-brand-blue">Technical highlights</h2>
           <ul className="mt-4 space-y-3 text-sm text-neutral-700">
-            {product.technicalHighlights.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="mt-1 h-2 w-2 rounded-full bg-brand-pink" />
-                <span>{item}</span>
-              </li>
-            ))}
+            {product.slug === 'shotgun' ? (
+              <>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Ball machine</span>
+                  <span>Shotgun 4 – our latest version 4 ball machine.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Battery</span>
+                  <span>Rechargeable battery that lasts between 4-6 hours. Recharge in roughly 3 hours.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Charger</span>
+                  <span>Fast wall charger included for quick turnaround.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Remote control</span>
+                  <span>User-friendly remote with six hot keys for the training drill programs.</span>
+                </li>
+                <li className="flex flex-col gap-1">
+                  <span className="text-sm font-semibold text-brand-blue">Warranty</span>
+                  <span>1-year limited warranty covering materials and workmanship under normal use.</span>
+                </li>
+              </>
+            ) : (
+              product.technicalHighlights.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-brand-pink" />
+                  <span>{item}</span>
+                </li>
+              ))
+            )}
           </ul>
         </div>
         <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
