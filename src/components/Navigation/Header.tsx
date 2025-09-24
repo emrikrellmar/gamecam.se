@@ -63,6 +63,14 @@ function Header() {
             >
               Buy Now
             </Link>
+            <a
+              href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden items-center gap-2 rounded-full border border-brand-blue/20 px-5 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink md:inline-flex"
+            >
+              Book a demo
+            </a>
             <button
               className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink lg:hidden"
               onClick={() => setOpen((value) => !value)}
