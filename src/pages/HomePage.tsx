@@ -129,7 +129,7 @@ function HomePage() {
                   to={`/products/${product.slug}`}
                   className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
                 >
-                  Learn more
+                  View product page
                 </Link>
                 <CheckoutButton
                   priceEnvKey={product.priceEnvKey}
@@ -164,20 +164,6 @@ function HomePage() {
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-brand-blue">{item.name}</h3>
                 <p className="text-sm text-neutral-700">{item.description}</p>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    to={`/products/${item.slug}`}
-                    className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
-                  >
-                    Learn more
-                  </Link>
-                  <Link
-                    to={`/products/${item.slug}`}
-                    className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
-                  >
-                    View specs
-                  </Link>
-                </div>
               </div>
             </article>
           ))}

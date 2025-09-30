@@ -2,13 +2,16 @@ import { Navigate, useParams } from 'react-router-dom';
 import { useRef } from 'react';
 import CheckoutButton from '../components/CheckoutButton';
 import { getProductBySlug } from '../data/products';
+
 function ProductPage() {
   const { slug } = useParams();
   const product = slug ? getProductBySlug(slug) : undefined;
   const specsRef = useRef<HTMLDivElement | null>(null);
+
   if (!product) {
     return <Navigate to="/" replace />;
   }
+
   const heroGradient = product.heroGradient ?? 'from-brand-blue/10 via-brand-purple/10 to-brand-pink/10';
   const productVideo =
     product.slug === 'gametraq'
@@ -65,6 +68,7 @@ function ProductPage() {
             }
           ]
         : product.features;
+
   return (
     <div className="space-y-16">
       <section
@@ -105,7 +109,9 @@ function ProductPage() {
                   Download product deck
                 </a>
               )}
-              <a
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/80">
+              <span className="h-2 w-2 rounded-full bg-brand-pink" />
               <span>{product.priceLabel}</span>
             </div>
           </div>
@@ -128,6 +134,7 @@ function ProductPage() {
           </div>
         </div>
       </section>
+
       {productVideo && (
         <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
           <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-gradient-to-br from-brand-blue/5 via-brand-purple/5 to-brand-pink/10">
@@ -140,18 +147,30 @@ function ProductPage() {
           </div>
         </section>
       )}
+
       {product.slug === 'shotgun' && (
         <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
-          <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
-            <img
-              src="/assets/images/SHOTGUN_on_court.webp"
-              alt="SHOTGUN unit on a padel court"
-              className="h-full w-full rounded-[24px] object-cover"
-              loading="lazy"
-            />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+              <img
+                src="/assets/images/ShotgunOnCourt.webp"
+                alt="SHOTGUN unit on a padel court"
+                className="h-full w-full rounded-[24px] object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+              <img
+                src="/assets/images/ShotgunOnCourt2.jpg"
+                alt="SHOTGUN ball machine close-up"
+                className="h-full w-full rounded-[24px] object-cover"
+                loading="lazy"
+              />
+            </div>
           </div>
         </section>
       )}
+
         <h2 className="text-2xl font-semibold text-brand-blue">What sets {product.name} apart</h2>
       <section className="space-y-6">
         <div className="grid gap-5 md:grid-cols-3">
@@ -163,6 +182,7 @@ function ProductPage() {
           ))}
         </div>
       </section>
+
         <h2 className="text-2xl font-semibold text-brand-blue">{product.name} specifications</h2>
       <section id="specs" className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
@@ -171,8 +191,6 @@ function ProductPage() {
             {product.slug === 'shotgun' ? (
               <>
                 <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Ball machine</span>
-                  <span>Shotgun 4 – our latest version 4 ball machine.</span>
                 </li>
                 <li className="flex flex-col gap-1">
                   <span className="text-sm font-semibold text-brand-blue">Battery</span>
@@ -194,8 +212,8 @@ function ProductPage() {
             ) : product.slug === 'gametraq' ? (
               <>
                 <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Camera system</span>
-                  <span>4K ceiling-mounted capture with automated rally tagging and player tracking.</span>
+                  <span className="text-sm font-semibold text-brand-blue">Camera and mounting kit</span>
+                  <span>4K capture with a mount to capture the game from the best angle.</span> 
                 </li>
                 <li className="flex flex-col gap-1">
                   <span className="text-sm font-semibold text-brand-blue">Edge compute</span>
@@ -224,8 +242,19 @@ function ProductPage() {
             )}
           </ul>
         </div>
+        <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+          <h2 className="text-2xl font-semibold text-brand-blue">Ideal for</h2>
+          <ul className="mt-4 space-y-3 text-sm text-neutral-700">
+            {product.useCases.map((item) => (
+              <li key={item} className="rounded-2xl border border-brand-blue/10 bg-neutral-50 px-4 py-3">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </div>
   );
 }
+
 export default ProductPage;
