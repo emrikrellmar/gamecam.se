@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CheckoutButton from '../components/CheckoutButton';
 import AnimatedCounter from '../components/AnimatedCounter';
 import { products } from '../data/products';
@@ -16,6 +16,25 @@ const customerLogos = [
   { name: 'PDL Padel', image: '/assets/images/PDL.webp' },
   { name: 'Stiga Padel', image: '/assets/images/stigapadel.webp' },
   { name: 'Taktika Padel', image: '/assets/images/Taktika-Padel.webp' }
+];
+
+const productMedia = [
+  {
+    slug: 'gametraq',
+    name: 'GAMETRAQ',
+    video: '/assets/videos/GAMETRAQ.mov',
+    poster: '/assets/images/gametraq.png',
+    description:
+      'See how GAMETRAQ captures every rally in 4K, tags highlights automatically, and delivers stats straight to your dashboard.'
+  },
+  {
+    slug: 'shotgun',
+    name: 'SHOTGUN',
+    video: '/assets/videos/SHOTGUN.mov',
+    poster: '/assets/images/shotgun.png',
+    description:
+      'Watch the SHOTGUN ball machine deliver programmable drills with consistent pace, spin, and randomised feeds for match realism.'
+  }
 ];
 
 function HomePage() {
@@ -124,6 +143,47 @@ function HomePage() {
         ))}
       </section>
 
+      <section className="space-y-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card">
+        <div className="space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">See the products in action</p>
+          <h2 className="text-2xl font-semibold text-brand-blue">Watch what your club receives on day one</h2>
+          <p className="text-sm text-neutral-700">Short demos highlighting the installation footprint, experience, and control players get with each GameCam product.</p>
+        </div>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {productMedia.map((item) => (
+            <article key={item.slug} className="space-y-4 rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+              <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+                <video
+                  src={item.video}
+                  poster={item.poster}
+                  controls
+                  preload="metadata"
+                  className="aspect-video w-full rounded-[22px] object-cover"
+                />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold text-brand-blue">{item.name}</h3>
+                <p className="text-sm text-neutral-700">{item.description}</p>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    to={`/products/${item.slug}`}
+                    className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+                  >
+                    Learn more
+                  </Link>
+                  <Link
+                    to={`/products/${item.slug}`}
+                    className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
+                  >
+                    View specs
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="grid gap-6 sm:grid-cols-2">
         <article className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
           <h3 className="text-lg font-semibold text-brand-blue">Why GameCam</h3>
@@ -151,3 +211,4 @@ function HomePage() {
 }
 
 export default HomePage;
+
