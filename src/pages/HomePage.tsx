@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import CheckoutButton from '../components/CheckoutButton';
 import AnimatedCounter from '../components/AnimatedCounter';
+import CheckoutButton from '../components/CheckoutButton';
+import VideoPlayer from '../components/VideoPlayer';
 import { products } from '../data/products';
 
 const stats = [
@@ -15,7 +16,7 @@ const customerLogos = [
   { name: 'Padel Zenter', image: '/assets/images/padelzenter.webp' },
   { name: 'PDL Padel', image: '/assets/images/PDL.webp' },
   { name: 'Stiga Padel', image: '/assets/images/stigapadel.webp' },
-  { name: 'Taktika Padel', image: '/assets/images/Taktika-Padel.webp' }
+  { name: 'Taktika Padel', image: '/assets/images/taktikapadel.webp' }
 ];
 
 const productMedia = [
@@ -153,10 +154,9 @@ function HomePage() {
           {productMedia.map((item) => (
             <article key={item.slug} className="space-y-4 rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
               <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
-                <video
+                <VideoPlayer
                   src={item.video}
                   poster={item.poster}
-                  controls
                   preload="metadata"
                   className="aspect-video w-full rounded-[22px] object-cover"
                 />

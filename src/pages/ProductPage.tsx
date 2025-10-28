@@ -1,6 +1,7 @@
-import { Navigate, useParams } from 'react-router-dom';
 import { useRef } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
 import CheckoutButton from '../components/CheckoutButton';
+import VideoPlayer from '../components/VideoPlayer';
 import { getProductBySlug } from '../data/products';
 
 function ProductPage() {
@@ -138,11 +139,47 @@ function ProductPage() {
       {productVideo && (
         <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
           <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-gradient-to-br from-brand-blue/5 via-brand-purple/5 to-brand-pink/10">
-            <video
+            <VideoPlayer
               src={productVideo}
-              controls
               preload="metadata"
               className="aspect-video w-full max-h-[540px] rounded-[24px] object-cover"
+            />
+          </div>
+      </section>
+      )}
+
+      {product.slug === 'gametraq' && (
+        <section className="grid gap-10 rounded-[36px] border border-brand-blue/15 bg-white/95 p-8 shadow-card lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+          <div className="space-y-5">
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-brand-blue">
+              Insights App
+            </span>
+            <h2 className="text-3xl font-semibold text-brand-blue">Players get instant dashboards after every rally</h2>
+            <p className="text-sm leading-relaxed text-neutral-700">
+              GAMETRAQ pairs on-court capture with a mobile experience built for coaches and players. Open the app and
+              review trends, filter highlights, and share progress before the next session even starts.
+            </p>
+            <ul className="space-y-3 text-sm text-neutral-700">
+              <li className="flex items-start gap-3">
+                <span className="mt-2 inline-flex h-2 w-2 rounded-full bg-brand-pink" />
+                <span>Shot charts, movement heat-maps, and serve data delivered moments after the match.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 inline-flex h-2 w-2 rounded-full bg-brand-pink" />
+                <span>Bookmark rallies, tag coaching notes, and send playlists to teammates in one tap.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 inline-flex h-2 w-2 rounded-full bg-brand-pink" />
+                <span>Syncs automatically with club dashboards so staff, players, and parents see the same story.</span>
+              </li>
+            </ul>
+          </div>
+          <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+            <img
+              src="/assets/images/app_screenshots.png"
+              alt="GAMETRAQ mobile app dashboards"
+              className="w-full object-contain"
+              loading="lazy"
             />
           </div>
         </section>

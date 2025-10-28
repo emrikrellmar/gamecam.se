@@ -69,19 +69,6 @@ const teamMembers: TeamMember[] = [
     ]
   },
   {
-    name: 'Eloisa Laass',
-    role: 'Administration & Support',
-    image: '/assets/images/eloisa.png',
-    bio: 'Eloisa looks after day-to-day operations and ensures every club receives timely, friendly support before, during, and after installation.',
-    contacts: [
-      {
-        label: 'Email',
-        href: 'mailto:eloisa@gamecam.se',
-        display: 'admin@gamecam.se'
-      }
-    ]
-  },
-  {
     name: 'Vivek Sangari',
     role: 'Head of Tech & Support',
     image: '/assets/images/vivek.png',
