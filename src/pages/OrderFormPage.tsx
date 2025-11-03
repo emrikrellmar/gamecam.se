@@ -116,12 +116,9 @@ function OrderFormPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    const endpoint = import.meta.env.VITE_GSHEET_ENDPOINT;
-    if (!endpoint) {
-      // Fallback: open default mail client with prefilled email
-      window.location.href = mailtoHref;
-      return;
-    }
+    // Prefer calling our serverless proxy to avoid CORS issues; fallback to direct endpoint if provided
+    const proxyEndpoint = '/api/order';
+    const directEndpoint = import.meta.env.VITE_GSHEET_ENDPOINT;
 
     try {
       setSubmitting(true);
@@ -143,20 +140,37 @@ function OrderFormPage() {
         currency: 'EUR',
         userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : ''
       };
-      // Try normal CORS request first
-      const res = await fetch(endpoint, {
+      // Try serverless proxy first (no CORS issues)
+      let res = await fetch(proxyEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       if (!res.ok) {
-        // Some Apps Script deployments may require no-cors; attempt fire-and-forget
-        await fetch(endpoint, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+        // If proxy failed (e.g., not deployed yet), try direct Apps Script endpoint if available
+        if (directEndpoint) {
+          try {
+            const directRes = await fetch(directEndpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (!directRes.ok) {
+              // Last resort: fire-and-forget no-cors
+              await fetch(directEndpoint, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+            }
+          } catch {
+            // ignore and allow fallback below
+          }
+        } else {
+          // No direct endpoint configured; fall back to email
+          throw new Error('Proxy failed and no direct endpoint configured');
+        }
       }
       setSubmitted(true);
     } catch (err: any) {
