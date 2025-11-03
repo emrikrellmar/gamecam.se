@@ -47,6 +47,7 @@ export default async function handler(req, res) {
     }
 
     if (legacyEndpoint) {
+      console.log('[order] Using Apps Script legacy endpoint');
       // Forward to Apps Script Web App (JSON). Treat any 2xx as success.
       const fRes = await fetch(legacyEndpoint, {
         method: 'POST',
@@ -55,10 +56,12 @@ export default async function handler(req, res) {
       });
       if (!fRes.ok) {
         const text = await fRes.text().catch(() => '');
+        console.error('[order] Apps Script upstream error', fRes.status, text);
         res.status(502).json({ ok: false, error: 'Upstream (Apps Script) error', status: fRes.status, body: text });
         return;
       }
     } else {
+      console.log('[order] Using Google Sheets API');
       const auth = new google.auth.JWT({
         email,
         key: privateKey,
@@ -87,17 +90,19 @@ export default async function handler(req, res) {
         payload.userAgent || ''
       ]];
 
-      await sheets.spreadsheets.values.append({
+      const appendRes = await sheets.spreadsheets.values.append({
         spreadsheetId,
         range: `${sheetName}!A1`,
         valueInputOption: 'USER_ENTERED',
         insertDataOption: 'INSERT_ROWS',
         requestBody: { values }
       });
+      console.log('[order] Sheets append done', appendRes.status);
     }
 
     res.status(200).json({ ok: true });
   } catch (err) {
+    console.error('[order] Handler error', err);
     res.status(500).json({ ok: false, error: (err && err.message) || 'Unknown error' });
   }
 }
