@@ -1,4 +1,5 @@
-﻿interface TeamContact {
+﻿import SEO from '../components/SEO';
+interface TeamContact {
   label: string;
   href: string;
   display: string;
@@ -76,8 +77,8 @@ const teamMembers: TeamMember[] = [
     contacts: [
       {
         label: 'Email',
-        href: 'mailto:support@gamecam.se',
-        display: 'support@gamecam.se'
+        href: 'mailto:v@gamecam.se',
+        display: 'v@gamecam.se'
       }
     ]
   }
@@ -86,6 +87,11 @@ const teamMembers: TeamMember[] = [
 function AboutPage() {
   return (
     <div className="space-y-12">
+      <SEO
+        title="About GameCam │ Team & vision"
+        description="Meet the GameCam team building intelligent padel hardware and AI analytics for clubs worldwide."
+        canonical="/about-us"
+      />
       <section className="space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-blue">About Us</p>
         <h1 className="text-4xl font-bold text-brand-blue">The people powering GameCam.</h1>
@@ -118,19 +124,28 @@ function AboutPage() {
                 <p className="text-sm leading-relaxed">{member.bio}</p>
                 {member.contacts && (
                   <ul className="space-y-1 pt-3 text-sm">
-                    {member.contacts.map((contact) => (
-                      <li key={`${member.name}-${contact.label}`}> 
-                        <a
-                          href={contact.href}
-                          target={contact.href.startsWith('http') ? '_blank' : undefined}
-                          rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                          className="inline-flex items-center gap-2 rounded-full border border-brand-blue/10 bg-neutral-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
-                        >
-                          <span>{contact.label}</span>
-                          <span className="font-normal tracking-normal text-neutral-700">{contact.display}</span>
-                        </a>
-                      </li>
-                    ))}
+                    {member.contacts.map((contact) => {
+                      const isMailto = contact.href.startsWith('mailto:');
+                      const emailAddress = isMailto ? contact.href.replace('mailto:', '') : '';
+                      const gmailHref = isMailto
+                        ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`
+                        : contact.href;
+                      const target = '_blank';
+                      const rel = 'noopener noreferrer';
+                      return (
+                        <li key={`${member.name}-${contact.label}`}>
+                          <a
+                            href={gmailHref}
+                            target={target}
+                            rel={rel}
+                            className="inline-flex items-center gap-2 rounded-full border border-brand-blue/10 bg-neutral-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+                          >
+                            <span>{contact.label}</span>
+                            <span className="font-normal tracking-normal text-neutral-700">{contact.display}</span>
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>

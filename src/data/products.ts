@@ -15,8 +15,6 @@ export interface Product {
   summary: string;
   description: string;
   priceLabel: string;
-  priceEnvKey: string;
-  checkoutUrl?: string;
   heroGradient: string;
   image: string;
   features: ProductFeature[];
@@ -31,25 +29,33 @@ export const products: Product[] = [
     name: 'GAMETRAQ',
     tagline: 'Tool for all strategies of padel players.',
     summary:
-      "Beginners enjoy the stats for added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents' strengths and weaknesses for a decisive edge.",
+      "Beginners enjoy the stats for added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents strengths and weaknesses for a decisive edge.",
     description:
       'GAMETRAQ brings broadcast-grade capture, AI-led tagging, and coach-ready dashboards into a compact ceiling-mounted unit. Automated rally segmentation, ball tracking, and player heatmaps let clubs personalise feedback for every skill level.',
     priceLabel: 'Order starting at €2,950 + shipping',
-    priceEnvKey: 'VITE_STRIPE_PRICE_GAMETRAQ',
-    checkoutUrl: 'https://buy.stripe.com/test_14A8wR0uo9NM55i5EicAo01',
     heroGradient: 'from-brand-blue/5 via-brand-cyan/5 to-brand-purple/10',
     image: '/assets/images/gametraq.png',
     features: [
       {
-        title: 'Complete match intelligence',
+        title: 'AI INSIGHTS',
         description:
-          'AI-generated insights surface shot tempo, positional dominance, and clutch moments without manual editing.'
+          'Meter counting, ball possession, error shots, time in transit, and zone maps/heat-maps delivered for every game.'
       },
       {
-        title: 'Instant sharing',
+        title: 'YOUTUBE LIVESTREAMING',
         description:
-          'Schedule highlights for players, coaches, or fans with one-click exports to social channels and club apps.'
+          'We set up live streaming so you can broadcast events and tournaments to your own YouTube channel—just like the pros.'
       },
+      {
+        title: 'SAVE BALL RALLY BUTTON',
+        description:
+          'An included TV device converts your screen into a highlight hub with instant playback directly from the courts.'
+      },
+      {
+        title: 'OVERVIEW SALES',
+        description:
+          'Add and monitor a new source of income for your club and watch your revenue grow.'
+      }
     ],
     stats: [
       { label: 'Resolution', value: '4K @ 60FPS' },
@@ -77,7 +83,6 @@ export const products: Product[] = [
     description:
       'Designed with coaches, SHOTGUN mixes power and finesse. Deliver lobs, volleys, and custom trajectories with 120-ball capacity, AI tempo tracking, and battery or mains operation. Everything is controlled from a rugged, glove-friendly touchscreen.',
     priceLabel: 'Order starting at €2,950 + shipping',
-    priceEnvKey: 'VITE_STRIPE_PRICE_SHOTGUN',
     heroGradient: 'from-brand-pink/5 via-brand-purple/5 to-brand-blue/10',
     image: '/assets/images/shotgun.png',
     features: [

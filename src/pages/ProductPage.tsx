@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import CheckoutButton from '../components/CheckoutButton';
+import SEO from '../components/SEO';
 import VideoPlayer from '../components/VideoPlayer';
 import { getProductBySlug } from '../data/products';
 
@@ -30,24 +31,24 @@ function ProductPage() {
     product.slug === 'gametraq'
       ? [
           {
-            title: 'AI Data Analytics, Instantly',
+            title: 'AI INSIGHTS',
             description:
-              'Get automatic heat-maps, shot error stats, running distance, and zone control after every game, no manual tagging needed. Just play and get an SMS with a link to the insights. Share it with your coach so he can make personified drills for you.'
+              'Meter counting, ball possession, error shots, time in transit, and zone maps/heat-maps delivered for every game.'
           },
           {
-            title: 'New Revenue Stream For Your Club',
+            title: 'YOUTUBE LIVESTREAMING',
             description:
-              'Turn gameplay into income. With every match, your club earns as players unlock powerful stats and video insights. Offer smarter training, attract data-driven players, and modernize your courts, all while growing your revenue.'
+              'We set up live streaming so you can broadcast events and tournaments to your YouTube channel—just like the pros.'
           },
           {
-            title: 'Built-In Streaming to YouTube & Instagram',
+            title: 'SAVE BALL RALLY BUTTON',
             description:
-              'Turn your court into a content channel. GAMETRAQ streams matches live in landscape or portrait directly to your clubs YouTube or Instagram, perfect for tournaments, league play, or daily games. Just schedule and go live with one click.'
+              'An included TV device converts your screen into a highlight hub with instant playback directly from the courts.'
           },
           {
-            title: 'Save Ball Rally Button',
+            title: 'OVERVIEW SALES',
             description:
-              'Hit the Ball Rally Button after a great rally, and replay it instantly on the club TV. The included device turns any screen into a highlight hub where players gather, laugh, and stay longer. Build community. Boost bar sales. Celebrate the game.'
+              'Add and monitor a new source of income for your club and watch your revenue grow.'
           }
         ]
       : product.slug === 'shotgun'
@@ -70,8 +71,36 @@ function ProductPage() {
           ]
         : product.features;
 
+  const handleScrollToSpecs = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    specsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
   return (
     <div className="space-y-16">
+      <SEO
+        title={`${product.name} │ GameCam`}
+        description={product.summary}
+        canonical={`/products/${product.slug}`}
+        image={product.image}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: product.name,
+          description: product.description,
+          image: typeof window !== 'undefined' ? `${window.location.origin}${product.image}` : `https://gamecam.io${product.image}`,
+          brand: {
+            '@type': 'Brand',
+            name: 'GameCam'
+          },
+          offers: {
+            '@type': 'Offer',
+            price: '2950.00',
+            priceCurrency: 'EUR',
+            availability: 'https://schema.org/PreOrder'
+          }
+        }}
+      />
       <section
         className={`relative overflow-hidden rounded-[36px] border border-brand-blue/15 bg-gradient-to-br ${heroGradient} p-[1px] shadow-card`}
       >
@@ -89,13 +118,13 @@ function ProductPage() {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <CheckoutButton
-                priceEnvKey={product.priceEnvKey}
-                checkoutUrl={product.checkoutUrl}
-                label="Buy now"
+                href={`/order/${product.slug}`}
+                label={`Order ${product.name}`}
                 className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               />
               <a
                 href="#specs"
+                onClick={handleScrollToSpecs}
                 className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 bg-white/70 px-6 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
               >
                 View specifications
@@ -119,7 +148,7 @@ function ProductPage() {
           <div className="grid gap-6">
             <div className="relative flex items-center justify-center overflow-visible rounded-[28px] border border-brand-blue/15 bg-white/90 p-6 shadow-inner">
               <div className="pointer-events-none absolute inset-3 rounded-[22px] border border-brand-blue/10" />
-              <img src={product.image} alt={product.name} className="relative z-10 mx-auto h-72 w-auto object-contain" />
+              <img src={product.image} alt={product.name} className="relative z-10 mx-auto h-72 w-auto object-contain" decoding="async" />
             </div>
             <dl className="grid gap-4 sm:grid-cols-3">
               {product.stats.map((item) => (
@@ -159,22 +188,13 @@ function ProductPage() {
               GAMETRAQ pairs on-court capture with a mobile experience built for coaches and players. Open the app and
               review trends, filter highlights, and share progress before the next session even starts.
             </p>
-            <ul className="space-y-3 text-sm text-neutral-700">
-              <li className="flex items-start gap-3">
-                <span className="mt-2 inline-flex h-2 w-2 rounded-full bg-brand-pink" />
-                <span>Shot charts, movement heat-maps, and serve data delivered moments after the match.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-2 inline-flex h-2 w-2 rounded-full bg-brand-pink" />
-                <span>Bookmark rallies, tag coaching notes, and send playlists to teammates in one tap.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-2 inline-flex h-2 w-2 rounded-full bg-brand-pink" />
-                <span>Syncs automatically with club dashboards so staff, players, and parents see the same story.</span>
-              </li>
+            <ul className="list-disc space-y-3 pl-5 text-sm text-neutral-700">
+              <li className="marker:text-brand-pink">Shot charts, movement heat-maps, and serve data delivered moments after the match.</li>
+              <li className="marker:text-brand-pink">Bookmark rallies, tag coaching notes, and send playlists to teammates in one tap.</li>
+              <li className="marker:text-brand-pink">Syncs automatically with club dashboards so staff, players, and parents see the same story.</li>
             </ul>
           </div>
-          <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+          <div className="overflow-hidden rounded-[28px]">
             <img
               src="/assets/images/app_screenshots.png"
               alt="GAMETRAQ mobile app dashboards"
@@ -221,11 +241,11 @@ function ProductPage() {
       </section>
 
         <h2 className="text-2xl font-semibold text-brand-blue">{product.name} specifications</h2>
-      <section id="specs" className="grid gap-6 lg:grid-cols-2">
+  <section id="specs" ref={specsRef} className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
           <h2 className="text-2xl font-semibold text-brand-blue">Technical highlights</h2>
-          <ul className="mt-4 space-y-3 text-sm text-neutral-700">
-            {product.slug === 'shotgun' ? (
+          {product.slug === 'shotgun' ? (
+            <ul className="mt-4 space-y-3 text-sm text-neutral-700">
               <>
                 <li className="flex flex-col gap-1">
                 </li>
@@ -246,7 +266,9 @@ function ProductPage() {
                   <span>1-year limited warranty covering materials and workmanship under normal use.</span>
                 </li>
               </>
-            ) : product.slug === 'gametraq' ? (
+            </ul>
+          ) : product.slug === 'gametraq' ? (
+            <ul className="mt-4 space-y-3 text-sm text-neutral-700">
               <>
                 <li className="flex flex-col gap-1">
                   <span className="text-sm font-semibold text-brand-blue">Camera and mounting kit</span>
@@ -269,15 +291,14 @@ function ProductPage() {
                   <span>Cloud dashboards, SMS stat delivery, and secure video archive for coaches and players.</span>
                 </li>
               </>
-            ) : (
-              product.technicalHighlights.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-brand-pink" />
-                  <span>{item}</span>
-                </li>
-              ))
-            )}
-          </ul>
+            </ul>
+          ) : (
+            <ul className="mt-4 list-disc space-y-3 pl-5 text-sm text-neutral-700">
+              {product.technicalHighlights.map((item) => (
+                <li key={item} className="marker:text-brand-pink">{item}</li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
           <h2 className="text-2xl font-semibold text-brand-blue">Ideal for</h2>

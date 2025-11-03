@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import CheckoutButton from '../components/CheckoutButton';
 import { products } from '../data/products';
 
@@ -14,6 +15,11 @@ function ProductsPage() {
 
   return (
     <div className="space-y-16">
+      <SEO
+        title="GameCam products │ GAMETRAQ & SHOTGUN"
+        description="Explore GameCam's hardware: GAMETRAQ AI match camera and SHOTGUN ball machine with programmable drills."
+        canonical="/products"
+      />
       {gametraq && (
         <section className="grid gap-6 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)] lg:items-start">
           <div className="space-y-5">
@@ -31,7 +37,11 @@ function ProductsPage() {
               ))}
             </div>
             <div className="flex flex-wrap gap-3">
-              <CheckoutButton priceEnvKey={gametraq.priceEnvKey} checkoutUrl={gametraq.checkoutUrl} label="Buy GAMETRAQ" />
+              <CheckoutButton
+                href={`/order/${gametraq.slug}`}
+                label={`Order ${gametraq.name}`}
+                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              />
               <Link
                 to={`/products/${gametraq.slug}`}
                 className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-5 py-2.5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
@@ -50,7 +60,7 @@ function ProductsPage() {
           </div>
           <div className="space-y-4">
             <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-neutral-50 p-5 text-center shadow-card">
-              <img src={gametraq.image} alt={gametraq.name} className="mx-auto h-56 w-auto object-contain" />
+              <img src={gametraq.image} alt={gametraq.name} className="mx-auto h-56 w-auto object-contain" loading="lazy" decoding="async" />
             </div>
             <div className="rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-5 text-sm text-brand-blue">
               <p className="font-semibold">Trusted by elite coaching</p>
@@ -80,7 +90,11 @@ function ProductsPage() {
               ))}
             </div>
             <div className="flex flex-wrap gap-3">
-              <CheckoutButton priceEnvKey={shotgun.priceEnvKey} checkoutUrl={shotgun.checkoutUrl} label="Buy SHOTGUN" />
+              <CheckoutButton
+                href={`/order/${shotgun.slug}`}
+                label={`Order ${shotgun.name}`}
+                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              />
               <Link
                 to={`/products/${shotgun.slug}`}
                 className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-5 py-2.5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
@@ -99,7 +113,7 @@ function ProductsPage() {
           </div>
           <div className="space-y-4">
             <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-neutral-50 p-5 text-center shadow-card">
-              <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-56 w-auto object-contain" />
+              <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-56 w-auto object-contain" loading="lazy" decoding="async" />
             </div>
             <div className="rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-5 text-sm text-brand-blue">
               <p className="font-semibold">Train like never before</p>

@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import AnimatedCounter from '../components/AnimatedCounter';
+import SEO from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 import CheckoutButton from '../components/CheckoutButton';
 import VideoPlayer from '../components/VideoPlayer';
+import LogoMarquee from '../components/LogoMarquee';
 import { products } from '../data/products';
 
 const stats = [
@@ -41,33 +44,44 @@ const productMedia = [
 function HomePage() {
   return (
     <div className="space-y-16">
+      <SEO
+        title="GameCam │ AI-powered padel hardware"
+        description="GameCam builds intelligent padel hardware: GAMETRAQ AI match camera and SHOTGUN training machine. Capture, analyze, and improve."
+        canonical="/"
+        image="/assets/images/court_with_gametraq.png"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'GameCam',
+          url: '/',
+          logo: '/assets/images/gamecam_icon.png'
+        }}
+      />
+      {/* Preload LCP image only on the home route */}
+      <Helmet>
+        <link rel="preload" as="image" href="/assets/images/court_with_gametraq.png" />
+      </Helmet>
       <section className="grid gap-6 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
         <div className="space-y-5">
           <h1 className="text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
-            GameCam hardware built for every padel programme.
+            GameCam hardware for padel clubs
           </h1>
           <p className="text-lg leading-relaxed text-neutral-700">
-            Combine match intelligence, automated storytelling, and adaptive training to give players and coaches
-            actionable insights. Explore our products and discover how GameCam fits into your clubs roadmap.
+            Capture matches, turn rallies into highlights, and give coaches instant insights. Explore how GameCam fits your club’s roadmap.
           </p>
-          <div className="flex flex-wrap gap-3">
+
+          <div className="flex flex-col gap-2 sm:gap-3">
             <Link
               to="/products"
-              className="inline-flex items-center justify-center rounded-full border border-brand-blue/10 bg-brand-blue px-12 py-5 text-sm font-semibold text-white transition hover:bg-brand-pink"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-brand-blue/10 bg-brand-blue px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-blue/90 sm:px-6 sm:py-4 lg:px-12 lg:py-5"
             >
               View all of our products
-            </Link>
-            <Link
-              to="/support"
-              className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-8 py-5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
-            >
-              Talk to our team
             </Link>
             <a
               href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-8 py-5 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-brand-blue/25 px-4 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-blue/40 sm:px-6 sm:py-4 lg:px-8 lg:py-5"
             >
               Book a demo
             </a>
@@ -75,11 +89,17 @@ function HomePage() {
         </div>
         <div className="grid gap-4">
           <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-4 shadow-card">
-            <img
-              src="/assets/images/court_with_gametraq.png"
-              alt="Gamecam hardware on court"
-              className="h-full w-full rounded-2xl object-cover"
-            />
+            <div className="relative overflow-hidden rounded-2xl">
+              <img
+                src="/assets/images/court_with_gametraq.png"
+                alt="Gamecam hardware on court"
+                className="h-full w-full rounded-2xl object-cover"
+                decoding="async"
+                width={1600}
+                height={900}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+              />
+            </div>
           </div>
           <div className="grid gap-3 rounded-3xl border border-brand-blue/15 bg-white p-5 shadow-card sm:grid-cols-3">
             {stats.map((item) => (
@@ -99,12 +119,8 @@ function HomePage() {
             <h2 className="text-2xl font-semibold text-brand-blue">Leading padel clubs in Europe</h2>
           </div>
         </div>
-        <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {customerLogos.map((customer) => (
-            <div key={customer.name} className="flex items-center justify-center rounded-2xl border border-brand-blue/10 bg-neutral-50 p-4">
-              <img src={customer.image} alt={`${customer.name} logo`} className="h-12 w-auto object-contain" loading="lazy" />
-            </div>
-          ))}
+        <div className="mt-6">
+          <LogoMarquee logos={customerLogos} />
         </div>
       </section>
 
@@ -133,9 +149,8 @@ function HomePage() {
                   View product page
                 </Link>
                 <CheckoutButton
-                  priceEnvKey={product.priceEnvKey}
-                  checkoutUrl={product.checkoutUrl}
-                  label={`Buy ${product.name}`}
+                  href={`/order/${product.slug}`}
+                  label={`Order ${product.name}`}
                   className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
                 />
               </div>

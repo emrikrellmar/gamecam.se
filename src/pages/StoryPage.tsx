@@ -1,4 +1,5 @@
-﻿const timeline = [
+﻿import SEO from '../components/SEO';
+const timeline = [
   {
     year: '2020',
     title: 'GameCam founded',
@@ -34,6 +35,11 @@
 function StoryPage() {
   return (
     <div className="space-y-12">
+      <SEO
+        title="Our story │ GameCam"
+        description="From AI broadcast prototypes to global padel deployments—learn how GameCam is building intelligent vision for sport."
+        canonical="/our-story"
+      />
       <section className="space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-blue">Our Story</p>
         <h1 className="text-4xl font-bold text-brand-blue">The Story of GameCam</h1>

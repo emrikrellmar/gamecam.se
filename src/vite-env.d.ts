@@ -1,11 +1,8 @@
 ﻿/// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_STRIPE_PUBLISHABLE_KEY?: string;
-  readonly VITE_STRIPE_SUCCESS_URL?: string;
-  readonly VITE_STRIPE_CANCEL_URL?: string;
-  readonly VITE_STRIPE_PRICE_GAMETRAQ?: string;
-  readonly VITE_STRIPE_PRICE_SHOTGUN?: string;
+  // Google Sheets (Apps Script) Web App endpoint for order form submissions
+  readonly VITE_GSHEET_ENDPOINT?: string;
 }
 
 interface ImportMeta {

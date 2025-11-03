@@ -1,24 +1,14 @@
 import { Link } from 'react-router-dom';
-
-const faqs = [
-  {
-    question: 'What lead times should we expect for the first production run?',
-    answer: 'We are currently quoting 8-10 weeks from order confirmation.'
-  },
-  {
-    question: 'Do you offer installation services for GAMETRAQ?',
-    answer:
-      'Yes. Our team offers installation services for Nordic countries. For other regions we coordinate with certified partners or support your in-house technicians with remote guidance.'
-  },
-  {
-    question: 'Do your products include a warranty?',
-    answer: 'Absolutely. All products come with a one-year warranty.'
-  }
-];
+import SEO from '../components/SEO';
 
 function SupportPage() {
   return (
     <div className="space-y-12">
+      <SEO
+        title="Support │ GameCam installation & help"
+        description="Get help with GameCam hardware setup, onboarding, and support. Installation guides for GAMETRAQ and SHOTGUN."
+        canonical="/support"
+      />
       <section className="space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-blue">Support</p>
         <h1 className="text-4xl font-bold text-brand-blue">Get help from our support team</h1>
@@ -64,7 +54,7 @@ function SupportPage() {
           className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Support</p>
-          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Schedule support or onboarding call</h2>
+          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Schedule a support or onboarding call</h2>
           <p className="mt-3 text-sm text-neutral-700">
             Pick a time that suits your schedule to walk through dashboards, QR posters, and streaming workflows with our support engineers.
           </p>
@@ -80,7 +70,9 @@ function SupportPage() {
           <h2 className="text-lg font-semibold text-brand-blue">Contact</h2>
           <p>
             <a
-              href="mailto:support@gamecam.se"
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent('support@gamecam.se')}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-brand-pink transition hover:text-brand-blue"
             >
               support@gamecam.se
@@ -157,17 +149,7 @@ function SupportPage() {
         </div>
       </section>
 
-      <h2 className="text-2xl font-semibold text-brand-blue">Frequently asked questions</h2>
-      <section className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-3">
-          {faqs.map((faq) => (
-            <article key={faq.question} className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-              <h3 className="text-lg font-semibold text-brand-blue">{faq.question}</h3>
-              <p className="mt-2 text-sm text-neutral-700">{faq.answer}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* FAQ section removed per request */}
     </div>
   );
 }

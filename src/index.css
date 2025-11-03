@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   :root {
     color-scheme: light;
   }
@@ -28,4 +31,52 @@
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #2E318A 0%, #00A6E7 100%);
   border-radius: 8px;
+}
+
+/* Marquee keyframes and utility */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Move left by 50% of the track width (two sets side-by-side) */
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation-name: marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Sponsor track like the shared snippet */
+/* Rightward (left-to-right) infinite marquee */
+@keyframes sponsor-marquee {
+  from {
+    /* Use pixel shift when provided to avoid rounding seams; fallback to -50% */
+    transform: translateX(var(--marquee-from, -50%));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Hide scrollbars utility (used for horizontal button row on Home) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.sponsor-track {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  will-change: transform;
+  animation-name: sponsor-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
