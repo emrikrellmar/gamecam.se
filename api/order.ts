@@ -11,15 +11,24 @@
 // @ts-nocheck
 import { google } from 'googleapis';
 
-// Simple allowlist for Origins that are allowed to post orders
-const ALLOWED_ORIGINS = new Set([
-  'https://gamecam.se',
-  'https://www.gamecam.se',
-  'https://gamecam.io',
-  'https://www.gamecam.io',
-  'http://localhost:5173',
-  'http://localhost:3000'
-]);
+// Allowlist for Origins that can post orders. Configurable via env `ALLOWED_ORIGINS` (comma-separated).
+function getAllowedOrigins(): Set<string> {
+  const defaults = [
+    'https://gamecam.se',
+    'https://www.gamecam.se',
+    'https://gamecam.io',
+    'https://www.gamecam.io',
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ];
+  const raw = (process.env.ALLOWED_ORIGINS || '').trim();
+  if (!raw) return new Set(defaults);
+  const parts = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return new Set(parts.length ? parts : defaults);
+}
 
 // Sanitize user-provided strings before writing to Google Sheets to avoid formula/CSV injection
 function sanitizeCell(input: unknown, maxLen = 2000): string {
@@ -48,6 +57,7 @@ export default async function handler(req, res) {
 
   // Basic origin protection: only accept same-site or allowlisted origins
   try {
+    const ALLOWED_ORIGINS = getAllowedOrigins();
     const origin = req.headers.origin as string | undefined;
     const referer = req.headers.referer as string | undefined;
     const host = req.headers.host as string | undefined;
