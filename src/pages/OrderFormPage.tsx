@@ -452,16 +452,6 @@ function OrderFormPage() {
             >
               {submitting ? 'Submitting…' : 'Submit order request'}
             </button>
-            <div className="flex flex-wrap items-center gap-2">
-              <a
-                href={gmailHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 bg-white px-6 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-blue/40"
-              >
-                Or email us directly
-              </a>
-            </div>
             {submitError && <p className="mt-2 text-xs text-red-600">{submitError}</p>}
           </div>
         </form>
