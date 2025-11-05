@@ -7,6 +7,17 @@
 // @ts-nocheck
 import { google } from 'googleapis';
 
+function normalizePrivateKey(pkRaw?: string) {
+  if (!pkRaw) return undefined;
+  let s = pkRaw.trim();
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    s = s.slice(1, -1);
+  }
+  s = s.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n');
+  s = s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return s;
+}
+
 export default async function handler(req, res) {
   try {
     const tokenEnv = (process.env.ORDER_TEST_TOKEN || '').trim();
@@ -35,7 +46,11 @@ export default async function handler(req, res) {
       res.status(500).json({ ok: false, error: 'Missing Google Sheets credentials (email/private key/spreadsheet id)' });
       return;
     }
-    const privateKey = pkRaw.replace(/\\n/g, '\n');
+    const privateKey = normalizePrivateKey(pkRaw);
+    if (!privateKey || !privateKey.includes('BEGIN PRIVATE KEY')) {
+      res.status(500).json({ ok: false, error: 'Invalid GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY format (no BEGIN PRIVATE KEY header detected)' });
+      return;
+    }
 
     const auth = new google.auth.JWT({
       email,
@@ -67,6 +82,10 @@ export default async function handler(req, res) {
   } catch (err) {
     const message = (err && (err.message || err.toString())) || 'Unknown error';
     console.error('[order-test] error', message, err?.response?.data || err);
-    res.status(500).json({ ok: false, error: message, details: err?.response?.data });
+    // Provide a hint without leaking secrets
+    const hint = message.includes('DECODER routines')
+      ? 'Private key parsing failed. Ensure the key is pasted exactly from service account JSON (no quotes), with real newlines OR with \\n. '
+      : undefined;
+    res.status(500).json({ ok: false, error: message, hint });
   }
 }

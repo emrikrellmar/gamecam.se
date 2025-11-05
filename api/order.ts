@@ -67,6 +67,20 @@ function toInt(n: any, fallback = 0): number {
   return Math.trunc(v);
 }
 
+// Normalize service account private key from env (handles real newlines, \n, \r\n, and accidental quotes)
+function normalizePrivateKey(pkRaw?: string) {
+  if (!pkRaw) return undefined;
+  let s = pkRaw.trim();
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    s = s.slice(1, -1);
+  }
+  // Replace escaped sequences first
+  s = s.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n');
+  // Normalize CRLF/CR to LF
+  s = s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return s;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ ok: false, error: 'Method not allowed' });
@@ -161,7 +175,7 @@ export default async function handler(req, res) {
   }
 
   // Convert escaped newlines in private key (only when present)
-  const privateKey = pkRaw ? pkRaw.replace(/\\n/g, '\n') : undefined;
+  const privateKey = normalizePrivateKey(pkRaw);
 
   try {
     // Ensure JSON body
