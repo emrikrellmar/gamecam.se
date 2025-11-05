@@ -1,0 +1,20 @@
+{
+  "name": "GameCam",
+  "short_name": "GameCam",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b46f6",
+  "icons": [
+    {
+      "src": "/assets/images/gamecam_icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/gamecam_icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
