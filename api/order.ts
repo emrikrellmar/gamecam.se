@@ -73,8 +73,13 @@ export default async function handler(req, res) {
     return;
   }
 
+  // Temporary bypass switch: set DISABLE_ORIGIN_CHECKS=true in env to skip origin validation
+  const ORIGIN_CHECKS_DISABLED =
+    process.env.DISABLE_ORIGIN_CHECKS === 'true' || process.env.DISABLE_ORIGIN_CHECKS === '1';
+
   // Basic origin protection: only accept same-site or allowlisted origins
   try {
+    if (ORIGIN_CHECKS_DISABLED) throw new Error('origin checks disabled');
     const ALLOWED_ORIGINS = getAllowedOrigins();
     const ALLOWED_SUFFIXES = getAllowedOriginSuffixes();
     const origin = req.headers.origin as string | undefined;
@@ -132,7 +137,9 @@ export default async function handler(req, res) {
       res.status(403).json({ ok: false, error: 'Forbidden origin' });
       return;
     }
-  } catch {}
+  } catch {
+    // Origin checks are bypassed when disabled or if an error occurs here
+  }
 
   // Legacy mode: If GSHEET_WEBAPP_URL is set, forward payload to Apps Script instead of using Sheets API
   const legacyEndpoint = process.env.GSHEET_WEBAPP_URL;
