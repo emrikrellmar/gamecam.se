@@ -80,6 +80,8 @@ export default async function handler(req, res) {
     const origin = req.headers.origin as string | undefined;
     const referer = req.headers.referer as string | undefined;
     const host = req.headers.host as string | undefined;
+    const xVercelUrl = (req.headers['x-vercel-deployment-url'] as string | undefined)?.trim();
+    const xForwardedHost = (req.headers['x-forwarded-host'] as string | undefined)?.trim();
     const isLocal = host?.startsWith('localhost:');
 
     const safeUrl = (u?: string) => {
@@ -87,25 +89,46 @@ export default async function handler(req, res) {
     };
     const originUrl = safeUrl(origin);
     const refererUrl = safeUrl(referer);
+    const vercelUrl = safeUrl(xVercelUrl && (xVercelUrl.startsWith('http') ? xVercelUrl : `https://${xVercelUrl}`));
 
     const isAllowedExact = (u?: URL) => !!u && ALLOWED_ORIGINS.has(u.origin);
     const isAllowedBySuffix = (u?: URL) => !!u && ALLOWED_SUFFIXES.some((s) => u.hostname.endsWith(s));
+    const allowedHostBySuffix = (h?: string) => !!h && ALLOWED_SUFFIXES.some((s) => h.toLowerCase().endsWith(s));
+    const allowedHostExact = (h?: string) => {
+      if (!h) return false;
+      try {
+        // Compare against the host of every allowed origin
+        for (const o of ALLOWED_ORIGINS) {
+          const u = new URL(o);
+          if (u.host.toLowerCase() === h.toLowerCase()) return true;
+        }
+      } catch {}
+      return false;
+    };
 
     // Allow if any of the following is true:
     // - local dev
     // - origin is absent (some agents) and referer is allowed
     // - origin or referer matches exact allowlist
     // - origin or referer host ends with an allowed suffix (e.g., *.vercel.app)
+    // - host header matches allowed hosts (exact or suffix)
+    // - x-vercel-deployment-url indicates an allowed preview
     const allowed =
       !!isLocal ||
       (!origin && !referer) ||
       isAllowedExact(originUrl) ||
       isAllowedExact(refererUrl) ||
       isAllowedBySuffix(originUrl) ||
-      isAllowedBySuffix(refererUrl);
+      isAllowedBySuffix(refererUrl) ||
+      allowedHostExact(host) ||
+      allowedHostBySuffix(host) ||
+      allowedHostExact(xForwardedHost) ||
+      allowedHostBySuffix(xForwardedHost) ||
+      isAllowedExact(vercelUrl) ||
+      isAllowedBySuffix(vercelUrl);
 
     if (!allowed) {
-      console.warn('[order] Blocked by origin check', { origin, referer, host });
+      console.warn('[order] Blocked by origin check', { origin, referer, host, xVercelUrl, xForwardedHost, ALLOWED_ORIGINS: Array.from(ALLOWED_ORIGINS), ALLOWED_SUFFIXES });
       res.status(403).json({ ok: false, error: 'Forbidden origin' });
       return;
     }
