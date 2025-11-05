@@ -37,20 +37,10 @@
 type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="a899eec3-8816-44d3-b106-9dd07ad01f25";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
 </script>
 
-    <!-- I add a small helper to debug and force-open Crisp for verification -->
+    <!-- I keep the chat bubble closed on initial load -->
     <script type="text/javascript">
       window.addEventListener('load', function () {
-        try {
-          window.$crisp = window.$crisp || [];
-          window.$crisp.push(["on", "session:loaded", function () { console.log("Crisp: session loaded"); }]);
-          window.$crisp.push(["on", "chat:opened", function () { console.log("Crisp: chat opened"); }]);
-          window.$crisp.push(["on", "chat:closed", function () { console.log("Crisp: chat closed"); }]);
-          // Ensure the widget is visible and opened so it's easy to spot
-          window.$crisp.push(["do", "chat:show"]);
-          window.$crisp.push(["do", "chat:open"]);
-        } catch (e) {
-          console.warn("Crisp init error", e);
-        }
+        try { window.$crisp = window.$crisp || []; window.$crisp.push(["do", "chat:close"]); } catch (e) {}
       });
     </script>
 
