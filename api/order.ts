@@ -21,6 +21,13 @@ function getAllowedOrigins(): Set<string> {
     'http://localhost:5173',
     'http://localhost:3000'
   ];
+  // Add current deployment URL automatically (useful for Vercel preview)
+  const vercelUrl = (process.env.VERCEL_URL || '').trim();
+  if (vercelUrl) {
+    const origin = vercelUrl.startsWith('http') ? vercelUrl : `https://${vercelUrl}`;
+    defaults.push(origin);
+  }
+
   const raw = (process.env.ALLOWED_ORIGINS || '').trim();
   if (!raw) return new Set(defaults);
   const parts = raw
@@ -28,6 +35,17 @@ function getAllowedOrigins(): Set<string> {
     .map((s) => s.trim())
     .filter(Boolean);
   return new Set(parts.length ? parts : defaults);
+}
+
+function getAllowedOriginSuffixes(): string[] {
+  const defaults = ['.vercel.app', '.vercel.dev'];
+  const raw = (process.env.ALLOWED_ORIGIN_SUFFIXES || '').trim();
+  if (!raw) return defaults;
+  const parts = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return parts.length ? parts : defaults;
 }
 
 // Sanitize user-provided strings before writing to Google Sheets to avoid formula/CSV injection
@@ -58,14 +76,36 @@ export default async function handler(req, res) {
   // Basic origin protection: only accept same-site or allowlisted origins
   try {
     const ALLOWED_ORIGINS = getAllowedOrigins();
+    const ALLOWED_SUFFIXES = getAllowedOriginSuffixes();
     const origin = req.headers.origin as string | undefined;
     const referer = req.headers.referer as string | undefined;
     const host = req.headers.host as string | undefined;
     const isLocal = host?.startsWith('localhost:');
 
-    const originOk = !origin || ALLOWED_ORIGINS.has(origin) || isLocal;
-    const refererOk = !referer || Array.from(ALLOWED_ORIGINS).some((o) => referer.startsWith(o)) || isLocal;
-    if (!originOk || !refererOk) {
+    const safeUrl = (u?: string) => {
+      try { return u ? new URL(u) : undefined; } catch { return undefined; }
+    };
+    const originUrl = safeUrl(origin);
+    const refererUrl = safeUrl(referer);
+
+    const isAllowedExact = (u?: URL) => !!u && ALLOWED_ORIGINS.has(u.origin);
+    const isAllowedBySuffix = (u?: URL) => !!u && ALLOWED_SUFFIXES.some((s) => u.hostname.endsWith(s));
+
+    // Allow if any of the following is true:
+    // - local dev
+    // - origin is absent (some agents) and referer is allowed
+    // - origin or referer matches exact allowlist
+    // - origin or referer host ends with an allowed suffix (e.g., *.vercel.app)
+    const allowed =
+      !!isLocal ||
+      (!origin && !referer) ||
+      isAllowedExact(originUrl) ||
+      isAllowedExact(refererUrl) ||
+      isAllowedBySuffix(originUrl) ||
+      isAllowedBySuffix(refererUrl);
+
+    if (!allowed) {
+      console.warn('[order] Blocked by origin check', { origin, referer, host });
       res.status(403).json({ ok: false, error: 'Forbidden origin' });
       return;
     }
