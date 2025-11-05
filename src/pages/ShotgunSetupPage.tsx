@@ -140,7 +140,7 @@ function ShotgunSetupPage() {
           Message <a href="mailto:support@gamecam.se" className="font-semibold text-brand-pink transition hover:text-brand-blue">support@gamecam.se</a>{' '}
           or book a support slot via{' '}
           <a
-            href="https://calendly.com/v---q3dy/tech-support?month=2025-09"
+            href="https://calendar.app.google/nNe8TWDQWeGDM7GbA"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-brand-pink transition hover:text-brand-blue"

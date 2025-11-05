@@ -48,7 +48,7 @@ function SupportPage() {
           </span>
         </Link>
         <a
-          href="https://calendly.com/v---q3dy/tech-support?month=2025-09"
+          href="https://calendar.app.google/nNe8TWDQWeGDM7GbA"
           target="_blank"
           rel="noopener noreferrer"
           className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
@@ -81,7 +81,7 @@ function SupportPage() {
           <p>or</p>
           <p>
             <a
-              href="https://calendly.com/v---q3dy/tech-support?month=2025-09"
+              href="https://calendar.app.google/nNe8TWDQWeGDM7GbA"
               target="_blank"
               rel="noopener noreferrer"
               className="text-brand-pink transition hover:text-brand-blue"
