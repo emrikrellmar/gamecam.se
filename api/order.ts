@@ -81,6 +81,26 @@ function normalizePrivateKey(pkRaw?: string) {
   return s;
 }
 
+// Format timestamp like MM/DD/YYYY HH:mm (24h), defaulting to Europe/Stockholm timezone
+function formatTimestamp(d: Date, timeZone = 'Europe/Stockholm') {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).formatToParts(d);
+  const get = (t: string) => parts.find(p => p.type === t)?.value || '';
+  const mm = get('month');
+  const dd = get('day');
+  const yyyy = get('year');
+  const hh = get('hour');
+  const min = get('minute');
+  return `${mm}/${dd}/${yyyy} ${hh}:${min}`;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ ok: false, error: 'Method not allowed' });
@@ -225,6 +245,7 @@ export default async function handler(req, res) {
       // Full name, Product, Quantity, Ordering as a company (Yes/No), Company name (or "Private person"),
       // Tax/VAT number (or "Private person"), Delivery address, Phone number, Email address, Extra message
       const isCompany = !!payload.isCompany;
+      const submittedAt = formatTimestamp(new Date());
       const values = [[
         sanitizeCell(payload.name, 200),
         sanitizeCell(payload.product, 200),
@@ -235,7 +256,8 @@ export default async function handler(req, res) {
         sanitizeCell(payload.deliveryAddress, 500),
         sanitizeCell(payload.phone, 100),
         sanitizeCell(payload.email, 200),
-        sanitizeCell(payload.message, 2000)
+        sanitizeCell(payload.message, 2000),
+        submittedAt
       ]];
 
       const appendRes = await sheets.spreadsheets.values.append({
