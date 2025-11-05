@@ -221,24 +221,21 @@ export default async function handler(req, res) {
 
       const sheets = google.sheets({ version: 'v4', auth });
 
-      // Prepare row values in a fixed order to match your sheet's headers
+      // Prepare row values to match desired sheet order:
+      // Full name, Product, Quantity, Ordering as a company (Yes/No), Company name (or "Private person"),
+      // Tax/VAT number (or "Private person"), Delivery address, Phone number, Email address, Extra message
+      const isCompany = !!payload.isCompany;
       const values = [[
-        new Date().toISOString(),
-        sanitizeCell(payload.product, 200),
         sanitizeCell(payload.name, 200),
-        payload.isCompany ? 'Company' : 'Private',
-        sanitizeCell(payload.companyName, 200),
-        sanitizeCell(payload.taxNumber, 200),
+        sanitizeCell(payload.product, 200),
+        String(toInt(payload.quantity, 0)),
+        isCompany ? 'Yes' : 'No',
+        isCompany ? sanitizeCell(payload.companyName, 200) : 'Private person',
+        isCompany ? sanitizeCell(payload.taxNumber, 200) : 'Private person',
         sanitizeCell(payload.deliveryAddress, 500),
         sanitizeCell(payload.phone, 100),
         sanitizeCell(payload.email, 200),
-        String(toInt(payload.quantity, 0)),
-        sanitizeCell(payload.message, 2000),
-        String(toInt(payload.unitPrice, 0)),
-        String(toInt(payload.subtotal, 0)),
-        String(toInt((payload.total ?? payload.subtotal), 0)),
-        sanitizeCell(payload.currency || 'EUR', 12),
-        sanitizeCell(payload.userAgent, 400)
+        sanitizeCell(payload.message, 2000)
       ]];
 
       const appendRes = await sheets.spreadsheets.values.append({
