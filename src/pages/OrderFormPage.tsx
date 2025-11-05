@@ -8,7 +8,11 @@ interface FormState {
   isCompany: boolean;
   companyName: string;
   taxNumber: string;
-  deliveryAddress: string;
+  addressStreet: string;
+  addressCity: string;
+  addressState: string;
+  addressZip: string;
+  addressCountry: string;
   phone: string;
   email: string;
   quantity: number;
@@ -20,7 +24,11 @@ const initialState: FormState = {
   isCompany: false,
   companyName: '',
   taxNumber: '',
-  deliveryAddress: '',
+  addressStreet: '',
+  addressCity: '',
+  addressState: '',
+  addressZip: '',
+  addressCountry: '',
   phone: '',
   email: '',
   quantity: 1,
@@ -59,13 +67,23 @@ function OrderFormPage() {
   const emailLines = useMemo(() => {
     if (!product) return [] as string[];
     const companyOrPrivate = form.isCompany ? 'Company' : 'Private person (+ VAT)';
+    const combinedAddress = [
+      form.addressStreet,
+      form.addressCity,
+      form.addressState,
+      form.addressZip,
+      form.addressCountry
+    ]
+      .map((s) => (s || '').trim())
+      .filter(Boolean)
+      .join(', ');
     return [
       `Product: ${product.name}`,
       `Name: ${form.name}`,
       `Ordering as: ${companyOrPrivate}`,
       form.isCompany ? `Company name: ${form.companyName}` : undefined,
       form.isCompany ? `Tax/VAT number: ${form.taxNumber}` : undefined,
-      `Delivery address: ${form.deliveryAddress}`,
+      `Delivery address: ${combinedAddress}`,
       `Phone: ${form.phone}`,
       `Email: ${form.email}`,
       `Quantity: ${form.quantity}`,
@@ -101,7 +119,10 @@ function OrderFormPage() {
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = 'Please enter your full name.';
-    if (!form.deliveryAddress.trim()) e.deliveryAddress = 'Please enter a delivery address.';
+    if (!form.addressStreet.trim()) e.addressStreet = 'Please enter a street address.';
+    if (!form.addressCity.trim()) e.addressCity = 'Please enter a city.';
+    if (!form.addressZip.trim()) e.addressZip = 'Please enter a ZIP/postal code.';
+    if (!form.addressCountry.trim()) e.addressCountry = 'Please enter a country.';
     if (!form.phone.trim()) e.phone = 'Please enter a phone number.';
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Please enter a valid email.';
     if (!form.quantity || form.quantity < 1) e.quantity = 'Quantity must be at least 1.';
@@ -123,13 +144,23 @@ function OrderFormPage() {
     try {
       setSubmitting(true);
       setSubmitError(null);
+      const deliveryAddressCombined = [
+        form.addressStreet,
+        form.addressCity,
+        form.addressState,
+        form.addressZip,
+        form.addressCountry
+      ]
+        .map((s) => (s || '').trim())
+        .filter(Boolean)
+        .join(', ');
       const payload = {
         product: product.name,
         name: form.name,
         isCompany: form.isCompany,
         companyName: form.companyName,
         taxNumber: form.taxNumber,
-        deliveryAddress: form.deliveryAddress,
+        deliveryAddress: deliveryAddressCombined,
         phone: form.phone,
         email: form.email,
         quantity: form.quantity,
@@ -307,16 +338,60 @@ function OrderFormPage() {
             </div>
           )}    
 
-          <div className="lg:col-span-2">
-            <label className="block text-sm font-medium text-brand-blue">Delivery address</label>
-            <textarea
-              value={form.deliveryAddress}
-              onChange={(e) => setField('deliveryAddress', e.target.value)}
-              className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
-              rows={3}
-              required
-            />
-            {errors.deliveryAddress && <p className="mt-1 text-xs text-red-600">{errors.deliveryAddress}</p>}
+          <div className="lg:col-span-2 grid gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-brand-blue">Street</label>
+              <input
+                type="text"
+                value={form.addressStreet}
+                onChange={(e) => setField('addressStreet', e.target.value)}
+                className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
+                required
+              />
+              {errors.addressStreet && <p className="mt-1 text-xs text-red-600">{errors.addressStreet}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-brand-blue">City</label>
+              <input
+                type="text"
+                value={form.addressCity}
+                onChange={(e) => setField('addressCity', e.target.value)}
+                className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
+                required
+              />
+              {errors.addressCity && <p className="mt-1 text-xs text-red-600">{errors.addressCity}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-brand-blue">State / County (optional)</label>
+              <input
+                type="text"
+                value={form.addressState}
+                onChange={(e) => setField('addressState', e.target.value)}
+                className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-brand-blue">ZIP / Postal code</label>
+              <input
+                type="text"
+                value={form.addressZip}
+                onChange={(e) => setField('addressZip', e.target.value)}
+                className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
+                required
+              />
+              {errors.addressZip && <p className="mt-1 text-xs text-red-600">{errors.addressZip}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-brand-blue">Country</label>
+              <input
+                type="text"
+                value={form.addressCountry}
+                onChange={(e) => setField('addressCountry', e.target.value)}
+                className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
+                required
+              />
+              {errors.addressCountry && <p className="mt-1 text-xs text-red-600">{errors.addressCountry}</p>}
+            </div>
           </div>
 
           <div>
