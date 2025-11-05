@@ -21,10 +21,10 @@ function App() {
       <ScrollToTop />
       <Suspense fallback={null}>
         <Routes>
-          {/* Order form route WITHOUT Layout (no header/footer) */}
+          {/* I keep the order form outside the layout (no header/footer) */}
           <Route path="/order/:slug" element={<OrderFormPage />} />
 
-          {/* All other routes with site layout */}
+          {/* Everything else uses my shared site layout */}
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
@@ -38,7 +38,7 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
-      {/* Vercel Analytics & Speed Insights */}
+  {/* I include Vercel Analytics & Speed Insights for lightweight observability */}
       <Analytics />
       <SpeedInsights />
     </>

@@ -43,7 +43,7 @@ function OrderFormPage() {
   const formatCurrency = (amount: number) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount);
 
-  // Try to extract a numeric unit price from priceLabel (e.g., "€2,950"), fallback to 2950
+  // I parse the numeric unit price from priceLabel (e.g., "€2,950"); if missing I default to 2950
   const unitPrice = useMemo(() => {
     if (!product?.priceLabel) return 2950;
     const match = product.priceLabel.match(/€\s*([\d,.]+)/);
@@ -90,7 +90,7 @@ function OrderFormPage() {
     return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent('sales@gamecam.se')}&su=${encodeURIComponent(emailSubject)}&body=${emailBodyEncoded}`;
   }, [emailSubject, emailBodyEncoded]);
 
-  // Removed Outlook and other alternatives per request; using Gmail compose only in UI
+  // I only surface Gmail compose in the UI to keep the flow simple
 
   if (!product) {
     return <Navigate to="/products" replace />;
@@ -116,7 +116,7 @@ function OrderFormPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    // Prefer calling our serverless proxy to avoid CORS issues; fallback to direct endpoint if provided
+  // I prefer the serverless proxy to avoid CORS; I fall back to a direct endpoint if configured
     const proxyEndpoint = '/api/order';
     const directEndpoint = import.meta.env.VITE_GSHEET_ENDPOINT;
 
@@ -136,18 +136,19 @@ function OrderFormPage() {
         message: form.message,
         unitPrice,
         subtotal,
-        total: subtotal, // total excludes VAT
+        // I keep total equal to subtotal here (VAT added for private individuals later)
+        total: subtotal,
         currency: 'EUR',
         userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : ''
       };
-      // Try serverless proxy first (no CORS issues)
+      // I try the proxy first (no CORS issues)
       let res = await fetch(proxyEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       if (!res.ok) {
-        // If proxy failed (e.g., not deployed yet), try direct Apps Script endpoint if available
+        // If the proxy fails (e.g., not deployed yet), I try the direct Apps Script endpoint
         if (directEndpoint) {
           try {
             const directRes = await fetch(directEndpoint, {
@@ -156,7 +157,7 @@ function OrderFormPage() {
               body: JSON.stringify(payload)
             });
             if (!directRes.ok) {
-              // Last resort: fire-and-forget no-cors
+              // As a last resort I send a fire-and-forget no-cors request
               await fetch(directEndpoint, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -165,16 +166,16 @@ function OrderFormPage() {
               });
             }
           } catch {
-            // ignore and allow fallback below
+            // I ignore errors here and let the email fallback handle it
           }
         } else {
-          // No direct endpoint configured; fall back to email
+          // If no direct endpoint exists, I fall back to email
           throw new Error('Proxy failed and no direct endpoint configured');
         }
       }
       setSubmitted(true);
     } catch (err: any) {
-      // If network fails, fallback to email to guarantee delivery
+      // If the network fails, I fall back to email to guarantee delivery
       setSubmitError('We could not reach the order endpoint. We will open your mail app as a fallback.');
       window.location.href = mailtoHref;
     } finally {
@@ -200,7 +201,7 @@ function OrderFormPage() {
 
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-6 rounded-[32px] border border-brand-blue/15 bg-white/95 p-4 shadow-card backdrop-blur-sm md:p-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          {/* Product summary panel */}
+          {/* I show the product summary here to keep the form context clear */}
           <aside className="rounded-2xl border border-brand-blue/10 bg-white p-5">
             <div className="space-y-3">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Order</p>
@@ -232,7 +233,7 @@ function OrderFormPage() {
             </div>
           </aside>
 
-          {/* Form panel */}
+          {/* I keep the full order form in this panel */}
           <section className="rounded-2xl border border-brand-blue/10 bg-white p-5">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Order form</p>

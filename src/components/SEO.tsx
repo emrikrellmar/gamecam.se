@@ -4,7 +4,8 @@ type SEOProps = {
   title?: string;
   description?: string;
   canonical?: string;
-  image?: string; // absolute or root-relative
+  // I allow absolute or root-relative image URLs for social cards.
+  image?: string;
   noIndex?: boolean;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
@@ -36,7 +37,7 @@ export default function SEO({ title, description, canonical, image, noIndex, jso
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
       {noIndex && <meta name="robots" content="noindex,nofollow" />}
 
-      {/* Open Graph */}
+      {/* I add Open Graph to improve link previews */}
       <meta property="og:site_name" content="GameCam" />
       <meta property="og:type" content="website" />
       {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
@@ -44,7 +45,7 @@ export default function SEO({ title, description, canonical, image, noIndex, jso
       {pageDesc && <meta property="og:description" content={pageDesc} />} 
       {imageUrl && <meta property="og:image" content={imageUrl} />}
 
-      {/* Twitter */}
+      {/* I mirror the same data to Twitter cards */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={pageTitle} />
       {pageDesc && <meta name="twitter:description" content={pageDesc} />}

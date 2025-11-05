@@ -33,13 +33,13 @@
   border-radius: 8px;
 }
 
-/* Marquee keyframes and utility */
+/* I keep marquee keyframes and utilities here */
 @keyframes marquee {
   from {
     transform: translateX(0);
   }
   to {
-    /* Move left by 50% of the track width (two sets side-by-side) */
+  /* I move left by one set width to create the loop */
     transform: translateX(-50%);
   }
 }
@@ -50,11 +50,10 @@
   animation-iteration-count: infinite;
 }
 
-/* Sponsor track like the shared snippet */
-/* Rightward (left-to-right) infinite marquee */
+/* I use a rightward (left-to-right) sponsor marquee */
 @keyframes sponsor-marquee {
   from {
-    /* Use pixel shift when provided to avoid rounding seams; fallback to -50% */
+  /* I use a pixel-based shift when provided to avoid rounding seams */
     transform: translateX(var(--marquee-from, -50%));
   }
   to {
@@ -62,13 +61,13 @@
   }
 }
 
-/* Hide scrollbars utility (used for horizontal button row on Home) */
+/* I hide scrollbars for horizontal UI rows when needed */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* I handle IE and Edge here */
+  scrollbar-width: none; /* And Firefox here */
 }
 
 .sponsor-track {

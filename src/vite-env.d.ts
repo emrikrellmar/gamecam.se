@@ -1,7 +1,7 @@
 ﻿/// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  // Google Sheets (Apps Script) Web App endpoint for order form submissions
+  // I can point to a direct Apps Script Web App when I want to bypass the proxy
   readonly VITE_GSHEET_ENDPOINT?: string;
 }
 

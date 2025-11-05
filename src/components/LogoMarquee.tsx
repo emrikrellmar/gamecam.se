@@ -4,13 +4,14 @@ export type Logo = { name: string; image: string };
 
 interface LogoMarqueeProps {
   logos: Logo[];
-  speed?: number; // pixels per second
+  // I control marquee speed in pixels per second.
+  speed?: number;
   className?: string;
 }
 
-// Infinite left-to-right marquee using two copies of the logo row.
+// I render a seamless left-to-right sponsor marquee by duplicating the row.
 export default function LogoMarquee({ logos, speed = 60, className }: LogoMarqueeProps) {
-  // Measure the width of a single set to compute duration for a smooth, seamless loop.
+  // I measure one set to compute a smooth, seam-free animation duration.
   const setRef = useRef<HTMLDivElement | null>(null);
   const [setWidth, setSetWidth] = useState(0);
 
@@ -18,14 +19,14 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
     const el = setRef.current;
     if (!el) return;
     const measure = () => setSetWidth(el.getBoundingClientRect().width);
-    // Measure once after mount for stability; avoids restarting the animation mid-loop.
+    // I only measure once after mount so the loop doesn't restart mid-animation.
     const id = requestAnimationFrame(measure);
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // Compute duration from width and speed (pixels/sec). The track moves -50% (one set width).
+  // I compute duration from width and speed; the track travels one set width per cycle.
   const duration = useMemo(() => {
-    if (setWidth <= 0) return 20; // fallback
+    if (setWidth <= 0) return 20; // I fall back to a sensible default
     return Math.max(8, setWidth / speed);
   }, [setWidth, speed]);
 
@@ -33,7 +34,7 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
     <div
       className={[
         'relative overflow-hidden',
-        // Subtle edge fade to mask the loop seam
+        // I add a subtle edge fade to hide the loop seam
         '[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]',
         className
       ]
@@ -45,12 +46,12 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
         style={
           {
             animationDuration: `${duration}s`,
-            // Use pixel-based shift to avoid percentage rounding seams
+            // I prefer a pixel-based offset to avoid percentage rounding seams
             ['--marquee-from' as any]: setWidth ? `-${Math.round(setWidth)}px` : undefined
           } as React.CSSProperties
         }
       >
-        {/* First set (measured) */}
+        {/* I measure this first set to calculate animation timing */}
         <div ref={setRef} className="flex items-center">
           {logos.map((logo) => (
             <div
@@ -67,7 +68,7 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
             </div>
           ))}
         </div>
-        {/* Second set (aria-hidden) */}
+        {/* I duplicate the set (aria-hidden) to create a seamless loop */}
         <div aria-hidden className="flex items-center">
           {logos.map((logo) => (
             <div

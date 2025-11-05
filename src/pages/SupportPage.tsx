@@ -149,7 +149,7 @@ function SupportPage() {
         </div>
       </section>
 
-      {/* FAQ section removed per request */}
+  {/* I've parked the FAQ for now; I'll bring it back when we have more entries */}
     </div>
   );
 }

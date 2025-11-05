@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 
 interface CheckoutButtonProps {
-  href?: string; // optional explicit target URL
+  // I can override the target URL when I want a custom destination.
+  href?: string;
   label?: string;
   className?: string;
 }
@@ -12,7 +13,7 @@ const defaultClassName =
 function CheckoutButton({ href, label = 'Contact sales', className = defaultClassName }: CheckoutButtonProps) {
   const handleCheckout = useCallback(async () => {
     const target = href || '/support';
-    // Open in a new tab for checkout flows
+    // I open the target in a new tab so visitors stay on the site.
     window.open(target, '_blank', 'noopener,noreferrer');
   }, [href]);
 

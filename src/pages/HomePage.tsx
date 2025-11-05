@@ -57,7 +57,7 @@ function HomePage() {
           logo: '/assets/images/gamecam_icon.png'
         }}
       />
-      {/* Preload LCP image only on the home route */}
+  {/* I preload the hero image here to win LCP on the home route */}
       <Helmet>
         <link rel="preload" as="image" href="/assets/images/court_with_gametraq.png" />
       </Helmet>
