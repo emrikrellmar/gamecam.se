@@ -242,7 +242,7 @@ function ProductPage() {
 
         <h2 className="text-2xl font-semibold text-brand-blue">What sets {product.name} apart</h2>
       <section className="space-y-6">
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className={`grid gap-5 ${product.slug === 'gametraq' ? 'sm:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'}`}>
           {keyFeatures.map((feature) => (
             <article key={feature.title} className="rounded-3xl border border-brand-blue/15 bg-white p-5 shadow-card">
               <h3 className="text-lg font-semibold text-brand-blue">{feature.title}</h3>
