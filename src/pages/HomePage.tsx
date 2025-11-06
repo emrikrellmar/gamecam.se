@@ -80,13 +80,10 @@ function HomePage() {
       <section className="grid gap-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
-            4K AI match camera for padel clubs
+            GameCam hardware for padel clubs
           </h1>
           <p className="text-lg leading-relaxed text-neutral-700">
-            Stream live to YouTube, auto‑tag rallies, and deliver instant player analytics after every match.
-          </p>
-          <p className="text-lg leading-relaxed text-neutral-700">
-            Increase engagement and premium rental revenue. Install in 1–2 weeks—no specialist required.
+            Capture matches, turn rallies into highlights, and give coaches instant insights. Explore how GameCam fits your club’s roadmap.
           </p>
           {/* Removed hero CTAs per request; tightened spacing above */}
         </div>
