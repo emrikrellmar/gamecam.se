@@ -36,15 +36,36 @@
       }
     </script>
     
-<script 
-type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="a899eec3-8816-44d3-b106-9dd07ad01f25";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-</script>
-
-    <!-- I keep the chat bubble closed on initial load -->
+    <!-- Defer Crisp chat: load on first user interaction or after idle -->
     <script type="text/javascript">
-      window.addEventListener('load', function () {
-        try { window.$crisp = window.$crisp || []; window.$crisp.push(["do", "chat:close"]); } catch (e) {}
-      });
+      (function () {
+        try {
+          window.$crisp = window.$crisp || [];
+          window.CRISP_WEBSITE_ID = "a899eec3-8816-44d3-b106-9dd07ad01f25";
+          // Keep the chat bubble closed by default
+          window.$crisp.push(["do", "chat:close"]);
+
+          var loaded = false;
+          function loadCrisp() {
+            if (loaded) return; loaded = true;
+            var d = document; var s = d.createElement("script");
+            s.src = "https://client.crisp.chat/l.js"; s.async = true; s.crossOrigin = "anonymous";
+            d.head.appendChild(s);
+          }
+
+          // Load on first interaction
+          ["click", "keydown", "pointerdown", "touchstart"].forEach(function (evt) {
+            window.addEventListener(evt, loadCrisp, { once: true, passive: true });
+          });
+          // Fallback: load when idle or a few seconds after load
+          if ("requestIdleCallback" in window) {
+            // @ts-ignore requestIdleCallback may not exist in all TS libs
+            window.requestIdleCallback(function () { setTimeout(loadCrisp, 2000); });
+          } else {
+            window.addEventListener("load", function () { setTimeout(loadCrisp, 3000); });
+          }
+        } catch (e) { /* no-op */ }
+      })();
     </script>
 
     <title>GameCam │ AI-powered hardware </title>

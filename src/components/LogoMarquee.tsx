@@ -61,7 +61,7 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
               <img
                 src={logo.image}
                 alt={`${logo.name} logo`}
-                className="h-12 w-full object-contain"
+                className="h-12 w-auto mx-auto object-contain"
                 loading="lazy"
                 decoding="async"
               />
@@ -78,7 +78,7 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
               <img
                 src={logo.image}
                 alt=""
-                className="h-12 w-full object-contain"
+                className="h-12 w-auto mx-auto object-contain"
                 loading="lazy"
                 decoding="async"
               />

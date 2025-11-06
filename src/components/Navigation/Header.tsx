@@ -21,7 +21,7 @@ function Header() {
             <img
               src="/assets/images/gamecam_logo_horizontal_black.png"
               alt="Gamecam AI Sport Analytics"
-              className="h-12 w-auto sm:h-14"
+              className="max-h-12 w-auto sm:max-h-14"
             />
           </Link>
 
@@ -55,7 +55,7 @@ function Header() {
               aria-label="Gamecam on Instagram"
               className="hidden rounded-full border border-brand-blue/20 p-2 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink lg:inline-flex"
             >
-              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-10 w-10" />
+              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-10 w-auto" />
             </a>
             <Link
               to="/products"
@@ -124,7 +124,7 @@ function Header() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 text-sm font-semibold text-brand-blue transition hover:text-brand-pink"
             >
-              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-6 w-6" />
+              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-6 w-auto" />
               Instagram
             </a>
           </div>
