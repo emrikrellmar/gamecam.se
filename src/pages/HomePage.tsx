@@ -150,47 +150,75 @@ function HomePage() {
           </div>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <blockquote className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan" />
-            <div className="mb-3 inline-flex items-center gap-2">
-              <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-blue">
-                Pro Coach
-              </span>
-              <svg aria-hidden className="h-4 w-4 text-brand-blue/30" viewBox="0 0 24 24" fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8.83A5.17 5.17 0 0 0 16 16.83V6H7.17Zm9.66 0V16.83A7.17 7.17 0 0 1 9.66 24H2v-2h7.66A5.17 5.17 0 0 0 14.83 16H12V6h4.83Z"/></svg>
+          {/* Card 1 */}
+          <article className="relative rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-6 shadow-card transition will-change-transform sm:-translate-y-2 lg:-translate-y-3">
+            <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
+            <div className="flex items-center gap-3">
+              <img
+                src="/assets/images/rodryovide.png"
+                alt="Rodry Ovide"
+                className="h-12 w-12 rounded-full object-cover"
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/gamecam_icon.png';
+                }}
+                loading="lazy"
+                decoding="async"
+              />
+              <div>
+                <p className="text-sm font-semibold text-brand-blue">Rodry Ovide</p>
+                <p className="text-xs text-brand-blue/70">Pro Coach</p>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-neutral-800">
-              “Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.”
+            <p className="mt-4 text-sm text-neutral-800">
+              Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.
             </p>
-            <footer className="mt-4 text-xs font-semibold text-brand-blue">— Rodry Ovide, Pro Coach coaching Paquito Navarro</footer>
-          </blockquote>
-
-          <blockquote className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple" />
-            <div className="mb-3 inline-flex items-center gap-2">
-              <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-blue">
-                Club Manager
-              </span>
-              <svg aria-hidden className="h-4 w-4 text-brand-blue/30" viewBox="0 0 24 24" fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8.83A5.17 5.17 0 0 0 16 16.83V6H7.17Zm9.66 0V16.83A7.17 7.17 0 0 1 9.66 24H2v-2h7.66A5.17 5.17 0 0 0 14.83 16H12V6h4.83Z"/></svg>
+          </article>
+          {/* Card 2 */}
+          <article className="relative rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition will-change-transform sm:translate-y-2 lg:translate-y-3">
+            <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
+            <div className="flex items-center gap-3">
+              <img
+                src="/assets/images/carljohanblum.png"
+                alt="Carl‑Johan Blum"
+                className="h-12 w-12 rounded-full object-cover"
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/emrik.png';
+                }}
+                loading="lazy"
+                decoding="async"
+              />
+              <div>
+                <p className="text-sm font-semibold text-brand-blue">Carl‑Johan Blum</p>
+                <p className="text-xs text-brand-blue/70">Club Manager, PDL Center Sweden</p>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-neutral-800">
-              “GAMETRAQ has transformed our venue by offering a unique and enjoyable experience for players.”
+            <p className="mt-4 text-sm text-neutral-800">
+              GAMETRAQ has transformed our venue by offering a unique and enjoyable experience for players.
             </p>
-            <footer className="mt-4 text-xs font-semibold text-brand-blue">— Carl‑Johan Blum, Club Manager, PDL Center Sweden</footer>
-          </blockquote>
-
-          <blockquote className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-purple via-brand-pink to-brand-cyan" />
-            <div className="mb-3 inline-flex items-center gap-2">
-              <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-blue">
-                Coach
-              </span>
-              <svg aria-hidden className="h-4 w-4 text-brand-blue/30" viewBox="0 0 24 24" fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8.83A5.17 5.17 0 0 0 16 16.83V6H7.17Zm9.66 0V16.83A7.17 7.17 0 0 1 9.66 24H2v-2h7.66A5.17 5.17 0 0 0 14.83 16H12V6h4.83Z"/></svg>
+          </article>
+          {/* Card 3 */}
+          <article className="relative rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition will-change-transform lg:-translate-y-1">
+            <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
+            <div className="flex items-center gap-3">
+              <img
+                src="/assets/images/rickardholmstrom.png"
+                alt="Rickard Holmström"
+                className="h-12 w-12 rounded-full object-cover"
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/morten.png';
+                }}
+                loading="lazy"
+                decoding="async"
+              />
+              <div>
+                <p className="text-sm font-semibold text-brand-blue">Rickard Holmström</p>
+                <p className="text-xs text-brand-blue/70">Padel and Tennis Coach</p>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-neutral-800">
-              “As a club manager I get a lot of good feedback from players using the GAMETRAQ system.”
+            <p className="mt-4 text-sm text-neutral-800">
+              As a club manager I get a lot of good feedback from players using the GAMETRAQ system.
             </p>
-            <footer className="mt-4 text-xs font-semibold text-brand-blue">— Rickard Holmström, Padel and Tennis Coach</footer>
-          </blockquote>
+          </article>
         </div>
       </section>
 
