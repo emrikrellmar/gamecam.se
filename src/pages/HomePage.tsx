@@ -157,7 +157,7 @@ function HomePage() {
               <img
                 src="/assets/images/roryovide.png"
                 alt="Rory Ovide"
-                className="h-12 w-12 rounded-full object-cover"
+                className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
                 onError={(e) => {
                   const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/gamecam_icon.png';
                 }}
@@ -170,7 +170,7 @@ function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-sm text-neutral-800">
-              Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.
+              Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents strengths and weaknesses for a competitive edge.
             </p>
           </article>
           {/* Card 2 */}
@@ -180,7 +180,7 @@ function HomePage() {
               <img
                 src="/assets/images/carljohanblum.png"
                 alt="Carl‑Johan Blum"
-                className="h-12 w-12 rounded-full object-cover"
+                className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
                 onError={(e) => {
                   const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/emrik.png';
                 }}
@@ -203,7 +203,7 @@ function HomePage() {
               <img
                 src="/assets/images/rickard holmström.png"
                 alt="Rickard Holmström"
-                className="h-12 w-12 rounded-full object-cover"
+                className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
                 onError={(e) => {
                   const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/morten.png';
                 }}
