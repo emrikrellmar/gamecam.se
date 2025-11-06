@@ -24,7 +24,6 @@ const customerLogos = [
 
 // I moved away from multiple demo cards and instead feature a single hero demo below
 const GAMETRAQ_VIDEO = '/assets/videos/GAMETRAQ.mov';
-const GAMETRAQ_POSTER = '/assets/images/gametraq.png';
 
 function HomePage() {
   return (
@@ -34,43 +33,62 @@ function HomePage() {
         description="GameCam builds intelligent padel hardware: GAMETRAQ AI match camera and SHOTGUN training machine. Capture, analyze, and improve."
         canonical="/"
         image="/assets/images/court_with_gametraq.png"
-        jsonLd={{
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: 'GameCam',
-          url: '/',
-          logo: '/assets/images/gamecam_icon.png'
-        }}
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'GameCam',
+            url: '/',
+            logo: '/assets/images/gamecam_icon.png'
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'How quickly can we get started?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Most clubs are up and running within 1–2 weeks after ordering. We guide installation and calibration, then your first matches start streaming and generating analytics.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'Do we need a specialist to install?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'No special contractor is required. We provide a simple mounting kit and step‑by‑step guidance. Our support can assist live if needed.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'What support and warranty are included?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Standard 1‑year limited warranty plus weekday live support. Replacement units can be sent quickly to minimise downtime.'
+                }
+              }
+            ]
+          }
+        ]}
       />
   {/* I preload the hero image here to win LCP on the home route */}
       <Helmet>
         <link rel="preload" as="image" href="/assets/images/court_with_gametraq.png" />
       </Helmet>
-      <section className="grid gap-6 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
-        <div className="space-y-5">
+      <section className="grid gap-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
+        <div className="space-y-4">
           <h1 className="text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
-            GameCam hardware for padel clubs
+            4K AI match camera for padel clubs
           </h1>
           <p className="text-lg leading-relaxed text-neutral-700">
-            Capture matches, turn rallies into highlights, and give coaches instant insights. Explore how GameCam fits your club’s roadmap.
+            Stream live to YouTube, auto‑tag rallies, and deliver instant player analytics after every match.
           </p>
-
-          <div className="flex flex-col gap-2 sm:gap-3">
-            <Link
-              to="/products"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-brand-blue/10 bg-brand-blue px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-blue/90 sm:px-6 sm:py-4 lg:px-12 lg:py-5"
-            >
-              View all of our products
-            </Link>
-            <a
-              href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-brand-blue/25 px-4 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-blue/40 sm:px-6 sm:py-4 lg:px-8 lg:py-5"
-            >
-              Book a demo
-            </a>
-          </div>
+          <p className="text-lg leading-relaxed text-neutral-700">
+            Increase engagement and premium rental revenue. Install in 1–2 weeks—no specialist required.
+          </p>
+          {/* Removed hero CTAs per request; tightened spacing above */}
         </div>
         <div className="grid gap-4">
           <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-4 shadow-card">
@@ -97,18 +115,18 @@ function HomePage() {
         </div>
       </section>
 
-      {/* I showcase the GAMETRAQ demo right under the hero in a stylized container */}
-      <section className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-gradient-to-br from-brand-blue/5 via-brand-purple/5 to-brand-pink/10 p-4 shadow-card">
-        <div className="pointer-events-none absolute left-[-20%] top-[-25%] h-40 w-40 rounded-full bg-white/30 blur-3xl" />
-        <div className="pointer-events-none absolute bottom-[-35%] right-[-15%] h-48 w-48 rounded-full bg-brand-pink/20 blur-3xl" />
-        <div className="relative rounded-2xl border border-brand-blue/10 bg-white/80 p-3 backdrop-blur-sm">
-          <VideoPlayer
-            src={GAMETRAQ_VIDEO}
-            poster={GAMETRAQ_POSTER}
-            preload="metadata"
-            className="aspect-video w-full rounded-xl object-cover"
-          />
-        </div>
+      {/* GAMETRAQ demo: autoplay on scroll, muted until click, rounded like other boxes (no poster/placeholder) */}
+      <section>
+        <VideoPlayer
+          src={GAMETRAQ_VIDEO}
+          preload="metadata"
+          autoPlayWhenVisible
+          startMuted
+          unmuteOnClick
+          showControlsOnPlay={false}
+          startAtSeconds={1}
+          className="aspect-video w-full rounded-3xl object-cover"
+        />
       </section>
 
       <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
@@ -121,6 +139,28 @@ function HomePage() {
         <div className="mt-6">
           <LogoMarquee logos={customerLogos} />
         </div>
+      </section>
+
+      {/* Testimonials to boost trust and conversions */}
+      <section className="grid gap-6 sm:grid-cols-3">
+        <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+          <p className="text-sm text-neutral-800">
+            “Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.”
+          </p>
+          <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rodry Ovide, Pro Coach coaching Paquito Navarro</footer>
+        </blockquote>
+        <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+          <p className="text-sm text-neutral-800">
+            “GAMETRAQ has transformed our venue by offering a unique and enjoyable experience for players.”
+          </p>
+          <footer className="mt-3 text-xs font-semibold text-brand-blue">— Carl‑Johan Blum, Club Manager, PDL Center Sweden</footer>
+        </blockquote>
+        <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+          <p className="text-sm text-neutral-800">
+            “As a club manager I get a lot of good feedback from players using the GAMETRAQ system.”
+          </p>
+          <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rickard Holmström, Padel and Tennis Coach</footer>
+        </blockquote>
       </section>
 
       <section className="grid gap-6 sm:grid-cols-2">

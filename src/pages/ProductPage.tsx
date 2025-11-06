@@ -119,17 +119,30 @@ function ProductPage() {
               </span>
               <h1 className="text-4xl font-bold text-brand-blue sm:text-5xl">{product.name}</h1>
               <p className="text-lg leading-relaxed text-neutral-700">{product.tagline}</p>
-              {/* I show the product image inline on phones between the tagline and long description */}
-              <div className="lg:hidden overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50 p-4">
+              {/* Inline product image on phones: plain background and larger */}
+              <div className="lg:hidden text-center">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="mx-auto h-60 w-auto object-contain"
+                  className="mx-auto h-72 w-auto object-contain"
                   decoding="async"
                 />
               </div>
               <p className="text-base leading-relaxed text-neutral-700">{product.description}</p>
             </div>
+            {/* Place the stats directly under the main text */}
+            <dl className="grid gap-4 sm:grid-cols-3">
+              {product.stats.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-brand-blue/15 bg-white/80 p-4 text-center shadow-card backdrop-blur-sm"
+                >
+                  <dt className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue/70">{item.label}</dt>
+                  <dd className="mt-2 text-xl font-bold text-brand-blue">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+
             <div className="flex flex-wrap items-center gap-3">
               <CheckoutButton
                 href={`/order/${product.slug}`}
@@ -154,27 +167,12 @@ function ProductPage() {
                 </a>
               )}
             </div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/80">
-              <span className="h-2 w-2 rounded-full bg-brand-pink" />
-              <span>{product.priceLabel}</span>
-            </div>
+            {/* Removed price label chip per request */}
           </div>
           <div className="grid gap-6">
-            <div className="hidden lg:flex relative items-center justify-center overflow-visible rounded-[28px] border border-brand-blue/15 bg-white/90 p-6 shadow-inner">
-              <div className="pointer-events-none absolute inset-3 rounded-[22px] border border-brand-blue/10" />
-              <img src={product.image} alt={product.name} className="relative z-10 mx-auto h-72 w-auto object-contain" decoding="async" />
+            <div className="hidden lg:flex items-center justify-center">
+              <img src={product.image} alt={product.name} className="mx-auto h-[32rem] w-auto object-contain" decoding="async" />
             </div>
-            <dl className="grid gap-4 sm:grid-cols-3">
-              {product.stats.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-2xl border border-brand-blue/15 bg-white/80 p-4 text-center shadow-card backdrop-blur-sm"
-                >
-                  <dt className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue/70">{item.label}</dt>
-                  <dd className="mt-2 text-xl font-bold text-brand-blue">{item.value}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
       </section>

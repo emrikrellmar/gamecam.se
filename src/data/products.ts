@@ -29,11 +29,11 @@ export const products: Product[] = [
     name: 'GAMETRAQ',
     tagline: 'Tool for all strategies of padel players.',
     summary:
-      "Beginners enjoy the stats for added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents strengths and weaknesses for a decisive edge.",
+      "Beginners enjoy GAMETRAQ for the stats and added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents strengths and weaknesses for a decisive edge.",
     description:
       'GAMETRAQ brings broadcast-grade capture, AI-led tagging, and coach-ready dashboards into a compact ceiling-mounted unit. Automated rally segmentation, ball tracking, and player heatmaps let clubs personalise feedback for every skill level.',
     priceLabel: 'Order starting at €2,950 + shipping',
-    heroGradient: 'from-brand-blue/5 via-brand-cyan/5 to-brand-purple/10',
+    heroGradient  : 'from-brand-blue/5 via-brand-cyan/5 to-brand-purple/10',
     image: '/assets/images/gametraq.png',
     features: [
       {
@@ -70,8 +70,8 @@ export const products: Product[] = [
     ],
     useCases: [
       'Tactical preparation for pro teams and academies',
-      'Player development programs with measurable milestones',
-      'Broadcast-style match packages for fans and sponsors'
+      'Beginner engagement through gamified stats',
+      'Player development programs with measurable milestones'
     ]
   },
   {

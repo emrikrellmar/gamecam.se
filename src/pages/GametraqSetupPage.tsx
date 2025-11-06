@@ -30,7 +30,7 @@ const steps: StepItem[] = [
     details: [
       'Check that your router supplies PoE+ (20 W) to power the camera. If you do not have PoE+, order a compatible injector.',
       'Cabling: Pull a CAT6/network cable from the server room (internet router) to the short side of the padel court where the AI camera will be mounted.',
-      'Check connectivity: Connect the CAT6 cable between the internet router and the GAMETRAQ 4 unit.',
+      'Check connectivity: Connect the CAT6 cable between the internet router and the GAMETRAQ unit.',
       'Camera ID: Locate the three-digit number on the side of the camera, add it to the live checker, and press CHECK CAMERA CONNECTION.',
       'Status: If the camera ID shows ONLINE you can proceed. If it shows OFFLINE, contact the GameCam WhatsApp group for troubleshooting before moving on.'
     ],
