@@ -27,7 +27,7 @@ export const products: Product[] = [
   {
     slug: 'gametraq',
     name: 'GAMETRAQ',
-    tagline: 'Tool for all strategies of padel players.',
+    tagline: 'Tool for all levels of padel players and venues.',
     summary:
       "Beginners enjoy GAMETRAQ for the stats and added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents strengths and weaknesses for a decisive edge.",
     description:

@@ -50,9 +50,9 @@ const steps: StepItem[] = [
     heading: 'MOUNT THE CAMERA ON COURT',
     subheading: 'Set up the camera mount and camera',
     details: [
-      'Assemble the Bird-View unit following the drawing provided at the end of the guide.',
-      'Attach the camera to the camera plate on the Bird-View mount.',
-      'Mount the Bird-View unit on the court structure with plastic strips and make sure it is secure.',
+      'Assemble the fence mount unit following the drawing provided at the end of the guide.',
+      'Attach the camera to the camera plate on the fence mount.',
+      'Mount the fence mount unit on the court structure with plastic strips and make sure it is secure.',
       'Connect the CAT6 cable to the camera.',
       'Plug in the USB microphone and clip the microphone to the grid construction.'
     ]

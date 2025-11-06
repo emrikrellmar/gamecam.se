@@ -10,6 +10,7 @@ function ProductPage() {
   const { slug } = useParams();
   const product = slug ? getProductBySlug(slug) : undefined;
   const specsRef = useRef<HTMLDivElement | null>(null);
+  const isShotgun = product?.slug === 'shotgun';
 
   if (!product) {
     return <Navigate to="/" replace />;
@@ -119,12 +120,12 @@ function ProductPage() {
               </span>
               <h1 className="text-4xl font-bold text-brand-blue sm:text-5xl">{product.name}</h1>
               <p className="text-lg leading-relaxed text-neutral-700">{product.tagline}</p>
-              {/* Inline product image on phones: plain background and larger */}
+              {/* Inline product image on phones: plain background; smaller for SHOTGUN */}
               <div className="lg:hidden text-center">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="mx-auto h-72 w-auto object-contain"
+                  className={isShotgun ? 'mx-auto h-56 w-auto object-contain' : 'mx-auto h-72 w-auto object-contain'}
                   decoding="async"
                 />
               </div>
@@ -171,7 +172,12 @@ function ProductPage() {
           </div>
           <div className="grid gap-6">
             <div className="hidden lg:flex items-center justify-center">
-              <img src={product.image} alt={product.name} className="mx-auto h-[32rem] w-auto object-contain" decoding="async" />
+              <img
+                src={product.image}
+                alt={product.name}
+                className={isShotgun ? 'mx-auto h-[26rem] w-auto object-contain' : 'mx-auto h-[32rem] w-auto object-contain'}
+                decoding="async"
+              />
             </div>
           </div>
         </div>
@@ -218,26 +224,28 @@ function ProductPage() {
       )}
 
       {product.slug === 'shotgun' && (
-        <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+        <div className="grid gap-6 md:grid-cols-2">
+          <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
+            <div className="overflow-hidden rounded-[28px] bg-neutral-50 p-2">
               <img
                 src="/assets/images/ShotgunOnCourt.webp"
                 alt="SHOTGUN unit on a padel court"
-                className="h-full w-full rounded-[24px] object-cover"
+                className="h-72 w-full rounded-[24px] object-cover md:h-80"
                 loading="lazy"
               />
             </div>
-            <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
+          </section>
+          <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
+            <div className="overflow-hidden rounded-[28px] bg-neutral-50 p-2">
               <img
                 src="/assets/images/ShotgunOnCourt2.jpg"
                 alt="SHOTGUN ball machine close-up"
-                className="h-full w-full rounded-[24px] object-cover"
+                className="h-72 w-full rounded-[24px] object-cover md:h-80"
                 loading="lazy"
               />
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       )}
 
         <h2 className="text-2xl font-semibold text-brand-blue">What sets {product.name} apart</h2>

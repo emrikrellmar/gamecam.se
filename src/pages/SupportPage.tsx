@@ -18,8 +18,8 @@ function SupportPage() {
         </p>
       </section>
 
-      <h2 className="text-2xl font-semibold text-brand-blue">General support</h2>
-      <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <h2 className="text-2xl font-semibold text-brand-blue">Installation guides</h2>
+      <section className="grid gap-6 md:grid-cols-2">
         <Link
           to="/support/gametraq-setup"
           className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
@@ -47,6 +47,10 @@ function SupportPage() {
             Open guide {'->'}
           </span>
         </Link>
+      </section>
+
+      <h2 className="text-2xl font-semibold text-brand-blue">Schedule a call</h2>
+      <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <a
           href="https://calendar.app.google/nNe8TWDQWeGDM7GbA"
           target="_blank"
@@ -60,6 +64,37 @@ function SupportPage() {
           </p>
           <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-pink transition group-hover:text-brand-blue">
             Schedule now {'->'}
+          </span>
+        </a>
+        <a
+          href="https://calendly.com/magnus-gamecam/new-meeting"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Demo</p>
+          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Book a product demo</h2>
+          <p className="mt-3 text-sm text-neutral-700">
+            See GameCam in action and explore how GAMETRAQ or SHOTGUN can fit your club’s setup and goals.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-pink transition group-hover:text-brand-blue">
+            Book demo {'->'}
+          </span>
+        </a>
+        <a
+          href="https://calendly.com/gamecam-sales/30min?month=2025-10"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Sales</p>
+          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Talk to sales</h2>
+          <p className="mt-3 text-sm text-neutral-700">
+            Discuss pricing, packages, and deployment timelines with our sales team. Interested in becoming an exclusive
+            distributor for your region? Learn about territory availability and partnership options.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-pink transition group-hover:text-brand-blue">
+            Book meeting {'->'}
           </span>
         </a>
       </section>

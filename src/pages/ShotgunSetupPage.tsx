@@ -124,7 +124,7 @@ function ShotgunSetupPage() {
             can be adjusted for power, ball height, and feed frequency to suit every skill level.
           </p>
         </div>
-        <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-neutral-50 p-4">
+        <div className="overflow-hidden rounded-3xl bg-neutral-50 p-4">
           <img
             src="/assets/images/ShotgunDrills.png"
             alt="SHOTGUN training drills overview"

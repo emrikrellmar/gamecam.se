@@ -1,5 +1,4 @@
-﻿import SEO from '../components/SEO';
-const timeline = [
+﻿const timeline = [
   {
     year: '2020',
     title: 'GameCam founded',
@@ -35,29 +34,12 @@ const timeline = [
 function StoryPage() {
   return (
     <div className="space-y-12">
-      <SEO
-        title="Our story │ GameCam"
-        description="From AI broadcast prototypes to global padel deployments—learn how GameCam is building intelligent vision for sport."
-        canonical="/our-story"
-      />
       <section className="space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-blue">Our Story</p>
         <h1 className="text-4xl font-bold text-brand-blue">The Story of GameCam</h1>
-        <p className="max-w-3xl text-lg text-neutral-700">
-          Pioneering vision, powered by intelligence. Magnus Jansson drives innovation at the intersection of sport, vision
-          technology, and AI.
-        </p>
       </section>
 
       <section className="space-y-6 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card text-sm leading-relaxed text-neutral-700">
-        <h2 className="text-lg font-semibold text-brand-blue">Magnus Jansson</h2>
-        <p>
-          Magnus Jansson is a visionary technologist and entrepreneur with a deep passion for pushing the boundaries of
-          immersive media and intelligent vision systems. From reshaping virtual reality experiences to reinventing how racket
-          sports are played and consumed, his work reflects a rare blend of creativity, technical excellence, and
-          user-centric innovation.
-        </p>
-
         <div className="space-y-3">
           <h2 className="text-lg font-semibold text-brand-blue">From VR to 360-degree real-time video</h2>
           <p>

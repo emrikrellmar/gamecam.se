@@ -83,7 +83,7 @@ function HomePage() {
             GameCam hardware for padel clubs
           </h1>
           <p className="text-lg leading-relaxed text-neutral-700">
-            GAMETRAQ is the smart AI Camera for Padel that transforms your court into a smart arena with GameCam, the all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
+            GAMETRAQ is the smart AI Camera for Padel that transforms your court into a smart court, the all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
           </p>
           <p className="text-lg leading-relaxed text-neutral-700">
             Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
@@ -146,12 +146,12 @@ function HomePage() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Testimonials</p>
-            <h2 className="text-2xl font-semibold text-brand-blue">What clubs are saying</h2>
+            <h2 className="text-2xl font-semibold text-brand-blue">What others are saying</h2>
           </div>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* Card 1 */}
-          <article className="relative rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-6 shadow-card transition will-change-transform sm:-translate-y-2 lg:-translate-y-3">
+          <article className="relative h-full rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
@@ -174,7 +174,7 @@ function HomePage() {
             </p>
           </article>
           {/* Card 2 */}
-          <article className="relative rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition will-change-transform sm:translate-y-2 lg:translate-y-3">
+          <article className="relative h-full rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
@@ -197,7 +197,7 @@ function HomePage() {
             </p>
           </article>
           {/* Card 3 */}
-          <article className="relative rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition will-change-transform lg:-translate-y-1">
+          <article className="relative h-full rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
