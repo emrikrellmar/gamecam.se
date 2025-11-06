@@ -119,6 +119,15 @@ function ProductPage() {
               </span>
               <h1 className="text-4xl font-bold text-brand-blue sm:text-5xl">{product.name}</h1>
               <p className="text-lg leading-relaxed text-neutral-700">{product.tagline}</p>
+              {/* I show the product image inline on phones between the tagline and long description */}
+              <div className="lg:hidden overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50 p-4">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="mx-auto h-60 w-auto object-contain"
+                  decoding="async"
+                />
+              </div>
               <p className="text-base leading-relaxed text-neutral-700">{product.description}</p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
@@ -151,7 +160,7 @@ function ProductPage() {
             </div>
           </div>
           <div className="grid gap-6">
-            <div className="relative flex items-center justify-center overflow-visible rounded-[28px] border border-brand-blue/15 bg-white/90 p-6 shadow-inner">
+            <div className="hidden lg:flex relative items-center justify-center overflow-visible rounded-[28px] border border-brand-blue/15 bg-white/90 p-6 shadow-inner">
               <div className="pointer-events-none absolute inset-3 rounded-[22px] border border-brand-blue/10" />
               <img src={product.image} alt={product.name} className="relative z-10 mx-auto h-72 w-auto object-contain" decoding="async" />
             </div>
