@@ -46,6 +46,7 @@ function OrderFormPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const sortedCountries = useMemo(() => [...countries].sort((a, b) => a.localeCompare(b)), []);
 
   const title = product ? `Order ${product.name} │ GameCam` : 'Order │ GameCam';
   const canonical = product ? `/order/${product.slug}` : '/order';
@@ -439,7 +440,7 @@ function OrderFormPage() {
                 required
               >
                 <option value="" disabled>Select a country</option>
-                {countries.map((c) => (
+                {sortedCountries.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
@@ -459,7 +460,7 @@ function OrderFormPage() {
                 if (touched.phone) validateField('phone', normalized);
               }}
               onBlur={(e) => { markTouched('phone'); validateField('phone', e.target.value); }}
-              placeholder="Phone number"
+              placeholder={`${countryDialCode[form.addressCountry] ?? '+XX'} …`}
               className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
               required
             />
