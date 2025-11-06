@@ -78,7 +78,7 @@ function ProductPage() {
   }, []);
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-16" id="main-content" role="main" aria-label="Main content">
       <SEO
         title={`${product.name} │ GameCam`}
         description={product.summary}

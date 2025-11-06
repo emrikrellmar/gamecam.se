@@ -27,7 +27,7 @@ const GAMETRAQ_VIDEO = '/assets/videos/GAMETRAQ.mov';
 
 function HomePage() {
   return (
-    <div className="space-y-16">
+    <div className="space-y-16" id="main-content" role="main" aria-label="Main content">
       <SEO
         title="GameCam │ AI-powered padel hardware"
         description="GameCam builds intelligent padel hardware: GAMETRAQ AI match camera and SHOTGUN training machine. Capture, analyze, and improve."
@@ -88,7 +88,6 @@ function HomePage() {
           <p className="text-lg leading-relaxed text-neutral-700">
             Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
           </p>
-          {/* Removed hero CTAs per request; tightened spacing above */}
         </div>
         <div className="grid gap-4">
           <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-4 shadow-card">
@@ -100,6 +99,7 @@ function HomePage() {
                 decoding="async"
                 width={1600}
                 height={900}
+                fetchPriority="high"
                 sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>

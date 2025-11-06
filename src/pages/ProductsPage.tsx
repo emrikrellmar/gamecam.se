@@ -29,7 +29,7 @@ function ProductsPage() {
             <h2 className="text-3xl font-semibold text-brand-blue">{gametraq.tagline}</h2>
             {/* Inline product image on phones: plain background and larger */}
             <div className="lg:hidden text-center">
-              <img src={gametraq.image} alt={gametraq.name} className="mx-auto h-72 w-auto object-contain" decoding="async" />
+              <img src={gametraq.image} alt={gametraq.name} className="mx-auto h-72 w-auto object-contain" decoding="async" loading="lazy" />
             </div>
             <p className="text-base leading-relaxed text-neutral-700">{gametraq.summary}</p>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -86,7 +86,7 @@ function ProductsPage() {
             <h2 className="text-3xl font-semibold text-brand-blue">{shotgun.tagline}</h2>
             {/* Inline product image on phones: plain background and larger */}
             <div className="lg:hidden text-center">
-              <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-72 w-auto object-contain" decoding="async" />
+              <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-72 w-auto object-contain" decoding="async" loading="lazy" />
             </div>
             <p className="text-base leading-relaxed text-neutral-700">{shotgun.summary}</p>
             <div className="grid gap-4 sm:grid-cols-2">
