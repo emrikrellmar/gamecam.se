@@ -22,24 +22,9 @@ const customerLogos = [
   { name: 'Taktika Padel', image: '/assets/images/taktikapadel.webp' }
 ];
 
-const productMedia = [
-  {
-    slug: 'gametraq',
-    name: 'GAMETRAQ',
-    video: '/assets/videos/GAMETRAQ.mov',
-    poster: '/assets/images/gametraq.png',
-    description:
-      'See how GAMETRAQ captures every rally in 4K, tags highlights automatically, and delivers stats straight to your dashboard.'
-  },
-  {
-    slug: 'shotgun',
-    name: 'SHOTGUN',
-    video: '/assets/videos/SHOTGUN.mov',
-    poster: '/assets/images/shotgun.png',
-    description:
-      'Watch the SHOTGUN ball machine deliver programmable drills with consistent pace, spin, and randomised feeds for match realism.'
-  }
-];
+// I moved away from multiple demo cards and instead feature a single hero demo below
+const GAMETRAQ_VIDEO = '/assets/videos/GAMETRAQ.mov';
+const GAMETRAQ_POSTER = '/assets/images/gametraq.png';
 
 function HomePage() {
   return (
@@ -112,6 +97,20 @@ function HomePage() {
         </div>
       </section>
 
+      {/* I showcase the GAMETRAQ demo right under the hero in a stylized container */}
+      <section className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-gradient-to-br from-brand-blue/5 via-brand-purple/5 to-brand-pink/10 p-4 shadow-card">
+        <div className="pointer-events-none absolute left-[-20%] top-[-25%] h-40 w-40 rounded-full bg-white/30 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-[-35%] right-[-15%] h-48 w-48 rounded-full bg-brand-pink/20 blur-3xl" />
+        <div className="relative rounded-2xl border border-brand-blue/10 bg-white/80 p-3 backdrop-blur-sm">
+          <VideoPlayer
+            src={GAMETRAQ_VIDEO}
+            poster={GAMETRAQ_POSTER}
+            preload="metadata"
+            className="aspect-video w-full rounded-xl object-cover"
+          />
+        </div>
+      </section>
+
       <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
@@ -159,31 +158,7 @@ function HomePage() {
         ))}
       </section>
 
-      <section className="space-y-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card">
-        <div className="space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">See the products in action</p>
-          <h2 className="text-2xl font-semibold text-brand-blue">Watch what your club receives on day one</h2>
-          <p className="text-sm text-neutral-700">Short demos highlighting the installation footprint, experience, and control players get with each GameCam product.</p>
-        </div>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {productMedia.map((item) => (
-            <article key={item.slug} className="space-y-4 rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-              <div className="overflow-hidden rounded-[28px] border border-brand-blue/10 bg-neutral-50">
-                <VideoPlayer
-                  src={item.video}
-                  poster={item.poster}
-                  preload="metadata"
-                  className="aspect-video w-full rounded-[22px] object-cover"
-                />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold text-brand-blue">{item.name}</h3>
-                <p className="text-sm text-neutral-700">{item.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* I removed the multi-card demo section per request */}
 
       <section className="grid gap-6 sm:grid-cols-2">
         <article className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
