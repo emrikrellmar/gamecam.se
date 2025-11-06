@@ -128,12 +128,7 @@ function OrderFormPage() {
     return v.slice(0, 16);
   };
 
-  const ensureDialCode = (phone: string, country: string) => {
-    const code = countryDialCode[country];
-    if (!code) return phone;
-    if (!phone.startsWith('+')) return code + phone.replace(/[^\d]/g, '');
-    return phone;
-  };
+  // I no longer auto-prefix based on country; I keep the user input as typed (normalized only)
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -437,11 +432,6 @@ function OrderFormPage() {
                 onChange={(e) => {
                   const next = e.target.value;
                   setField('addressCountry', next);
-                  // I auto-prefix phone with country dial code if user hasn't typed + yet
-                  if (form.phone && !form.phone.startsWith('+')) {
-                    const prefixed = ensureDialCode(normalizePhone(form.phone), next);
-                    setField('phone', prefixed);
-                  }
                   if (touched.addressCountry) validateField('addressCountry', next);
                 }}
                 onBlur={(e) => { markTouched('addressCountry'); validateField('addressCountry', e.target.value); }}
@@ -465,12 +455,11 @@ function OrderFormPage() {
               value={form.phone}
               onChange={(e) => {
                 const normalized = normalizePhone(e.target.value);
-                const ensured = ensureDialCode(normalized, form.addressCountry);
-                setField('phone', ensured);
-                if (touched.phone) validateField('phone', ensured);
+                setField('phone', normalized);
+                if (touched.phone) validateField('phone', normalized);
               }}
               onBlur={(e) => { markTouched('phone'); validateField('phone', e.target.value); }}
-              placeholder={countryDialCode[form.addressCountry] ? `${countryDialCode[form.addressCountry]} …` : '+46 …'}
+              placeholder="Phone number"
               className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
               required
             />
