@@ -198,9 +198,6 @@ function ProductPage() {
       {product.slug === 'gametraq' && (
         <section className="grid gap-10 rounded-[36px] border border-brand-blue/15 bg-white/95 p-8 shadow-card lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
           <div className="space-y-5">
-            <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-brand-blue">
-              Insights App
-            </span>
             <h2 className="text-3xl font-semibold text-brand-blue">Players get instant dashboards after every rally</h2>
             <p className="text-sm leading-relaxed text-neutral-700">
               GAMETRAQ pairs on-court capture with a mobile experience built for coaches and players. Open the app and
