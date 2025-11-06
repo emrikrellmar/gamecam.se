@@ -27,6 +27,10 @@ function ProductsPage() {
               GAMETRAQ
             </div>
             <h2 className="text-3xl font-semibold text-brand-blue">{gametraq.tagline}</h2>
+            {/* I show the product image inline on phones between tagline and description */}
+            <div className="lg:hidden overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50 p-4 text-center">
+              <img src={gametraq.image} alt={gametraq.name} className="mx-auto h-56 w-auto object-contain" decoding="async" />
+            </div>
             <p className="text-base leading-relaxed text-neutral-700">{gametraq.summary}</p>
             <div className="grid gap-4 sm:grid-cols-2">
               {gametraq.features.map((feature) => (
@@ -58,7 +62,7 @@ function ProductsPage() {
               </a>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 hidden lg:block">
             <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-neutral-50 p-5 text-center shadow-card">
               <img src={gametraq.image} alt={gametraq.name} className="mx-auto h-56 w-auto object-contain" loading="lazy" decoding="async" />
             </div>
@@ -80,6 +84,10 @@ function ProductsPage() {
               SHOTGUN
             </div>
             <h2 className="text-3xl font-semibold text-brand-blue">{shotgun.tagline}</h2>
+            {/* I show the product image inline on phones between tagline and description */}
+            <div className="lg:hidden overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50 p-4 text-center">
+              <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-56 w-auto object-contain" decoding="async" />
+            </div>
             <p className="text-base leading-relaxed text-neutral-700">{shotgun.summary}</p>
             <div className="grid gap-4 sm:grid-cols-2">
               {shotgun.features.map((feature) => (
@@ -111,7 +119,7 @@ function ProductsPage() {
               </a>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 hidden lg:block">
             <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-neutral-50 p-5 text-center shadow-card">
               <img src={shotgun.image} alt={shotgun.name} className="mx-auto h-56 w-auto object-contain" loading="lazy" decoding="async" />
             </div>
