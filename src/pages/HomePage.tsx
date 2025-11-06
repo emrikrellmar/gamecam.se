@@ -83,7 +83,10 @@ function HomePage() {
             GameCam hardware for padel clubs
           </h1>
           <p className="text-lg leading-relaxed text-neutral-700">
-            Capture matches, turn rallies into highlights, and give coaches instant insights. Explore how GameCam fits your club’s roadmap.
+            GAMETRAQ is the smart AI Camera for Padel that transforms your court into a smart arena with GameCam, the all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
+          </p>
+          <p className="text-lg leading-relaxed text-neutral-700">
+            Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
           </p>
           {/* Removed hero CTAs per request; tightened spacing above */}
         </div>
