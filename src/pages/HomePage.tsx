@@ -155,8 +155,8 @@ function HomePage() {
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
-                src="/assets/images/rodryovide.png"
-                alt="Rodry Ovide"
+                src="/assets/images/roryovide.png"
+                alt="Rory Ovide"
                 className="h-12 w-12 rounded-full object-cover"
                 onError={(e) => {
                   const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/gamecam_icon.png';
@@ -165,7 +165,7 @@ function HomePage() {
                 decoding="async"
               />
               <div>
-                <p className="text-sm font-semibold text-brand-blue">Rodry Ovide</p>
+                <p className="text-sm font-semibold text-brand-blue">Rory Ovide</p>
                 <p className="text-xs text-brand-blue/70">Pro Coach</p>
               </div>
             </div>
@@ -201,7 +201,7 @@ function HomePage() {
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
-                src="/assets/images/rickardholmstrom.png"
+                src="/assets/images/rickard holmström.png"
                 alt="Rickard Holmström"
                 className="h-12 w-12 rounded-full object-cover"
                 onError={(e) => {
