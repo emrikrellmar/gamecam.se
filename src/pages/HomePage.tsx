@@ -142,25 +142,33 @@ function HomePage() {
       </section>
 
       {/* Testimonials to boost trust and conversions */}
-      <section className="grid gap-6 sm:grid-cols-3">
-        <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-          <p className="text-sm text-neutral-800">
-            “Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.”
-          </p>
-          <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rodry Ovide, Pro Coach coaching Paquito Navarro</footer>
-        </blockquote>
-        <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-          <p className="text-sm text-neutral-800">
-            “GAMETRAQ has transformed our venue by offering a unique and enjoyable experience for players.”
-          </p>
-          <footer className="mt-3 text-xs font-semibold text-brand-blue">— Carl‑Johan Blum, Club Manager, PDL Center Sweden</footer>
-        </blockquote>
-        <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-          <p className="text-sm text-neutral-800">
-            “As a club manager I get a lot of good feedback from players using the GAMETRAQ system.”
-          </p>
-          <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rickard Holmström, Padel and Tennis Coach</footer>
-        </blockquote>
+      <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Testimonials</p>
+            <h2 className="text-2xl font-semibold text-brand-blue">What clubs are saying</h2>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-6 sm:grid-cols-3">
+          <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+            <p className="text-sm text-neutral-800">
+              “Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.”
+            </p>
+            <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rodry Ovide, Pro Coach coaching Paquito Navarro</footer>
+          </blockquote>
+          <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+            <p className="text-sm text-neutral-800">
+              “GAMETRAQ has transformed our venue by offering a unique and enjoyable experience for players.”
+            </p>
+            <footer className="mt-3 text-xs font-semibold text-brand-blue">— Carl‑Johan Blum, Club Manager, PDL Center Sweden</footer>
+          </blockquote>
+          <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+            <p className="text-sm text-neutral-800">
+              “As a club manager I get a lot of good feedback from players using the GAMETRAQ system.”
+            </p>
+            <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rickard Holmström, Padel and Tennis Coach</footer>
+          </blockquote>
+        </div>
       </section>
 
       <section className="grid gap-6 sm:grid-cols-2">
