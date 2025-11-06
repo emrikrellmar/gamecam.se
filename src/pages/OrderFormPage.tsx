@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { getProductBySlug } from '../data/products';
+import { countries, countryDialCode } from '../data/countries';
 
 interface FormState {
   name: string;
@@ -41,6 +42,7 @@ function OrderFormPage() {
 
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -116,6 +118,23 @@ function OrderFormPage() {
 
   const setField = (key: keyof FormState, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
 
+  const markTouched = (key: keyof FormState) => setTouched((t) => ({ ...t, [key]: true }));
+
+  const normalizePhone = (raw: string) => {
+    // I keep only digits and a leading +
+    let v = raw.replace(/[^\d+]/g, '');
+    if (v && v[0] !== '+') v = '+' + v.replace(/[^\d]/g, '');
+    // Basic clamp to max 16 chars to avoid runaway input
+    return v.slice(0, 16);
+  };
+
+  const ensureDialCode = (phone: string, country: string) => {
+    const code = countryDialCode[country];
+    if (!code) return phone;
+    if (!phone.startsWith('+')) return code + phone.replace(/[^\d]/g, '');
+    return phone;
+  };
+
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = 'Please enter your full name.';
@@ -124,7 +143,7 @@ function OrderFormPage() {
     if (!form.addressZip.trim()) e.addressZip = 'Please enter a ZIP/postal code.';
     if (!form.addressCountry.trim()) e.addressCountry = 'Please enter a country.';
     if (!form.phone.trim()) e.phone = 'Please enter a phone number.';
-    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Please enter a valid email.';
+  if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Please enter a valid email.';
     if (!form.quantity || form.quantity < 1) e.quantity = 'Quantity must be at least 1.';
     if (form.isCompany) {
       if (!form.companyName.trim()) e.companyName = 'Company name is required for company orders.';
@@ -132,6 +151,36 @@ function OrderFormPage() {
     }
     setErrors(e);
     return Object.keys(e).length === 0;
+  };
+
+  const validateField = (key: keyof FormState, value: string) => {
+    const e: Record<string, string> = {};
+    switch (key) {
+      case 'name':
+        if (!value.trim()) e.name = 'Please enter your full name.';
+        break;
+      case 'addressStreet':
+        if (!value.trim()) e.addressStreet = 'Please enter a street address.';
+        break;
+      case 'addressCity':
+        if (!value.trim()) e.addressCity = 'Please enter a city.';
+        break;
+      case 'addressZip':
+        if (!value.trim()) e.addressZip = 'Please enter a ZIP/postal code.';
+        break;
+      case 'addressCountry':
+        if (!value.trim()) e.addressCountry = 'Please select a country.';
+        break;
+      case 'phone':
+        if (!value.trim()) e.phone = 'Please enter a phone number.';
+        break;
+      case 'email':
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) e.email = 'Please enter a valid email.';
+        break;
+      default:
+        break;
+    }
+    setErrors((prev) => ({ ...prev, ...e, [key]: (e as any)[key] || '' }));
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -383,14 +432,28 @@ function OrderFormPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-blue">Country</label>
-              <input
-                type="text"
+              <select
                 value={form.addressCountry}
-                onChange={(e) => setField('addressCountry', e.target.value)}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  setField('addressCountry', next);
+                  // I auto-prefix phone with country dial code if user hasn't typed + yet
+                  if (form.phone && !form.phone.startsWith('+')) {
+                    const prefixed = ensureDialCode(normalizePhone(form.phone), next);
+                    setField('phone', prefixed);
+                  }
+                  if (touched.addressCountry) validateField('addressCountry', next);
+                }}
+                onBlur={(e) => { markTouched('addressCountry'); validateField('addressCountry', e.target.value); }}
                 className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
                 required
-              />
-              {errors.addressCountry && <p className="mt-1 text-xs text-red-600">{errors.addressCountry}</p>}
+              >
+                <option value="" disabled>Select a country</option>
+                {countries.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+              {touched.addressCountry && errors.addressCountry && <p className="mt-1 text-xs text-red-600">{errors.addressCountry}</p>}
             </div>
           </div>
 
@@ -398,23 +461,32 @@ function OrderFormPage() {
             <label className="block text-sm font-medium text-brand-blue">Phone number</label>
             <input
               type="tel"
+              inputMode="tel"
               value={form.phone}
-              onChange={(e) => setField('phone', e.target.value)}
+              onChange={(e) => {
+                const normalized = normalizePhone(e.target.value);
+                const ensured = ensureDialCode(normalized, form.addressCountry);
+                setField('phone', ensured);
+                if (touched.phone) validateField('phone', ensured);
+              }}
+              onBlur={(e) => { markTouched('phone'); validateField('phone', e.target.value); }}
+              placeholder={countryDialCode[form.addressCountry] ? `${countryDialCode[form.addressCountry]} …` : '+46 …'}
               className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
               required
             />
-            {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+            {touched.phone && errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium text-brand-blue">Email address</label>
             <input
               type="email"
               value={form.email}
-              onChange={(e) => setField('email', e.target.value)}
+              onChange={(e) => { setField('email', e.target.value); if (touched.email) validateField('email', e.target.value); }}
+              onBlur={(e) => { markTouched('email'); validateField('email', e.target.value); }}
               className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
               required
             />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+            {touched.email && errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
           </div>
 
           <div>

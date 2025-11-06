@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import CheckoutButton from '../components/CheckoutButton';
 import SEO from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 import VideoPlayer from '../components/VideoPlayer';
 import { getProductBySlug } from '../data/products';
 
@@ -101,6 +102,10 @@ function ProductPage() {
           }
         }}
       />
+      {/* I preload the product hero image to improve perceived speed on product pages */}
+      <Helmet>
+        <link rel="preload" as="image" href={product.image} />
+      </Helmet>
       <section
         className={`relative overflow-hidden rounded-[36px] border border-brand-blue/15 bg-gradient-to-br ${heroGradient} p-[1px] shadow-card`}
       >
