@@ -149,7 +149,7 @@ function HomePage() {
             <h2 className="text-2xl font-semibold text-brand-blue">What clubs are saying</h2>
           </div>
         </div>
-        <div className="mt-6 grid gap-6 sm:grid-cols-3">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
             <p className="text-sm text-neutral-800">
               “Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.”
