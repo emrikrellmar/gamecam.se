@@ -149,24 +149,47 @@ function HomePage() {
             <h2 className="text-2xl font-semibold text-brand-blue">What clubs are saying</h2>
           </div>
         </div>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-            <p className="text-sm text-neutral-800">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <blockquote className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan" />
+            <div className="mb-3 inline-flex items-center gap-2">
+              <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-blue">
+                Pro Coach
+              </span>
+              <svg aria-hidden className="h-4 w-4 text-brand-blue/30" viewBox="0 0 24 24" fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8.83A5.17 5.17 0 0 0 16 16.83V6H7.17Zm9.66 0V16.83A7.17 7.17 0 0 1 9.66 24H2v-2h7.66A5.17 5.17 0 0 0 14.83 16H12V6h4.83Z"/></svg>
+            </div>
+            <p className="text-sm leading-relaxed text-neutral-800">
               “Tool for all strategies of players. Beginners enjoy the stats for added fun in their games. Intermediate use stats to track progress and improve. Pros analyze opponents’ strengths and weaknesses for a competitive edge.”
             </p>
-            <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rodry Ovide, Pro Coach coaching Paquito Navarro</footer>
+            <footer className="mt-4 text-xs font-semibold text-brand-blue">— Rodry Ovide, Pro Coach coaching Paquito Navarro</footer>
           </blockquote>
-          <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-            <p className="text-sm text-neutral-800">
+
+          <blockquote className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple" />
+            <div className="mb-3 inline-flex items-center gap-2">
+              <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-blue">
+                Club Manager
+              </span>
+              <svg aria-hidden className="h-4 w-4 text-brand-blue/30" viewBox="0 0 24 24" fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8.83A5.17 5.17 0 0 0 16 16.83V6H7.17Zm9.66 0V16.83A7.17 7.17 0 0 1 9.66 24H2v-2h7.66A5.17 5.17 0 0 0 14.83 16H12V6h4.83Z"/></svg>
+            </div>
+            <p className="text-sm leading-relaxed text-neutral-800">
               “GAMETRAQ has transformed our venue by offering a unique and enjoyable experience for players.”
             </p>
-            <footer className="mt-3 text-xs font-semibold text-brand-blue">— Carl‑Johan Blum, Club Manager, PDL Center Sweden</footer>
+            <footer className="mt-4 text-xs font-semibold text-brand-blue">— Carl‑Johan Blum, Club Manager, PDL Center Sweden</footer>
           </blockquote>
-          <blockquote className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-            <p className="text-sm text-neutral-800">
+
+          <blockquote className="relative overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-purple via-brand-pink to-brand-cyan" />
+            <div className="mb-3 inline-flex items-center gap-2">
+              <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-blue">
+                Coach
+              </span>
+              <svg aria-hidden className="h-4 w-4 text-brand-blue/30" viewBox="0 0 24 24" fill="currentColor"><path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8.83A5.17 5.17 0 0 0 16 16.83V6H7.17Zm9.66 0V16.83A7.17 7.17 0 0 1 9.66 24H2v-2h7.66A5.17 5.17 0 0 0 14.83 16H12V6h4.83Z"/></svg>
+            </div>
+            <p className="text-sm leading-relaxed text-neutral-800">
               “As a club manager I get a lot of good feedback from players using the GAMETRAQ system.”
             </p>
-            <footer className="mt-3 text-xs font-semibold text-brand-blue">— Rickard Holmström, Padel and Tennis Coach</footer>
+            <footer className="mt-4 text-xs font-semibold text-brand-blue">— Rickard Holmström, Padel and Tennis Coach</footer>
           </blockquote>
         </div>
       </section>
