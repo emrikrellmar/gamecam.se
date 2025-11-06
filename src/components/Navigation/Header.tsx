@@ -25,7 +25,7 @@ function Header() {
             />
           </Link>
 
-          <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium text-brand-blue/75 lg:flex">
+          <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium text-brand-blue/75 min-[1350px]:flex">
             {links.map((item, index) => (
               <div key={item.to} className="flex items-center gap-3">
                 <NavLink
@@ -72,7 +72,7 @@ function Header() {
               Book a demo
             </a>
             <button
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink min-[1350px]:hidden"
               onClick={() => setOpen((value) => !value)}
               aria-label="Toggle navigation"
             >
