@@ -49,7 +49,7 @@ function OrderFormPage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   // Billing selection (only relevant for GAMETRAQ)
-  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
+  const [billing, setBilling] = useState<'quarterly' | 'yearly'>('quarterly');
   const sortedCountries = useMemo(() => [...countries].sort((a, b) => a.localeCompare(b)), []);
 
   const title = product ? `Order ${product.name} │ GameCam` : 'Order │ GameCam';
@@ -58,16 +58,16 @@ function OrderFormPage() {
   const formatCurrency = (amount: number) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount);
 
-  // Pricing logic: GAMETRAQ subscription (monthly/yearly), SHOTGUN one-time
+  // Pricing logic: GAMETRAQ subscription (quarterly/yearly), SHOTGUN one-time
   const unitPrice = useMemo(() => {
-    if (isGametraq) return billing === 'monthly' ? 300 : 3000;
+    if (isGametraq) return billing === 'quarterly' ? 1200 : 3000;
     if (isShotgun) return 3450;
     return 2950;
   }, [isGametraq, isShotgun, billing]);
 
   const subtotal = useMemo(() => unitPrice * (form.quantity || 0), [unitPrice, form.quantity]);
-  const priceSuffix = isGametraq ? (billing === 'monthly' ? '/month' : '/year') : '(one-time)';
-  const billingTerms = isGametraq ? (billing === 'monthly' ? 'Prepaid quarterly' : 'Prepaid yearly') : undefined;
+  // No suffixes in UI/summary per request
+  const priceSuffix = '';
 
   const emailLines = useMemo(() => {
     if (!product) return [] as string[];
@@ -84,9 +84,7 @@ function OrderFormPage() {
       .join(', ');
     return [
       `Product: ${product.name}`,
-      isGametraq ? `Plan: ${billing === 'monthly' ? 'Monthly' : 'Yearly'}` : `Plan: One-time`,
-      isGametraq ? `Billing terms: ${billingTerms}` : undefined,
-      isGametraq ? `Notes: No start up fee. Includes full hardware and software suite. Price per court.` : undefined,
+  isGametraq ? `Plan: ${billing === 'quarterly' ? 'Quarterly' : 'Yearly'}` : `Plan: One-time`,
       `Name: ${form.name}`,
       `Ordering as: ${companyOrPrivate}`,
       form.isCompany ? `Company name: ${form.companyName}` : undefined,
@@ -95,12 +93,12 @@ function OrderFormPage() {
       `Phone: ${form.phone}`,
       `Email: ${form.email}`,
       `Quantity: ${form.quantity}`,
-      `Unit price: ${formatCurrency(unitPrice)} ${priceSuffix}`,
+      `Unit price: ${formatCurrency(unitPrice)}`,
       `Subtotal: ${formatCurrency(subtotal)}`,
-      `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping ${isGametraq ? priceSuffix : ''}`,
+      `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping`,
       form.message ? `Extra message: ${form.message}` : undefined,
     ].filter(Boolean) as string[];
-  }, [product, form, unitPrice, subtotal, isGametraq, priceSuffix, billing, billingTerms]);
+  }, [product, form, unitPrice, subtotal, isGametraq, priceSuffix, billing]);
 
   const emailSubject = useMemo(() => (product ? `Order request: ${product.name}` : 'Order request'), [product]);
   const emailBodyText = useMemo(() => emailLines.join('\r\n'), [emailLines]);
@@ -206,7 +204,7 @@ function OrderFormPage() {
         .join(', ');
       const payload = {
         product: product.name,
-        plan: isGametraq ? (billing === 'monthly' ? 'monthly' : 'yearly') : 'one-time',
+  plan: isGametraq ? (billing === 'quarterly' ? 'quarterly' : 'yearly') : 'one-time',
         name: form.name,
         isCompany: form.isCompany,
         companyName: form.companyName,
@@ -338,35 +336,22 @@ function OrderFormPage() {
               <div className="mt-2 inline-flex overflow-hidden rounded-full border border-brand-blue/20">
                 <button
                   type="button"
-                  onClick={() => setBilling('monthly')}
-                  className={`px-4 py-2 text-sm font-semibold transition ${billing === 'monthly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
+                  onClick={() => setBilling('quarterly')}
+                  className={`px-4 py-2 text-sm font-semibold transition ${billing === 'quarterly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Monthly — {formatCurrency(300)}/month (prepaid quarterly)
+                  Quarterly — {formatCurrency(1200)} ({formatCurrency(300)}/Month)
                 </button>
                 <button
                   type="button"
                   onClick={() => setBilling('yearly')}
                   className={`px-4 py-2 text-sm font-semibold transition ${billing === 'yearly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Yearly — {formatCurrency(3000)}/year (prepaid yearly)
+                  Yearly — {formatCurrency(3000)} ({formatCurrency(250)}/Month)
                 </button>
               </div>
-              <div className="mt-3 rounded-xl border border-brand-blue/10 bg-brand-blue/5 px-3 py-2 text-xs text-brand-blue">
-                <div className="font-semibold">GAMETRAQ 5 AI Camera System (per court)</div>
-                <ul className="mt-1 list-disc pl-5 text-brand-blue/90">
-                  <li>No start up fee</li>
-                  <li>Includes full hardware and software suite</li>
-                </ul>
-              </div>
             </div>
           )}
-          {isShotgun && (
-            <div className="lg:col-span-2">
-              <div className="rounded-xl border border-brand-blue/10 bg-brand-blue/5 px-3 py-2 text-xs text-brand-blue">
-                SHOTGUN is a one-time purchase: {formatCurrency(3450)} + shipping.
-              </div>
-            </div>
-          )}
+          {/* No extra info box for SHOTGUN */}
           <div className="lg:col-span-2 grid gap-4 sm:grid-cols-2">
             <div>
               <label className="block text-sm font-medium text-brand-blue">Full name</label>
@@ -533,9 +518,9 @@ function OrderFormPage() {
             />
             {errors.quantity && <p className="mt-1 text-xs text-red-600">{errors.quantity}</p>}
             <div className="mt-2 text-xs text-neutral-700">
-              {form.quantity || 0} × {formatCurrency(unitPrice)} {priceSuffix} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
+              {form.quantity || 0} × {formatCurrency(unitPrice)} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
             </div>
-            <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping {isGametraq ? priceSuffix : ''}</div>
+            <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping</div>
           </div>
 
           <div className="lg:col-span-2">
