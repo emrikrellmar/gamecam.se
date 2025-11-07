@@ -40,7 +40,7 @@ function StoryPage() {
       </section>
 
       <section className="space-y-6 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card text-sm leading-relaxed text-neutral-700">
-        <div className="space-y-3">
+          <div className="space-y-3">
           <h2 className="text-lg font-semibold text-brand-blue">From VR to 360-degree real-time video</h2>
           <p>
             Magnus's journey began as co-founder of COMOTION (2005-2012), where he led the development of groundbreaking VR

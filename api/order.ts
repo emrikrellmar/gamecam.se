@@ -242,13 +242,14 @@ export default async function handler(req, res) {
       const sheets = google.sheets({ version: 'v4', auth });
 
       // Prepare row values to match desired sheet order:
-      // Full name, Product, Quantity, Ordering as a company (Yes/No), Company name (or "Private person"),
+      // Full name, Product, Plan, Quantity, Ordering as a company (Yes/No), Company name (or "Private person"),
       // Tax/VAT number (or "Private person"), Delivery address, Phone number, Email address, Extra message
       const isCompany = !!payload.isCompany;
       const submittedAt = formatTimestamp(new Date());
       const values = [[
         sanitizeCell(payload.name, 200),
         sanitizeCell(payload.product, 200),
+        sanitizeCell(payload.plan || '', 50),
         String(toInt(payload.quantity, 0)),
         isCompany ? 'Yes' : 'No',
         isCompany ? sanitizeCell(payload.companyName, 200) : 'Private person',

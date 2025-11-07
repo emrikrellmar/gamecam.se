@@ -46,3 +46,12 @@ The client will try the serverless proxy `/api/order` first (Sheets API), then f
 
 - `vercel.json` preserves `/api/*` routes and rewrites all other paths to the SPA index.
 - Build with `npm run build`.
+
+## Pricing Update (2025-11-07)
+
+Current pricing reflected in the order form:
+
+- GAMETRAQ subscription: €300/month or €3,000/year (plan toggle added to `OrderFormPage.tsx`).
+- SHOTGUN ball machine: one-time purchase €3,450 + shipping.
+
+The serverless function (`api/order.ts`) now writes a `plan` column (monthly | yearly | one-time) for downstream reporting. The legacy sheet header should be updated to include this column if not already present.

@@ -39,6 +39,8 @@ const initialState: FormState = {
 function OrderFormPage() {
   const { slug } = useParams();
   const product = slug ? getProductBySlug(slug) : undefined;
+  const isGametraq = product?.slug === 'gametraq';
+  const isShotgun = product?.slug === 'shotgun';
 
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -46,6 +48,8 @@ function OrderFormPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  // Billing selection (only relevant for GAMETRAQ)
+  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const sortedCountries = useMemo(() => [...countries].sort((a, b) => a.localeCompare(b)), []);
 
   const title = product ? `Order ${product.name} │ GameCam` : 'Order │ GameCam';
@@ -54,18 +58,15 @@ function OrderFormPage() {
   const formatCurrency = (amount: number) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount);
 
-  // I parse the numeric unit price from priceLabel (e.g., "€2,950"); if missing I default to 2950
+  // Pricing logic: GAMETRAQ subscription (monthly/yearly), SHOTGUN one-time
   const unitPrice = useMemo(() => {
-    if (!product?.priceLabel) return 2950;
-    const match = product.priceLabel.match(/€\s*([\d,.]+)/);
-    if (match && match[1]) {
-      const numeric = Number(match[1].replace(/,/g, ''));
-      if (!Number.isNaN(numeric)) return numeric;
-    }
+    if (isGametraq) return billing === 'monthly' ? 300 : 3000;
+    if (isShotgun) return 3450;
     return 2950;
-  }, [product]);
+  }, [isGametraq, isShotgun, billing]);
 
   const subtotal = useMemo(() => unitPrice * (form.quantity || 0), [unitPrice, form.quantity]);
+  const priceSuffix = isGametraq ? (billing === 'monthly' ? '/month' : '/year') : '(one-time)';
 
   const emailLines = useMemo(() => {
     if (!product) return [] as string[];
@@ -82,6 +83,7 @@ function OrderFormPage() {
       .join(', ');
     return [
       `Product: ${product.name}`,
+      isGametraq ? `Plan: ${billing === 'monthly' ? 'Monthly' : 'Yearly'}` : `Plan: One-time`,
       `Name: ${form.name}`,
       `Ordering as: ${companyOrPrivate}`,
       form.isCompany ? `Company name: ${form.companyName}` : undefined,
@@ -90,12 +92,12 @@ function OrderFormPage() {
       `Phone: ${form.phone}`,
       `Email: ${form.email}`,
       `Quantity: ${form.quantity}`,
-      `Unit price: ${formatCurrency(unitPrice)}`,
+      `Unit price: ${formatCurrency(unitPrice)} ${priceSuffix}`,
       `Subtotal: ${formatCurrency(subtotal)}`,
-      `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping`,
+      `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping ${isGametraq ? priceSuffix : ''}`,
       form.message ? `Extra message: ${form.message}` : undefined,
     ].filter(Boolean) as string[];
-  }, [product, form, unitPrice, subtotal]);
+  }, [product, form, unitPrice, subtotal, isGametraq, priceSuffix, billing]);
 
   const emailSubject = useMemo(() => (product ? `Order request: ${product.name}` : 'Order request'), [product]);
   const emailBodyText = useMemo(() => emailLines.join('\r\n'), [emailLines]);
@@ -201,6 +203,7 @@ function OrderFormPage() {
         .join(', ');
       const payload = {
         product: product.name,
+        plan: isGametraq ? (billing === 'monthly' ? 'monthly' : 'yearly') : 'one-time',
         name: form.name,
         isCompany: form.isCompany,
         companyName: form.companyName,
@@ -325,6 +328,36 @@ function OrderFormPage() {
           </div>
         ) : (
           <form onSubmit={onSubmit} className="mt-6 grid gap-4 lg:grid-cols-2">
+          {/* Pricing plan selection */}
+          {isGametraq && (
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-medium text-brand-blue">Plan</label>
+              <div className="mt-2 inline-flex overflow-hidden rounded-full border border-brand-blue/20">
+                <button
+                  type="button"
+                  onClick={() => setBilling('monthly')}
+                  className={`px-4 py-2 text-sm font-semibold transition ${billing === 'monthly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
+                >
+                  Monthly — {formatCurrency(300)}/month
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBilling('yearly')}
+                  className={`px-4 py-2 text-sm font-semibold transition ${billing === 'yearly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
+                >
+                  Yearly — {formatCurrency(3000)}/year
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-neutral-700">GAMETRAQ is a subscription. Choose monthly or yearly billing.</p>
+            </div>
+          )}
+          {isShotgun && (
+            <div className="lg:col-span-2">
+              <div className="rounded-xl border border-brand-blue/10 bg-brand-blue/5 px-3 py-2 text-xs text-brand-blue">
+                SHOTGUN is a one-time purchase: {formatCurrency(3450)} + shipping.
+              </div>
+            </div>
+          )}
           <div className="lg:col-span-2 grid gap-4 sm:grid-cols-2">
             <div>
               <label className="block text-sm font-medium text-brand-blue">Full name</label>
@@ -491,9 +524,9 @@ function OrderFormPage() {
             />
             {errors.quantity && <p className="mt-1 text-xs text-red-600">{errors.quantity}</p>}
             <div className="mt-2 text-xs text-neutral-700">
-              {form.quantity || 0} × {formatCurrency(unitPrice)} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
+              {form.quantity || 0} × {formatCurrency(unitPrice)} {priceSuffix} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
             </div>
-            <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping</div>
+            <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping {isGametraq ? priceSuffix : ''}</div>
           </div>
 
           <div className="lg:col-span-2">
