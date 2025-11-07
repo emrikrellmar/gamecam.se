@@ -67,6 +67,7 @@ function OrderFormPage() {
 
   const subtotal = useMemo(() => unitPrice * (form.quantity || 0), [unitPrice, form.quantity]);
   const priceSuffix = isGametraq ? (billing === 'monthly' ? '/month' : '/year') : '(one-time)';
+  const billingTerms = isGametraq ? (billing === 'monthly' ? 'Prepaid quarterly' : 'Prepaid yearly') : undefined;
 
   const emailLines = useMemo(() => {
     if (!product) return [] as string[];
@@ -84,6 +85,8 @@ function OrderFormPage() {
     return [
       `Product: ${product.name}`,
       isGametraq ? `Plan: ${billing === 'monthly' ? 'Monthly' : 'Yearly'}` : `Plan: One-time`,
+      isGametraq ? `Billing terms: ${billingTerms}` : undefined,
+      isGametraq ? `Notes: No start up fee. Includes full hardware and software suite. Price per court.` : undefined,
       `Name: ${form.name}`,
       `Ordering as: ${companyOrPrivate}`,
       form.isCompany ? `Company name: ${form.companyName}` : undefined,
@@ -97,7 +100,7 @@ function OrderFormPage() {
       `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping ${isGametraq ? priceSuffix : ''}`,
       form.message ? `Extra message: ${form.message}` : undefined,
     ].filter(Boolean) as string[];
-  }, [product, form, unitPrice, subtotal, isGametraq, priceSuffix, billing]);
+  }, [product, form, unitPrice, subtotal, isGametraq, priceSuffix, billing, billingTerms]);
 
   const emailSubject = useMemo(() => (product ? `Order request: ${product.name}` : 'Order request'), [product]);
   const emailBodyText = useMemo(() => emailLines.join('\r\n'), [emailLines]);
@@ -338,17 +341,23 @@ function OrderFormPage() {
                   onClick={() => setBilling('monthly')}
                   className={`px-4 py-2 text-sm font-semibold transition ${billing === 'monthly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Monthly — {formatCurrency(300)}/month
+                  Monthly — {formatCurrency(300)}/month (prepaid quarterly)
                 </button>
                 <button
                   type="button"
                   onClick={() => setBilling('yearly')}
                   className={`px-4 py-2 text-sm font-semibold transition ${billing === 'yearly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Yearly — {formatCurrency(3000)}/year
+                  Yearly — {formatCurrency(3000)}/year (prepaid yearly)
                 </button>
               </div>
-              <p className="mt-2 text-xs text-neutral-700">GAMETRAQ is a subscription. Choose monthly or yearly billing.</p>
+              <div className="mt-3 rounded-xl border border-brand-blue/10 bg-brand-blue/5 px-3 py-2 text-xs text-brand-blue">
+                <div className="font-semibold">GAMETRAQ 5 AI Camera System (per court)</div>
+                <ul className="mt-1 list-disc pl-5 text-brand-blue/90">
+                  <li>No start up fee</li>
+                  <li>Includes full hardware and software suite</li>
+                </ul>
+              </div>
             </div>
           )}
           {isShotgun && (
