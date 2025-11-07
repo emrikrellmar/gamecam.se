@@ -167,6 +167,16 @@ function ProductPage() {
                   Download product deck
                 </a>
               )}
+              {product.slug === 'gametraq' && (
+                <div className="mt-2 flex w-full flex-wrap gap-2">
+                  <span className="inline-flex items-center rounded-full border border-brand-blue/20 bg-white/80 px-4 py-2 text-sm font-semibold text-brand-blue">
+                    Quarterly — €1,200 (€300/Month)
+                  </span>
+                  <span className="inline-flex items-center rounded-full border border-brand-blue/20 bg-white/80 px-4 py-2 text-sm font-semibold text-brand-blue">
+                    Yearly — €3,000 (€250/Month)
+                  </span>
+                </div>
+              )}
             </div>
             {/* Removed price label chip per request */}
           </div>
