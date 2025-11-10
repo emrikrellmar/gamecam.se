@@ -58,7 +58,7 @@ export const products: Product[] = [
       }
     ],
     stats: [
-      { label: 'Resolution', value: '4K @ 60FPS' },
+      { label: 'Resolution', value: '4K @ 90FPS' },
       { label: 'Latency', value: '< 150 ms live feed' },
       { label: 'Compute', value: 'Edge AI module with 12 TOPS' }
     ],

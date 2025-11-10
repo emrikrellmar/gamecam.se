@@ -56,17 +56,17 @@ function ProductPage() {
       : product.slug === 'shotgun'
         ? [
             {
-              title: 'Pre-Made Training Drills, because Thinking is Overrated',
+              title: 'NO THINKING NEEDED',
               description:
                 'Equipped with six pre-programmed training modes, the SHOTGUN is designed to support players at every level from beginners refining their fundamentals to professionals seeking a high-intensity challenge. With adjustable speed and power settings, your training is fully customizable. Plus, its wireless design eliminates cable clutter, ensuring a safe and uninterrupted training experience.'
             },
             {
-              title: 'Dynamic Ball Feeding, because Life is Unpredictable',
+              title: 'UNPREDICTABLE BY DESIGN',
               description:
-                'Think you can anticipate the next shot? The SHOTGUN keeps you engaged with randomized ball placement, simulating the unpredictability of real match play, minus the questionable line calls. Uniquely engineered to vary shot height within the same drill, it sharpens footwork, increases intensity, and removes idle moments.'
+                'Think you can anticipate the next shot? SHOTGUN keeps the player engaged with randomized ball placement, simulating the unpredictability of real match play, minus the questionable line calls. Uniquely engineered to vary shot height within the same drill, it sharpens footwork, increases intensity, and removes idle moments.'
             },
             {
-              title: 'Reliable Like Your Favorite Racket',
+              title: 'BUILT TO LAST',
               description:
                 'Built to last, the SHOTGUN runs for hours across 90-plus venues with zero breakdowns and zero hassle. And if an issue ever pops up, live support Monday to Friday plus replacement units keep your training on track.'
             }
@@ -169,7 +169,6 @@ function ProductPage() {
               )}
       
             </div>
-            {/* Removed price label chip per request */}
           </div>
           <div className="grid gap-6">
             <div className="hidden lg:flex items-center justify-center">

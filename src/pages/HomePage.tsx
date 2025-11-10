@@ -78,16 +78,18 @@ function HomePage() {
         <link rel="preload" as="image" href="/assets/images/court_with_gametraq.png" />
       </Helmet>
       <section className="grid gap-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
+        <div>
+          <h1 className="mb-14 text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
             GameCam hardware for padel clubs
           </h1>
-          <p className="text-lg leading-relaxed text-neutral-700">
-            GAMETRAQ is the smart AI Camera for Padel that transforms your court into a smart court, the all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
-          </p>
-          <p className="text-lg leading-relaxed text-neutral-700">
-            Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
-          </p>
+          <div className="space-y-4">
+            <p className="text-lg leading-relaxed text-neutral-700">
+              GAMETRAQ is the smart AI Camera for Padel that transforms your court into a smart court, the all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
+            </p>
+            <p className="text-lg leading-relaxed text-neutral-700">
+              Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
+            </p>
+          </div>
         </div>
         <div className="grid gap-4">
           <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-4 shadow-card">
@@ -115,20 +117,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* GAMETRAQ demo: autoplay on scroll, muted until click, rounded like other boxes (no poster/placeholder) */}
-      <section>
-        <VideoPlayer
-          src={GAMETRAQ_VIDEO}
-          preload="metadata"
-          autoPlayWhenVisible
-          startMuted
-          unmuteOnClick
-          showControlsOnPlay={false}
-          startAtSeconds={1}
-          className="aspect-video w-full rounded-3xl object-cover"
-        />
-      </section>
-
       <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
@@ -141,7 +129,64 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials to boost trust and conversions */}
+      {/* GAMETRAQ demo: autoplay on scroll, muted until click, rounded like other boxes (no poster/placeholder) */}
+      <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Product demo</p>
+            <h2 className="text-2xl font-semibold text-brand-blue">Watch GAMETRAQ in action</h2>
+          </div>
+        </div>
+        <div className="mt-6">
+          <VideoPlayer
+            src={GAMETRAQ_VIDEO}
+            preload="metadata"
+            autoPlayWhenVisible
+            startMuted
+            unmuteOnClick
+            showControlsOnPlay={false}
+            startAtSeconds={1}
+            className="aspect-video w-full rounded-3xl object-cover"
+          />
+        </div>
+      </section>
+
+      <section className="grid gap-6 sm:grid-cols-2">
+        {products.map((product) => (
+          <article key={product.slug} className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+            <div className="flex flex-col gap-4">
+              <div className="overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50">
+                <img
+                  src={product.image}
+                  alt={`${product.name} product photo`}
+                  className="h-48 w-full bg-white object-contain p-4 sm:h-56"
+                  loading="lazy"
+                />
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
+                {product.name}
+              </div>
+              <h2 className="text-2xl font-semibold text-brand-blue">{product.tagline}</h2>
+              <p className="text-sm leading-relaxed text-neutral-700">{product.summary}</p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to={`/products/${product.slug}`}
+                  className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+                >
+                  View product page
+                </Link>
+                <CheckoutButton
+                  href={`/order/${product.slug}`}
+                  label={`Order ${product.name}`}
+                  className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
+                />
+              </div>
+            </div>
+          </article>
+        ))}
+      </section>
+
+{/* Testimonials to boost trust and conversions */}
       <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
@@ -221,43 +266,6 @@ function HomePage() {
           </article>
         </div>
       </section>
-
-      <section className="grid gap-6 sm:grid-cols-2">
-        {products.map((product) => (
-          <article key={product.slug} className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-            <div className="flex flex-col gap-4">
-              <div className="overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50">
-                <img
-                  src={product.image}
-                  alt={`${product.name} product photo`}
-                  className="h-48 w-full bg-white object-contain p-4 sm:h-56"
-                  loading="lazy"
-                />
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
-                {product.name}
-              </div>
-              <h2 className="text-2xl font-semibold text-brand-blue">{product.tagline}</h2>
-              <p className="text-sm leading-relaxed text-neutral-700">{product.summary}</p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to={`/products/${product.slug}`}
-                  className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
-                >
-                  View product page
-                </Link>
-                <CheckoutButton
-                  href={`/order/${product.slug}`}
-                  label={`Order ${product.name}`}
-                  className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
-                />
-              </div>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      {/* I removed the multi-card demo section per request */}
 
       <section className="grid gap-6 sm:grid-cols-2">
         <article className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">

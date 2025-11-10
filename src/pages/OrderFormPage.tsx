@@ -60,7 +60,7 @@ function OrderFormPage() {
 
   // Pricing logic: GAMETRAQ subscription (quarterly/yearly), SHOTGUN one-time
   const unitPrice = useMemo(() => {
-    if (isGametraq) return billing === 'quarterly' ? 1200 : 3000;
+    if (isGametraq) return billing === 'quarterly' ? 900 : 3000;
     if (isShotgun) return 3450;
     return 2950;
   }, [isGametraq, isShotgun, billing]);
@@ -311,6 +311,48 @@ function OrderFormPage() {
                 </a>
               )}
             </div>
+            {isGametraq && (
+              <div className="mt-5 rounded-2xl border border-brand-blue/15 bg-white p-4">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-blue">What's included in the package</h2>
+                <ul className="mt-3 space-y-3 text-sm text-neutral-800">
+                  <li>
+                    <p className="font-bold text-brand-blue">AI CAMERA</p>
+                    <p>Our GAMETRAQ camera with AI technology which provides the in-depth performance analytics for your players.</p>
+                  </li>
+                  <li>
+                    <p className="font-bold text-brand-blue">SAVE BALL RALLY BUTTON</p>
+                    <p>Players press the SLAM button to instantly save key rallies, which then appear on club TV screens, allowing them to relive their best moments and enjoy the game even more.</p>
+                  </li>
+                  <li>
+                    <p className="font-bold text-brand-blue">CAMERA MOUNT</p>
+                    <p>Our Bird-view mount gives you that broadcasting height and overview of the game.</p>
+                  </li>
+                  <li>
+                    <p className="font-bold text-brand-blue">TV-DEVICE</p>
+                    <p>Connect your players highlights to your venue tv with our TV-device.</p>
+                  </li>
+                  <li>
+                    <p className="font-bold text-brand-blue">CABLE</p>
+                    <p>USB cable for your save ball rally button!</p>
+                  </li>
+                </ul>
+              </div>
+            )}
+            {isShotgun && (
+              <div className="mt-5 rounded-2xl border border-brand-blue/15 bg-white p-4">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-blue">What's included in the package</h2>
+                <ul className="mt-3 space-y-3 text-sm text-neutral-800">
+                  <li>
+                    <p className="font-bold text-brand-blue">PADEL BALL MACHINE</p>
+                    <p>Our SHOTGUN padel ball machine delivers accurate, repeatable feeds with adjustable speed, spin and frequency so players can focus on specific shots and coach‑led drills.</p>
+                  </li>
+                  <li>
+                    <p className="font-bold text-brand-blue">CHARGER</p>
+                    <p>Dedicated power/charger unit for SHOTGUN to ensure reliable operation during training, supplied with a region‑appropriate plug.</p>
+                  </li>
+                </ul>
+              </div>
+            )}
           </aside>
 
           {/* I keep the full order form in this panel */}
@@ -339,7 +381,7 @@ function OrderFormPage() {
                   onClick={() => setBilling('quarterly')}
                   className={`px-4 py-2 text-sm font-semibold transition ${billing === 'quarterly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Quarterly — {formatCurrency(1200)} ({formatCurrency(300)}/Month)
+                  Quarterly — {formatCurrency(900)} ({formatCurrency(300)}/Month)
                 </button>
                 <button
                   type="button"
