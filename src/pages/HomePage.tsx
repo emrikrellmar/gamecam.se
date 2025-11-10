@@ -161,6 +161,9 @@ function HomePage() {
                   alt={`${product.name} product photo`}
                   className="h-48 w-full bg-white object-contain p-4 sm:h-56"
                   loading="lazy"
+                  decoding="async"
+                  width={800}
+                  height={600}
                 />
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
@@ -208,6 +211,8 @@ function HomePage() {
                 }}
                 loading="lazy"
                 decoding="async"
+                width={80}
+                height={80}
               />
               <div>
                 <p className="text-sm font-semibold text-brand-blue">Rory Ovide</p>
@@ -231,6 +236,8 @@ function HomePage() {
                 }}
                 loading="lazy"
                 decoding="async"
+                width={80}
+                height={80}
               />
               <div>
                 <p className="text-sm font-semibold text-brand-blue">Carl‑Johan Blum</p>
@@ -254,6 +261,8 @@ function HomePage() {
                 }}
                 loading="lazy"
                 decoding="async"
+                width={80}
+                height={80}
               />
               <div>
                 <p className="text-sm font-semibold text-brand-blue">Rickard Holmström</p>

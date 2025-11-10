@@ -116,6 +116,9 @@ function AboutPage() {
                   alt={`${member.name} portrait`}
                   className="relative z-10 mx-auto max-h-64 w-full max-w-[260px] object-contain object-bottom drop-shadow-[0_18px_35px_rgba(37,99,235,0.25)] transition duration-500 group-hover:translate-y-[-6px] group-hover:scale-[1.03]"
                   loading="lazy"
+                  decoding="async"
+                  width={260}
+                  height={256}
                 />
               </div>
               <div className="space-y-2 text-neutral-700">

@@ -64,6 +64,8 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
                 className="h-12 w-auto mx-auto object-contain"
                 loading="lazy"
                 decoding="async"
+                width="160"
+                height="48"
               />
             </div>
           ))}
@@ -81,6 +83,8 @@ export default function LogoMarquee({ logos, speed = 60, className }: LogoMarque
                 className="h-12 w-auto mx-auto object-contain"
                 loading="lazy"
                 decoding="async"
+                width="160"
+                height="48"
               />
             </div>
           ))}

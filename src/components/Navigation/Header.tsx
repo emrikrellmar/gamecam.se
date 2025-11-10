@@ -17,11 +17,15 @@ function Header() {
     <header className="fixed inset-x-0 top-0 z-40 border-b border-brand-blue/10 bg-white/90 text-brand-blue backdrop-blur">
       <div className="relative w-full px-4 py-5 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-4">
+          <Link to="/" className="flex items-center gap-4" aria-label="GameCam home">
             <img
               src="/assets/images/gamecam_logo_horizontal_black.png"
-              alt="Gamecam AI Sport Analytics"
+              alt="GameCam logo"
+              width="224"
+              height="48"
+              fetchPriority="high"
               className="max-h-12 w-auto sm:max-h-14"
+              decoding="async"
             />
           </Link>
 
@@ -52,10 +56,10 @@ function Header() {
               href="https://www.instagram.com/gamecam.se/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Gamecam on Instagram"
-              className="hidden rounded-full border border-brand-blue/20 p-2 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink lg:inline-flex"
+              aria-label="GameCam on Instagram (opens in a new tab)"
+              className="hidden rounded-full border border-brand-blue/20 p-2 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 lg:inline-flex"
             >
-              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-10 w-auto" />
+              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-10 w-auto" loading="lazy" decoding="async" width="40" height="40" />
             </a>
             <Link
               to="/products"
@@ -67,12 +71,13 @@ function Header() {
               href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden items-center gap-2 rounded-full border border-brand-blue/20 px-5 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink md:inline-flex"
+              aria-label="Book a demo via Calendly (opens in a new tab)"
+              className="hidden items-center gap-2 rounded-full border border-brand-blue/20 px-5 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 md:inline-flex"
             >
               Book a demo
             </a>
             <button
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink min-[1350px]:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 min-[1350px]:hidden"
               onClick={() => setOpen((value) => !value)}
               aria-label="Toggle navigation"
             >
@@ -124,7 +129,7 @@ function Header() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 text-sm font-semibold text-brand-blue transition hover:text-brand-pink"
             >
-              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-6 w-auto" />
+              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-6 w-auto" loading="lazy" decoding="async" width="24" height="24" />
               Instagram
             </a>
           </div>

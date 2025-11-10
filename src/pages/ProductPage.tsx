@@ -85,6 +85,10 @@ function ProductPage() {
         description={product.summary}
         canonical={`/products/${product.slug}`}
         image={product.image}
+        imageAlt={`${product.name} product hero`}
+        ogType="product"
+        imageWidth={1200}
+        imageHeight={900}
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'Product',
@@ -95,9 +99,10 @@ function ProductPage() {
             '@type': 'Brand',
             name: 'GameCam'
           },
+          sku: product.slug,
           offers: {
             '@type': 'Offer',
-            price: '2950.00',
+            price: product.slug === 'shotgun' ? '3450.00' : '0.00',
             priceCurrency: 'EUR',
             availability: 'https://schema.org/PreOrder'
           }
@@ -127,6 +132,9 @@ function ProductPage() {
                   alt={product.name}
                   className={isShotgun ? 'mx-auto h-56 w-auto object-contain' : 'mx-auto h-72 w-auto object-contain'}
                   decoding="async"
+                  loading="lazy"
+                  width={800}
+                  height={600}
                 />
               </div>
               <p className="text-base leading-relaxed text-neutral-700">{product.description}</p>
@@ -177,6 +185,8 @@ function ProductPage() {
                 alt={product.name}
                 className={isShotgun ? 'mx-auto h-[26rem] w-auto object-contain' : 'mx-auto h-[32rem] w-auto object-contain'}
                 decoding="async"
+                width={1200}
+                height={900}
               />
             </div>
           </div>
@@ -215,6 +225,7 @@ function ProductPage() {
               alt="GAMETRAQ mobile app dashboards"
               className="w-full object-contain"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </section>
@@ -229,6 +240,7 @@ function ProductPage() {
                 alt="SHOTGUN unit on a padel court"
                 className="h-72 w-full rounded-[24px] object-cover md:h-80"
                 loading="lazy"
+                decoding="async"
               />
             </div>
           </section>
@@ -239,6 +251,7 @@ function ProductPage() {
                 alt="SHOTGUN ball machine close-up"
                 className="h-72 w-full rounded-[24px] object-cover md:h-80"
                 loading="lazy"
+                decoding="async"
               />
             </div>
           </section>

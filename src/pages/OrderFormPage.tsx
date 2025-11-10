@@ -290,7 +290,7 @@ function OrderFormPage() {
               <p className="text-sm text-neutral-700">{product.summary}</p>
             </div>
             <div className="mt-5 overflow-hidden rounded-xl border border-brand-blue/10 bg-neutral-50 p-4">
-              <img src={product.image} alt={product.name} className="mx-auto h-40 w-auto object-contain" decoding="async" />
+              <img src={product.image} alt={product.name} className="mx-auto h-40 w-auto object-contain" loading="lazy" decoding="async" />
             </div>
             <div className="mt-5 grid gap-4">
               <ul className="list-disc space-y-2 pl-5 text-sm text-neutral-700">

@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Performance: early preconnects for potential third-party domains -->
+    <link rel="preconnect" href="https://calendly.com" crossorigin />
+    <link rel="preconnect" href="https://www.youtube.com" crossorigin />
+    <link rel="dns-prefetch" href="//calendly.com" />
+    <link rel="dns-prefetch" href="//www.youtube.com" />
   
   <link rel="icon" type="image/png" href="/assets/images/gamecam_icon.png" />
   <link rel="apple-touch-icon" href="/assets/images/gamecam_icon.png" />
@@ -20,10 +25,15 @@
     <meta property="og:title" content="GameCam │ AI-powered padel hardware" />
     <meta property="og:description" content="GameCam builds intelligent padel hardware: GAMETRAQ AI match camera and SHOTGUN training machine." />
   <meta property="og:image" content="https://gamecam.io/assets/images/court_with_gametraq.png" />
+  <meta property="og:image:alt" content="GameCam AI camera overlooking padel court" />
+  <meta property="og:image:width" content="1600" />
+  <meta property="og:image:height" content="900" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="GameCam │ AI-powered padel hardware" />
     <meta name="twitter:description" content="GameCam builds intelligent padel hardware: GAMETRAQ AI match camera and SHOTGUN training machine." />
   <meta name="twitter:image" content="https://gamecam.io/assets/images/court_with_gametraq.png" />
+  <meta name="twitter:image:alt" content="GameCam AI camera overlooking padel court" />
+  <meta name="twitter:site" content="@gamecam" />
     <meta name="theme-color" content="#0b46f6" />
     
     <script type="application/ld+json">
@@ -37,7 +47,7 @@
     </script>
     
 
-    <title>GameCam │ AI-powered hardware </title>
+  <title>GameCam │ AI-powered hardware</title>
   </head>
   <body class="bg-surface text-neutral-900">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-brand-blue focus:shadow">Skip to content</a>
