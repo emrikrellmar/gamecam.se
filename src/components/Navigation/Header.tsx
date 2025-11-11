@@ -68,7 +68,7 @@ function Header() {
               Buy Now
             </Link>
             <a
-              href="https://calendly.com/magnus-gamecam/new-meeting?month=2025-09"
+              href="https://calendly.com/gamecam-sales/30min"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Book a demo via Calendly (opens in a new tab)"
