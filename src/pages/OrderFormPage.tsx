@@ -293,13 +293,6 @@ function OrderFormPage() {
               <img src={product.image} alt={product.name} className="mx-auto h-40 w-auto object-contain" loading="lazy" decoding="async" />
             </div>
             <div className="mt-5 grid gap-4">
-              <ul className="list-disc space-y-2 pl-5 text-sm text-neutral-700">
-                {product.features.slice(0, 3).map((f) => (
-                  <li key={f.title} className="marker:text-brand-pink">
-                    <span className="font-semibold text-brand-blue">{f.title}:</span> {f.description}
-                  </li>
-                ))}
-              </ul>
               {productDeck && (
                 <a
                   href={productDeck}
@@ -381,14 +374,14 @@ function OrderFormPage() {
                   onClick={() => setBilling('quarterly')}
                   className={`px-4 py-2 text-sm font-semibold transition ${billing === 'quarterly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Quarterly — {formatCurrency(900)} ({formatCurrency(300)}/Month)
+                  Quarterly, {formatCurrency(900)} ({formatCurrency(300)}/Month)
                 </button>
                 <button
                   type="button"
                   onClick={() => setBilling('yearly')}
                   className={`px-4 py-2 text-sm font-semibold transition ${billing === 'yearly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
                 >
-                  Yearly — {formatCurrency(3000)} ({formatCurrency(250)}/Month)
+                  Yearly, {formatCurrency(3000)} ({formatCurrency(250)}/Month)
                 </button>
               </div>
             </div>

@@ -34,27 +34,27 @@ export const products: Product[] = [
       'GAMETRAQ brings broadcast-grade capture, AI-led tagging, and coach-ready dashboards into a compact ceiling-mounted unit. Automated rally segmentation, ball tracking, and player heatmaps let clubs personalise feedback for every skill level.',
   priceLabel: 'From €300/month or €3,000/year + shipping',
     heroGradient  : 'from-brand-blue/5 via-brand-cyan/5 to-brand-purple/10',
-    image: '/assets/images/gametraq.png',
+    image: '/assets/images/products/gametraq.png',
     features: [
       {
-        title: 'AI INSIGHTS',
+        title: 'Live Stream',
         description:
-          'Meter counting, ball possession, error shots, time in transit, and zone maps/heat-maps delivered for every game.'
+          'Stream matches directly to your club\'s YouTube channel and let the world watch the action in real time. Build your brand, showcase your players, and bring your community to life.'
       },
       {
-        title: 'YOUTUBE LIVESTREAMING',
+        title: 'Boost Your Court Revenue',
         description:
-          'We set up live streaming so you can broadcast events and tournaments to your own YouTube channel—just like the pros.'
+          'With GAMETRAQ 5 installed on the court, clubs simply add 5–10 € to their court rental. Players get full AI video analytics included, and clubs earn an additional 600–750 € per month per court.'
       },
       {
-        title: 'SAVE BALL RALLY BUTTON',
+        title: 'Smarter Coaching',
         description:
-          'An included TV device converts your screen into a highlight hub with instant playback directly from the courts.'
+          'Give your coaches the power of AI. Use player analytics to design personalized drills that target each player\'s strengths and weaknesses, turning every training into real progress.'
       },
       {
-        title: 'OVERVIEW SALES',
+        title: 'Highlights',
         description:
-          'Add and monitor a new source of income for your club and watch your revenue grow.'
+          'With GAMETRAQ 5, players can instantly watch their best rallies and funniest fails right on the venue\'s TV free for everyone. Whether it\'s a perfect lob or a dramatic dive, the highlights are saved straight from the court.'
       }
     ],
     stats: [
@@ -84,7 +84,7 @@ export const products: Product[] = [
       'Designed with coaches, SHOTGUN mixes power and finesse. Deliver lobs, volleys, and custom trajectories with 120-ball capacity, AI tempo tracking, and battery or mains operation. Everything is controlled from a rugged, glove-friendly touchscreen.',
   priceLabel: 'One-time payment €3,450 + shipping',
     heroGradient: 'from-brand-pink/5 via-brand-purple/5 to-brand-blue/10',
-    image: '/assets/images/shotgun.png',
+    image: '/assets/images/products/shotgun.png',
     features: [
       {
         title: 'Adaptive rhythm',

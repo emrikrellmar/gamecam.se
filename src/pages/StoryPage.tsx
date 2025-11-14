@@ -28,6 +28,12 @@
     title: 'Global expansion',
     description:
       'GameCam hardware arrives in 15 countries with 200+ club installs, using AI to analyze more than 44,000 games.'
+  },
+  {
+    year: '2025',
+    title: 'Upgrading to GAMETRAQ gen.5',
+    description:
+      'Added features to GAMETRAQ like save the ball rally, GameCam TV and enhanced AI metrics, video- and streaming quality.'
   }
 ];
 
@@ -144,7 +150,7 @@ function StoryPage() {
         </div>
 
         <div className="space-y-1 text-sm text-brand-blue">
-          <p className="font-semibold uppercase tracking-[0.3em]">"Stay curious. Be hungry. Act friendly." — Magnus Jansson, CEO</p>
+          <p className="font-semibold uppercase tracking-[0.3em]">"Stay curious. Be hungry. Act friendly.", Magnus Jansson, CEO</p>
         </div>
       </section>
     </div>

@@ -21,11 +21,11 @@ function SupportPage() {
       <h2 className="text-2xl font-semibold text-brand-blue">Installation guides</h2>
       <section className="grid gap-6 md:grid-cols-2">
         <Link
-          to="/support/gametraq-setup"
+          to="/install"
           className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Installation</p>
-          <h2 className="mt-2 text-xl font-semibold text-brand-blue">View the GAMETRAQ installation guide</h2>
+          <h2 className="mt-2 text-xl font-semibold text-brand-blue">View the GAMETRAQ guide</h2>
           <p className="mt-3 text-sm text-neutral-700">
             Follow the step-by-step checklist to prepare cabling, mount the unit, focus the optics, and get your first
             live stream online.
@@ -35,11 +35,11 @@ function SupportPage() {
           </span>
         </Link>
         <Link
-          to="/support/shotgun-setup"
+          to="/install/shotgun"
           className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Installation</p>
-          <h2 className="mt-2 text-xl font-semibold text-brand-blue">View the SHOTGUN setup guide</h2>
+          <h2 className="mt-2 text-xl font-semibold text-brand-blue">View the SHOTGUN guide</h2>
           <p className="mt-3 text-sm text-neutral-700">
             Prepare, maintain, and troubleshoot the SHOTGUN ball machine with a dedicated step-by-step checklist.
           </p>
@@ -50,7 +50,7 @@ function SupportPage() {
       </section>
 
       <h2 className="text-2xl font-semibold text-brand-blue">Schedule a call</h2>
-      <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-6 md:grid-cols-2">
         <a
           href="https://calendar.app.google/nNe8TWDQWeGDM7GbA"
           target="_blank"
@@ -60,25 +60,10 @@ function SupportPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Support</p>
           <h2 className="mt-2 text-xl font-semibold text-brand-blue">Schedule a support or onboarding call</h2>
           <p className="mt-3 text-sm text-neutral-700">
-            Pick a time that suits your schedule to walk through dashboards, QR posters, and streaming workflows with our support engineers.
+            Get help from our support team or schedule a onboarding call to walk through dashboards, QR posters, and streaming workflows.
           </p>
           <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-pink transition group-hover:text-brand-blue">
             Schedule now {'->'}
-          </span>
-        </a>
-        <a
-          href="https://calendly.com/magnus-gamecam/new-meeting"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Demo</p>
-          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Book a product demo</h2>
-          <p className="mt-3 text-sm text-neutral-700">
-            See GameCam in action and explore how GAMETRAQ or SHOTGUN can fit your club’s setup and goals.
-          </p>
-          <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-pink transition group-hover:text-brand-blue">
-            Book demo {'->'}
           </span>
         </a>
         <a
@@ -88,10 +73,9 @@ function SupportPage() {
           className="group rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-pink/50 hover:shadow-xl"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Sales</p>
-          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Talk to sales</h2>
+          <h2 className="mt-2 text-xl font-semibold text-brand-blue">Talk to sales or book a product demo</h2>
           <p className="mt-3 text-sm text-neutral-700">
-            Discuss pricing, packages, and deployment timelines with our sales team. Interested in becoming an exclusive
-            distributor for your region? Learn about territory availability and partnership options.
+            Want to see GameCam in action?  Interested in becoming an exclusive distributor for your region? Book a meeting and learn more about partnership options.
           </p>
           <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-pink transition group-hover:text-brand-blue">
             Book meeting {'->'}
@@ -127,12 +111,12 @@ function SupportPage() {
           <p className="pt-1 text-sm font-semibold text-brand-blue">Need a product demo?</p>
           <p>
             <a
-              href="https://calendly.com/magnus-gamecam/new-meeting"
+              href="https://calendly.com/gamecam-sales/30min?month=2025-10"
               target="_blank"
               rel="noopener noreferrer"
               className="text-brand-pink transition hover:text-brand-blue"
             >
-              Book a demo
+              Talk to sales
             </a>
           </p>
         </div>
@@ -146,18 +130,18 @@ function SupportPage() {
           <ul className="space-y-2">
             <li>
               <Link
-                to="/support/gametraq-setup"
+                to="/install"
                 className="text-brand-pink transition hover:text-brand-blue"
               >
-                GAMETRAQ setup checklist
+                GAMETRAQ install guide
               </Link>
             </li>
             <li>
               <Link
-                to="/support/shotgun-setup"
+                to="/install/shotgun"
                 className="text-brand-pink transition hover:text-brand-blue"
               >
-                SHOTGUN setup checklist
+                SHOTGUN install guide
               </Link>
             </li>
             <li>

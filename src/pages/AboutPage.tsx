@@ -17,13 +17,13 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Developer Collective',
     role: 'Engineering Team',
-    image: '/assets/images/developers.png',
+    image: '/assets/images/team/developers.png',
     bio: 'A squad of 6+ software engineers, computer vision specialists, and embedded developers who push updates weekly, maintain our AI stack, and turn product ideas into reliable on-court experiences.',
   },
   {
     name: 'Magnus Jansson',
     role: 'CEO',
-    image: '/assets/images/magnus.png',
+    image: '/assets/images/team/magnus.png',
     bio: 'Magnus sets the product vision and keeps GameCam pioneering new ways to merge camera innovation with intelligent analytics.',
     contacts: [
             {
@@ -41,7 +41,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Morten Wiegandt',
     role: 'Sales, Partnerships & Customer Relationships',
-    image: '/assets/images/morten.png',
+    image: '/assets/images/team/morten.png',
     bio: 'Morten leads commercial strategy and builds long-term relationships with clubs, federations, and partners across our key markets.',
     contacts: [
       {
@@ -59,7 +59,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Emrik Rellmar',
     role: 'Project Lead',
-    image: '/assets/images/emrik.png',
+    image: '/assets/images/team/emrik.png',
     bio: 'Emrik coordinates teams across tech, product, and business so every deployment hits milestones and delivers the right experience for players.',
     contacts: [
       {
@@ -72,7 +72,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Vivek Sangari',
     role: 'Head of Tech & Support',
-    image: '/assets/images/vivek.png',
+    image: '/assets/images/team/vivek.png',
     bio: 'Vivek leads our engineering and support squads, turning customer feedback into rock-solid firmware, edge compute, and service tooling.',
     contacts: [
       {

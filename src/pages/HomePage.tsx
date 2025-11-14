@@ -14,12 +14,12 @@ const stats = [
 ];
 
 const customerLogos = [
-  { name: 'Nordic Wellness Padel', image: '/assets/images/nordicwellnespadel.webp' },
-  { name: 'Padel Sense', image: '/assets/images/padelsense.webp' },
-  { name: 'Padel Zenter', image: '/assets/images/padelzenter.webp' },
-  { name: 'PDL Padel', image: '/assets/images/PDL.webp' },
-  { name: 'Stiga Padel', image: '/assets/images/stigapadel.webp' },
-  { name: 'Taktika Padel', image: '/assets/images/taktikapadel.webp' }
+  { name: 'Nordic Wellness Padel', image: '/assets/images/partners/nordicwellnespadel.webp' },
+  { name: 'Padel Sense', image: '/assets/images/partners/padelsense.webp' },
+  { name: 'Padel Zenter', image: '/assets/images/partners/padelzenter.webp' },
+  { name: 'PDL Padel', image: '/assets/images/partners/PDL.webp' },
+  { name: 'Stiga Padel', image: '/assets/images/partners/stigapadel.webp' },
+  { name: 'Taktika Padel', image: '/assets/images/partners/taktikapadel.webp' }
 ];
 
 // I moved away from multiple demo cards and instead feature a single hero demo below
@@ -32,14 +32,14 @@ function HomePage() {
         title="GameCam │ AI-powered padel hardware"
         description="GameCam builds intelligent padel hardware: GAMETRAQ AI match camera and SHOTGUN training machine. Capture, analyze, and improve."
         canonical="/"
-        image="/assets/images/court_with_gametraq.png"
+        image="/assets/images/products/court_with_gametraq.png"
         jsonLd={[
           {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'GameCam',
             url: '/',
-            logo: '/assets/images/gamecam_icon.png'
+            logo: '/assets/images/logos/gamecam_icon.png'
           },
           {
             '@context': 'https://schema.org',
@@ -75,7 +75,7 @@ function HomePage() {
       />
   {/* I preload the hero image here to win LCP on the home route */}
       <Helmet>
-        <link rel="preload" as="image" href="/assets/images/court_with_gametraq.png" />
+        <link rel="preload" as="image" href="/assets/images/products/court_with_gametraq.png" />
       </Helmet>
       <section className="grid gap-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
         <div>
@@ -95,7 +95,7 @@ function HomePage() {
           <div className="overflow-hidden rounded-3xl border border-brand-blue/15 bg-white p-4 shadow-card">
             <div className="relative overflow-hidden rounded-2xl">
               <img
-                src="/assets/images/court_with_gametraq.png"
+                src="/assets/images/products/court_with_gametraq.png"
                 alt="Gamecam hardware on court"
                 className="h-full w-full rounded-2xl object-cover"
                 decoding="async"
@@ -151,42 +151,50 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="grid gap-6 sm:grid-cols-2">
-        {products.map((product) => (
-          <article key={product.slug} className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-            <div className="flex flex-col gap-4">
-              <div className="overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50">
-                <img
-                  src={product.image}
-                  alt={`${product.name} product photo`}
-                  className="h-48 w-full bg-white object-contain p-4 sm:h-56"
-                  loading="lazy"
-                  decoding="async"
-                  width={800}
-                  height={600}
-                />
+      <section className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">GAMECAM PRODUCTS</p>
+            <h2 className="text-2xl font-semibold text-brand-blue">View our products</h2>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          {products.map((product) => (
+            <article key={product.slug} className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
+              <div className="flex flex-col gap-4">
+                <div className="overflow-hidden rounded-2xl border border-brand-blue/10 bg-neutral-50">
+                  <img
+                    src={product.image}
+                    alt={`${product.name} product photo`}
+                    className="h-48 w-full bg-white object-contain p-4 sm:h-56"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
+                  />
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
+                  {product.name}
+                </div>
+                <h2 className="text-2xl font-semibold text-brand-blue">{product.tagline}</h2>
+                <p className="text-sm leading-relaxed text-neutral-700">{product.summary}</p>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    to={`/products/${product.slug}`}
+                    className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
+                  >
+                    View product page
+                  </Link>
+                  <CheckoutButton
+                    href={`/order/${product.slug}`}
+                    label={`Order ${product.name}`}
+                    className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
+                  />
+                </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
-                {product.name}
-              </div>
-              <h2 className="text-2xl font-semibold text-brand-blue">{product.tagline}</h2>
-              <p className="text-sm leading-relaxed text-neutral-700">{product.summary}</p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to={`/products/${product.slug}`}
-                  className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 px-4 py-2 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
-                >
-                  View product page
-                </Link>
-                <CheckoutButton
-                  href={`/order/${product.slug}`}
-                  label={`Order ${product.name}`}
-                  className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
-                />
-              </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
       </section>
 
 {/* Testimonials to boost trust and conversions */}
@@ -203,11 +211,11 @@ function HomePage() {
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
-                src="/assets/images/roryovide.png"
+                src="/assets/images/team/roryovide.png"
                 alt="Rory Ovide"
                 className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
                 onError={(e) => {
-                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/gamecam_icon.png';
+                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/logos/gamecam_icon.png';
                 }}
                 loading="lazy"
                 decoding="async"
@@ -228,11 +236,11 @@ function HomePage() {
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
-                src="/assets/images/carljohanblum.png"
+                src="/assets/images/team/carljohanblum.png"
                 alt="Carl‑Johan Blum"
                 className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
                 onError={(e) => {
-                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/emrik.png';
+                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/team/emrik.png';
                 }}
                 loading="lazy"
                 decoding="async"
@@ -253,11 +261,11 @@ function HomePage() {
             <div className="pointer-events-none absolute -top-4 left-4 text-6xl text-brand-blue/10">“</div>
             <div className="flex items-center gap-3">
               <img
-                src="/assets/images/rickard holmström.png"
+                src="/assets/images/team/rickard holmström.png"
                 alt="Rickard Holmström"
                 className="h-16 w-16 sm:h-20 sm:w-20 object-contain"
                 onError={(e) => {
-                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/morten.png';
+                  const img = e.currentTarget as HTMLImageElement; img.onerror = null; img.src = '/assets/images/team/morten.png';
                 }}
                 loading="lazy"
                 decoding="async"

@@ -8,9 +8,9 @@ function Footer() {
       <div className="relative w-full px-4 py-8 text-sm text-brand-blue sm:px-6 lg:px-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/15 bg-white shadow-inner" aria-hidden="true">
-              <img src="/assets/images/gamecam_icon.png" alt="" className="h-8 w-8 object-contain" loading="lazy" decoding="async" width="32" height="32" />
-            </span>
+            <Link to="/" className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/15 bg-white shadow-inner" aria-hidden="true">
+              <img src="/assets/images/logos/gamecam_icon.png" alt="" className="h-8 w-8 object-contain" loading="lazy" decoding="async" width="32" height="32" />
+            </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-blue">GameCam</p>
               <p className="text-[0.7rem] text-brand-blue/60">Built in Sweden for the global padel community.</p>
@@ -20,12 +20,6 @@ function Footer() {
             <Link className="transition hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40" to="/support">
               Support
             </Link>
-            <Link className="transition hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40" to="/about-us">
-              About Us
-            </Link>
-            <a className="transition hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40" href="mailto:support@gamecam.se" aria-label="Email support at support@gamecam.se">
-              support@gamecam.se
-            </a>
           </div>
         </div>
         <div className="mt-3 flex flex-col gap-1 text-[0.7rem] text-brand-blue/60 sm:flex-row sm:items-center sm:justify-between">

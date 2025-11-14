@@ -19,7 +19,7 @@ function Header() {
         <div className="flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-4" aria-label="GameCam home">
             <img
-              src="/assets/images/gamecam_logo_horizontal_black.png"
+              src="/assets/images/logos/gamecam_logo_horizontal_black.png"
               alt="GameCam logo"
               width="224"
               height="48"
@@ -59,22 +59,16 @@ function Header() {
               aria-label="GameCam on Instagram (opens in a new tab)"
               className="hidden rounded-full border border-brand-blue/20 p-2 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 lg:inline-flex"
             >
-              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-10 w-auto" loading="lazy" decoding="async" width="40" height="40" />
+              <img src="/assets/images/logos/instagram_logo.png" alt="Instagram" className="h-10 w-auto" loading="lazy" decoding="async" width="40" height="40" />
             </a>
-            <Link
-              to="/products"
-              className="hidden rounded-full bg-gradient-to-r from-brand-pink to-brand-cyan px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-blue/25 transition hover:opacity-90 md:inline-flex"
-            >
-              Buy Now
-            </Link>
             <a
               href="https://calendly.com/gamecam-sales/30min"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Book a demo via Calendly (opens in a new tab)"
-              className="hidden items-center gap-2 rounded-full border border-brand-blue/20 px-5 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 md:inline-flex"
+              className="hidden md:inline-flex inline-flex items-center justify-center rounded-full bg-brand-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              Book a demo
+              Book a free demo
             </a>
             <button
               className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 min-[1350px]:hidden"
@@ -129,7 +123,7 @@ function Header() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 text-sm font-semibold text-brand-blue transition hover:text-brand-pink"
             >
-              <img src="/assets/images/instagram_logo.png" alt="Instagram" className="h-6 w-auto" loading="lazy" decoding="async" width="24" height="24" />
+              <img src="/assets/images/logos/instagram_logo.png" alt="Instagram" className="h-6 w-auto" loading="lazy" decoding="async" width="24" height="24" />
               Instagram
             </a>
           </div>

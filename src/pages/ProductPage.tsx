@@ -33,24 +33,24 @@ function ProductPage() {
     product.slug === 'gametraq'
       ? [
           {
-            title: 'AI INSIGHTS',
+            title: 'Live Stream',
             description:
-              'Meter counting, ball possession, error shots, time in transit, and zone maps/heat-maps delivered for every game.'
+              'Stream matches directly to your club\'s YouTube channel and let the world watch the action in real time. Build your brand, showcase your players, and bring your community to life.'
           },
           {
-            title: 'YOUTUBE LIVESTREAMING',
+            title: 'Boost Your Court Revenue',
             description:
-              'We set up live streaming so you can broadcast events and tournaments to your YouTube channel—just like the pros.'
+              'With GAMETRAQ 5 installed on the court, clubs simply add 5–10 € to their court rental. Players get full AI video analytics included, and clubs earn an additional 600–750 € per month per court.'
           },
           {
-            title: 'SAVE BALL RALLY BUTTON',
+            title: 'Smarter Coaching',
             description:
-              'An included TV device converts your screen into a highlight hub with instant playback directly from the courts.'
+              'Give your coaches the power of AI. Use player analytics to design personalized drills that target each player\'s strengths and weaknesses, turning every training into real progress.'
           },
           {
-            title: 'OVERVIEW SALES',
+            title: 'Highlights',
             description:
-              'Add and monitor a new source of income for your club and watch your revenue grow.'
+              'With GAMETRAQ 5, players can instantly watch their best rallies and funniest fails right on the venue\'s TV free for everyone. Whether it\'s a perfect lob or a dramatic dive, the highlights are saved straight from the court.'
           }
         ]
       : product.slug === 'shotgun'
@@ -158,13 +158,6 @@ function ProductPage() {
                 label={`Order ${product.name}`}
                 className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               />
-              <a
-                href="#specs"
-                onClick={handleScrollToSpecs}
-                className="inline-flex items-center justify-center rounded-full border border-brand-blue/25 bg-white/70 px-6 py-3 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink"
-              >
-                View specifications
-              </a>
               {productDeck && (
                 <a
                   href={productDeck}
@@ -206,29 +199,118 @@ function ProductPage() {
       )}
 
       {product.slug === 'gametraq' && (
-        <section className="grid gap-10 rounded-[36px] border border-brand-blue/15 bg-white/95 p-8 shadow-card lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-          <div className="space-y-5"> 
-            <h2 className="text-3xl font-semibold text-brand-blue">Players get instant dashboards after every rally</h2>
-            <p className="text-sm leading-relaxed text-neutral-700">
-              GAMETRAQ pairs on-court capture with a mobile experience built for coaches and players. Open the app and
-              review trends, filter highlights, and share progress before the next session even starts.
-            </p>
-            <ul className="list-disc space-y-3 pl-5 text-sm text-neutral-700">
-              <li className="marker:text-brand-pink">Shot charts, movement heat-maps, and serve data delivered moments after the match.</li>
-              <li className="marker:text-brand-pink">Bookmark rallies, tag coaching notes, and send playlists to teammates in one tap.</li>
-              <li className="marker:text-brand-pink">Syncs automatically with club dashboards so staff, players, and parents see the same story.</li>
-            </ul>
-          </div>
-          <div className="overflow-hidden rounded-[28px]">
-            <img
-              src="/assets/images/app_screenshots.png"
-              alt="GAMETRAQ mobile app dashboards"
-              className="w-full object-contain"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </section>
+        <>
+          <section className="grid gap-12 rounded-[36px] border border-brand-blue/15 bg-gradient-to-br from-brand-blue/5 via-white to-brand-purple/5 p-8 shadow-card lg:grid-cols-2 lg:items-center">
+            <div className="space-y-6 order-2 lg:order-1">
+              <div>
+                <h2 className="text-3xl font-bold text-brand-blue mb-3">AI-Powered Analytics</h2>
+                <p className="text-base text-neutral-600 mb-6">
+                  State of the art AI camera tracking every shot and movement, creating highlight reels & game analysis. In real time - no wait after your game.
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/metercountericon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Running Distance Tracker</h3>
+                    <p className="mt-1 text-sm text-neutral-700">See the total distance each player has run during the game.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/ballpossesionicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Ball Possession</h3>
+                    <p className="mt-1 text-sm text-neutral-700">View the ball possession percentage for each player.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/errorshoticon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Error Shot Counter</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Track how many mistakes or error shots each player makes.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-center order-1 lg:order-2">
+              <img 
+                src="/assets/images/app/app_screenshots.png" 
+                alt="GAMETRAQ app heat maps and zone analysis" 
+                className="w-full max-w-4xl drop-shadow-2xl"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </section>
+
+          <section className="grid gap-12 rounded-[36px] border border-brand-blue/15 bg-gradient-to-br from-brand-purple/5 via-white to-brand-pink/5 p-8 shadow-card lg:grid-cols-2 lg:items-center">
+            <div className="flex items-center justify-center">
+              <img 
+                src="/assets/images/app/iphonemockup.png" 
+                alt="GAMETRAQ app showing analytics" 
+                className="w-full max-w-md drop-shadow-2xl"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-3xl font-bold text-brand-blue mb-3">Smart Court Metrics</h2>
+                <p className="text-base text-neutral-600 mb-6">
+                  Visualize player movements with heat maps and zone analysis. Save highlight clips during play, watch replays on venue TV, and get full match recordings to share instantly.
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/zonemapicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Zone Map</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Displays which players played more offensively or defensively throughout the match.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/heatmapicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Heat Map</h3>
+                    <p className="mt-1 text-sm text-neutral-700">A graphical map showing the areas of the court each player covered the most.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/tvicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Watch on Venue TV</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Enjoy your saved rallies on the club's TV together with your friends right after the match.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/pressbuttonicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Save Highlights</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Press the button during the match to save a 30-second highlight clip of your best shots.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/videorecordingicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Full Match Recording</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Get the full match recorded, download the video or share it instantly on social media.</p>
+                  </div>
+                </article>
+                
+              </div>
+            </div>
+          </section>
+        </>
       )}
 
       {product.slug === 'shotgun' && (
@@ -236,7 +318,7 @@ function ProductPage() {
           <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
             <div className="overflow-hidden rounded-[28px] bg-neutral-50 p-2">
               <img
-                src="/assets/images/ShotgunOnCourt.webp"
+                src="/assets/images/products/ShotgunOnCourt.webp"
                 alt="SHOTGUN unit on a padel court"
                 className="h-72 w-full rounded-[24px] object-cover md:h-80"
                 loading="lazy"
@@ -247,7 +329,7 @@ function ProductPage() {
           <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
             <div className="overflow-hidden rounded-[28px] bg-neutral-50 p-2">
               <img
-                src="/assets/images/ShotgunOnCourt2.jpg"
+                src="/assets/images/products/ShotgunOnCourt2.jpg"
                 alt="SHOTGUN ball machine close-up"
                 className="h-72 w-full rounded-[24px] object-cover md:h-80"
                 loading="lazy"
@@ -257,90 +339,6 @@ function ProductPage() {
           </section>
         </div>
       )}
-
-        <h2 className="text-2xl font-semibold text-brand-blue">What sets {product.name} apart</h2>
-      <section className="space-y-6">
-        <div className={`grid gap-5 ${product.slug === 'gametraq' ? 'sm:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'}`}>
-          {keyFeatures.map((feature) => (
-            <article key={feature.title} className="rounded-3xl border border-brand-blue/15 bg-white p-5 shadow-card">
-              <h3 className="text-lg font-semibold text-brand-blue">{feature.title}</h3>
-              <p className="mt-2 text-sm text-neutral-700">{feature.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-        <h2 className="text-2xl font-semibold text-brand-blue">{product.name} specifications</h2>
-  <section id="specs" ref={specsRef} className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-          <h2 className="text-2xl font-semibold text-brand-blue">Technical highlights</h2>
-          {product.slug === 'shotgun' ? (
-            <ul className="mt-4 space-y-3 text-sm text-neutral-700">
-              <>
-                <li className="flex flex-col gap-1">
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Battery</span>
-                  <span>Rechargeable battery that lasts between 4-6 hours. Recharge in roughly 3 hours.</span>
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Charger</span>
-                  <span>Fast wall charger included for quick turnaround.</span>
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Remote control</span>
-                  <span>User-friendly remote with six hot keys for the training drill programs.</span>
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Warranty</span>
-                  <span>1-year limited warranty covering materials and workmanship under normal use.</span>
-                </li>
-              </>
-            </ul>
-          ) : product.slug === 'gametraq' ? (
-            <ul className="mt-4 space-y-3 text-sm text-neutral-700">
-              <>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Camera and mounting kit</span>
-                  <span>4K capture with a mount to capture the game from the best angle.</span> 
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Edge compute</span>
-                  <span>Integrated 12-TOPS AI module with over-the-air firmware updates.</span>
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Connectivity</span>
-                  <span>Dual-band Wi-Fi 6 and Gigabit Ethernet for resilient streaming and uploads.</span>
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Streaming</span>
-                  <span>Native RTMP output to YouTube and Instagram with portrait and landscape support.</span>
-                </li>
-                <li className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-brand-blue">Analytics & storage</span>
-                  <span>Cloud dashboards, SMS stat delivery, and secure video archive for coaches and players.</span>
-                </li>
-              </>
-            </ul>
-          ) : (
-            <ul className="mt-4 list-disc space-y-3 pl-5 text-sm text-neutral-700">
-              {product.technicalHighlights.map((item) => (
-                <li key={item} className="marker:text-brand-pink">{item}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div className="rounded-3xl border border-brand-blue/15 bg-white p-6 shadow-card">
-          <h2 className="text-2xl font-semibold text-brand-blue">Ideal for</h2>
-          <ul className="mt-4 space-y-3 text-sm text-neutral-700">
-            {product.useCases.map((item) => (
-              <li key={item} className="rounded-2xl border border-brand-blue/10 bg-neutral-50 px-4 py-3">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
     </div>
   );
 }
