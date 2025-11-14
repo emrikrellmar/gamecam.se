@@ -143,10 +143,10 @@ const steps: Step[] = [
     title: 'Schedule an onboarding call',
     sections: [
       {
+        heading: '🎉 Congratulations, your GAMETRAQ installation is complete! 🎉',
         text: [
-          '🎉 Congratulations, your GAMETRAQ installation is complete! 🎉',
-          'Now you can schedule an onboarding call with our tech team.',
-          'In the call, our tech support will hand over your camera system.',
+          'You can now schedule an onboarding call with our tech team.',
+          'In the call, our tech support check so everything is working and will then hand over your camera system.',
           'We will show how to use the system as a player and club management, and help set up your YouTube channel for live streaming.'
         ]
       }
