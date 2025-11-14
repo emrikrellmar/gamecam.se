@@ -80,7 +80,10 @@ function HomePage() {
       <section className="grid gap-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
         <div>
           <h1 className="mb-14 text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
-            GameCam hardware for padel clubs
+            GameCam hardware for padel<br className="sm:hidden" />
+            <span className="sm:inline-block sm:ml-2">
+              <span className="typewriter text-brand-pink"></span>
+            </span>
           </h1>
           <div className="space-y-4">
             <p className="text-lg leading-relaxed text-neutral-700">

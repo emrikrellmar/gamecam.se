@@ -79,3 +79,84 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+
+@keyframes typing {
+  0.0000%, 22.7273% { content: ""; }
+  1.1364%, 21.5909% { content: "c"; }
+  2.2727%, 20.4545% { content: "cl"; }
+  3.4091%, 19.3182% { content: "clu"; }
+  4.5455%, 18.1818% { content: "club"; }
+  5.6818%, 17.0455% { content: "clubs"; }
+
+  25.0000%, 47.7273% { content: ""; }
+  26.1364%, 46.5909% { content: "p"; }
+  27.2727%, 45.4545% { content: "pl"; }
+  28.4091%, 44.3182% { content: "pla"; }
+  29.5455%, 43.1818% { content: "play"; }
+  30.6818%, 42.0455% { content: "playe"; }
+  31.8182%, 40.9091% { content: "player"; }
+  32.9545%, 39.7727% { content: "players"; }
+
+  50.0000%, 72.7273% { content: ""; }
+  51.1364%, 71.5909% { content: "c"; }
+  52.2727%, 70.4545% { content: "co"; }
+  53.4091%, 69.3182% { content: "coa"; }
+  54.5455%, 68.1818% { content: "coac"; }
+  55.6818%, 67.0455% { content: "coach"; }
+  56.8182%, 65.9091% { content: "coache"; }
+  57.9545%, 64.7727% { content: "coaches"; }
+
+  75.0000%, 98.5000% { content: ""; }
+  76.0000%, 97.5000% { content: "t"; }
+  77.0000%, 96.5000% { content: "to"; }
+  78.0000%, 95.5000% { content: "tou"; }
+  79.0000%, 94.5000% { content: "tour"; }
+  80.0000%, 93.5000% { content: "tourn"; }
+  81.0000%, 92.5000% { content: "tourna"; }
+  82.0000%, 91.5000% { content: "tournam"; }
+  83.0000%, 90.5000% { content: "tourname"; }
+  84.0000%, 89.5000% { content: "tournamen"; }
+  85.0000%, 88.5000% { content: "tournament"; }
+  86.0000%, 87.5000% { content: "tournaments"; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typewriter {
+  --caret: currentcolor;
+}
+
+.typewriter::before {
+  content: "";
+  animation: typing 16s infinite;
+}
+
+.typewriter::after {
+  content: "";
+  border-right: 2px solid var(--caret);
+  animation: blink 0.7s linear infinite;
+  display: inline-block;
+  height: calc(1em - 2px);
+  vertical-align: text-bottom;
+}
+
+@media (prefers-reduced-motion) {
+  .typewriter::after {
+    animation: none;
+  }
+  
+  @keyframes sequencePopup {
+    0%, 100% { content: "clubs"; }
+    25% { content: "players"; }
+    50% { content: "coaches"; }
+    75% { content: "tournaments"; }
+  }
+
+  .typewriter::before {
+    content: "clubs";
+    animation: sequencePopup 12s linear infinite;
+  }
+}
