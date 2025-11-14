@@ -260,7 +260,7 @@ function ProductPage() {
             
             <div className="space-y-6">
               <div>
-                <h2 className="text-3xl font-bold text-brand-blue mb-3">Smart Court Metrics</h2>
+                <h2 className="text-3xl font-bold text-brand-blue mb-3">Smart Court Features</h2>
                 <p className="text-base text-neutral-600 mb-6">
                   Visualize player movements with heat maps and zone analysis. Save highlight clips during play, watch replays on venue TV, and get full match recordings to share instantly.
                 </p>
