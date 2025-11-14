@@ -253,7 +253,7 @@ function ProductPage() {
                 src="/assets/images/app/iphonemockup.png" 
                 alt="GAMETRAQ app showing analytics" 
                 className="w-full max-w-md drop-shadow-2xl"
-                loading="lazy"
+                loading="lazy"  
                 decoding="async"
               />
             </div>
@@ -310,34 +310,142 @@ function ProductPage() {
               </div>
             </div>
           </section>
+
+          <section className="rounded-[36px] border border-brand-blue/15 bg-gradient-to-br from-brand-pink/5 via-white to-brand-blue/5 p-8 shadow-card">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-brand-blue mb-3">Why Clubs Choose GAMETRAQ</h2>
+                <p className="text-base text-neutral-600 mb-6 max-w-3xl mx-auto">
+                  Transform your padel club with cutting-edge technology that drives revenue, engages players, and positions your venue at the forefront of modern padel.
+                </p>
+              </div>
+              
+              <div className="grid gap-6 lg:grid-cols-3">
+                <article className="flex flex-col items-center gap-4 rounded-xl bg-white/80 p-6 backdrop-blur-sm border border-brand-blue/10 text-center">
+                  <img src="/assets/svg/dollarsignicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue mb-2">New Income Streams</h3>
+                    <p className="text-sm text-neutral-700">Generate additional revenue per court with premium AI analytics by users buying the AI service or have it included in court rentals.</p>
+                  </div>
+                </article>
+                
+                <article className="flex flex-col items-center gap-4 rounded-xl bg-white/80 p-6 backdrop-blur-sm border border-brand-blue/10 text-center">
+                  <img src="/assets/svg/gamecontrolicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue mb-2">Gamification & Engagement</h3>
+                    <p className="text-sm text-neutral-700">Keep players coming back with stats, leaderboards, and social sharing that builds community and loyalty.</p>
+                  </div>
+                </article>
+                
+                <article className="flex flex-col items-center gap-4 rounded-xl bg-white/80 p-6 backdrop-blur-sm border border-brand-blue/10 text-center">
+                  <img src="/assets/svg/aiicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue mb-2">Modernize Your Venue</h3>
+                    <p className="text-sm text-neutral-700">Stand out from competitors with AI-powered technology that attracts tech-savvy players and elevates your club's reputation.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
         </>
       )}
 
       {product.slug === 'shotgun' && (
-        <div className="grid gap-6 md:grid-cols-2">
-          <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
-            <div className="overflow-hidden rounded-[28px] bg-neutral-50 p-2">
-              <img
-                src="/assets/images/products/ShotgunOnCourt.webp"
-                alt="SHOTGUN unit on a padel court"
-                className="h-72 w-full rounded-[24px] object-cover md:h-80"
+        <>
+          <section className="grid gap-12 rounded-[36px] border border-brand-blue/15 bg-gradient-to-br from-brand-pink/5 via-white to-brand-purple/5 p-8 shadow-card lg:grid-cols-2 lg:items-center">
+            <div className="space-y-6 order-2 lg:order-1">
+              <div>
+                <h2 className="text-3xl font-bold text-brand-blue mb-3">Advanced Training Features</h2>
+                <p className="text-base text-neutral-600 mb-6">
+                  Professional-grade ball machine with programmable drills, dynamic spin control, and adaptive rhythm. Perfect for solo practice or coaching sessions.
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/speedcontrolicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Adaptive Speed Control</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Variable feed rate from 20-70 balls per minute with AI tempo adjustment based on player positioning.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/dynamicspincontrolicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Dynamic Spin Control</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Dial in side and top spin with ±12° oscillation and repeatable presets for every shot type.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/aiicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Programmable Drills</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Pre-programmed training routines and custom drill sequences for targeted skill development.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-center order-1 lg:order-2">
+              <img 
+                src="/assets/images/products/ShotgunOnCourt.webp" 
+                alt="SHOTGUN training machine features" 
+                className="w-full max-w-md drop-shadow-2xl rounded-2xl"
                 loading="lazy"
                 decoding="async"
               />
             </div>
           </section>
-          <section className="rounded-[36px] border border-brand-blue/15 bg-white/95 p-6 shadow-card">
-            <div className="overflow-hidden rounded-[28px] bg-neutral-50 p-2">
-              <img
-                src="/assets/images/products/ShotgunOnCourt2.jpg"
-                alt="SHOTGUN ball machine close-up"
-                className="h-72 w-full rounded-[24px] object-cover md:h-80"
+
+          <section className="grid gap-12 rounded-[36px] border border-brand-blue/15 bg-gradient-to-br from-brand-purple/5 via-white to-brand-pink/5 p-8 shadow-card lg:grid-cols-2 lg:items-center">
+            <div className="flex items-center justify-center">
+              <img 
+                src="/assets/images/products/ShotgunOnCourt2.jpg" 
+                alt="SHOTGUN ball machine close-up" 
+                className="w-full max-w-md drop-shadow-2xl rounded-2xl"
                 loading="lazy"
                 decoding="async"
               />
             </div>
+            
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-3xl font-bold text-brand-blue mb-3">Smart Technology</h2>
+                <p className="text-base text-neutral-600 mb-6">
+                  Built with coaches in mind, featuring intuitive controls, extended battery life, and high-capacity ball storage for uninterrupted training sessions.
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/touchscreenicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Touchscreen Control</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Rugged, glove-friendly touchscreen interface for easy adjustment during training sessions.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/batteryicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">Extended Battery Life</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Long battery life provides up to 6 hours of continuous operation with a 3-hour quick charge.</p>
+                  </div>
+                </article>
+                
+                <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
+                  <img src="/assets/svg/ballicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-brand-blue">180-Ball Capacity</h3>
+                    <p className="mt-1 text-sm text-neutral-700">Large hopper capacity for extended practice sessions without constant refilling.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
           </section>
-        </div>
+        </>
       )}
     </div>
   );
