@@ -84,7 +84,7 @@ function OrderFormPage() {
       .join(', ');
     return [
       `Product: ${product.name}`,
-  isGametraq ? `Plan: ${billing === 'quarterly' ? 'Quarterly' : 'Yearly'}` : `Plan: One-time`,
+      !isGametraq ? `Plan: One-time` : undefined,
       `Name: ${form.name}`,
       `Ordering as: ${companyOrPrivate}`,
       form.isCompany ? `Company name: ${form.companyName}` : undefined,
@@ -93,9 +93,9 @@ function OrderFormPage() {
       `Phone: ${form.phone}`,
       `Email: ${form.email}`,
       `Quantity: ${form.quantity}`,
-      `Unit price: ${formatCurrency(unitPrice)}`,
-      `Subtotal: ${formatCurrency(subtotal)}`,
-      `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping`,
+      !isGametraq ? `Unit price: ${formatCurrency(unitPrice)}` : undefined,
+      !isGametraq ? `Subtotal: ${formatCurrency(subtotal)}` : undefined,
+      !isGametraq ? `Total (excl. VAT): ${formatCurrency(subtotal)} + shipping` : undefined,
       form.message ? `Extra message: ${form.message}` : undefined,
     ].filter(Boolean) as string[];
   }, [product, form, unitPrice, subtotal, isGametraq, priceSuffix, billing]);
@@ -204,7 +204,7 @@ function OrderFormPage() {
         .join(', ');
       const payload = {
         product: product.name,
-  plan: isGametraq ? (billing === 'quarterly' ? 'quarterly' : 'yearly') : 'one-time',
+        plan: isGametraq ? 'Subscription' : 'one-time',
         name: form.name,
         isCompany: form.isCompany,
         companyName: form.companyName,
@@ -364,28 +364,6 @@ function OrderFormPage() {
           </div>
         ) : (
           <form onSubmit={onSubmit} className="mt-6 grid gap-4 lg:grid-cols-2">
-          {/* Pricing plan selection */}
-          {isGametraq && (
-            <div className="lg:col-span-2">
-              <label className="block text-sm font-medium text-brand-blue">Plan</label>
-              <div className="mt-2 inline-flex overflow-hidden rounded-full border border-brand-blue/20">
-                <button
-                  type="button"
-                  onClick={() => setBilling('quarterly')}
-                  className={`px-4 py-2 text-sm font-semibold transition ${billing === 'quarterly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
-                >
-                  Quarterly, {formatCurrency(900)} ({formatCurrency(300)}/Month)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setBilling('yearly')}
-                  className={`px-4 py-2 text-sm font-semibold transition ${billing === 'yearly' ? 'bg-brand-blue text-white' : 'bg-white text-brand-blue hover:bg-brand-blue/5'}`}
-                >
-                  Yearly, {formatCurrency(3000)} ({formatCurrency(250)}/Month)
-                </button>
-              </div>
-            </div>
-          )}
           {/* No extra info box for SHOTGUN */}
           <div className="lg:col-span-2 grid gap-4 sm:grid-cols-2">
             <div>
@@ -552,10 +530,14 @@ function OrderFormPage() {
               required
             />
             {errors.quantity && <p className="mt-1 text-xs text-red-600">{errors.quantity}</p>}
-            <div className="mt-2 text-xs text-neutral-700">
-              {form.quantity || 0} × {formatCurrency(unitPrice)} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
-            </div>
-            <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping</div>
+            {!isGametraq && (
+              <>
+                <div className="mt-2 text-xs text-neutral-700">
+                  {form.quantity || 0} × {formatCurrency(unitPrice)} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
+                </div>
+                <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping</div>
+              </>
+            )}
           </div>
 
           <div className="lg:col-span-2">

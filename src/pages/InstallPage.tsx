@@ -87,6 +87,28 @@ const steps: Step[] = [
     ]
   },
   {
+    title: 'Mount the QR Code Poster',
+    sections: [
+      {
+        heading: 'Placement',
+        items: [
+          'Identify the side of the pitch where players enter or gather.',
+          'Clean the surface to ensure good adhesion.',
+          'Mount the poster at eye level (approx. 1.5m from the ground) for easy scanning.',
+          'Ensure the QR code is clearly visible and not obstructed by nets or equipment.'
+        ]
+      },
+      {
+        heading: 'Function',
+        items: [
+          'This poster allows players to quickly scan and activate the camera system before their match.',
+          'Instructions on the poster will guide players through the activation and payment process.'
+        ],
+        imagePlaceholder: 'step5'
+      }
+    ]
+  },
+  {
     title: 'Connect the GAMECAM TV',
     sections: [
       {
@@ -96,7 +118,7 @@ const steps: Step[] = [
           'Select the correct HDMI source on the TV, a GAMECAM logo should appear.',
           'When new Highlights videos arrive, they will automatically play on the TV.'
         ],
-        imagePlaceholder: 'step5'
+        imagePlaceholder: 'step6'
       }
     ]
   },
@@ -147,7 +169,7 @@ const steps: Step[] = [
         text: [
           'You can now schedule an onboarding call with our tech team.',
           'In the call, our tech support check so everything is working and will then hand over your camera system.',
-          'We will show how to use the system as a player and club management, and help set up your YouTube channel for live streaming.'
+          'We will activate your QR code, show how to use the system as a player and club management, and help set up your YouTube channel for live streaming.'
         ]
       }
     ]
@@ -156,7 +178,7 @@ const steps: Step[] = [
 
 function StepProgress({ current, onGoto }: { current: number; onGoto: (idx: number) => void }) {
   return (
-    <ol className="mb-6 grid grid-cols-7 gap-2">
+    <ol className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
       {steps.map((s, idx) => {
         const active = idx === current;
         const done = idx < current;
@@ -178,7 +200,7 @@ function StepProgress({ current, onGoto }: { current: number; onGoto: (idx: numb
             >
               {idx + 1}
             </button>
-            <span className={`hidden text-xs font-semibold sm:block ${active ? 'text-brand-blue' : 'text-brand-blue/70'}`}>{s.title}</span>
+            <span className={`text-xs font-semibold leading-tight ${active ? 'text-brand-blue' : 'text-brand-blue/70'}`}>{s.title}</span>
           </li>
         );
       })}
@@ -314,7 +336,6 @@ export default function InstallPage() {
             our tech support calendar
           </a>.
         </p>
-        <p className="mt-2 text-xs text-brand-blue/60">Images will be added to each step, placeholders are included.</p>
       </section>
     </div>
   );

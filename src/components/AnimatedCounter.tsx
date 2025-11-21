@@ -6,7 +6,7 @@ interface AnimatedCounterProps {
   easing?: 'easeOutQuad' | 'easeOutCubic' | 'easeOutQuart';
 }
 
-const AnimatedCounter = ({ value, duration = 7500, easing = 'easeOutQuad' }: AnimatedCounterProps) => {
+const AnimatedCounter = ({ value, duration = 5000, easing = 'easeOutQuad' }: AnimatedCounterProps) => {
   const frameRef = useRef<number>();
   const [displayValue, setDisplayValue] = useState(value);
 

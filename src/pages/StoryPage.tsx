@@ -96,7 +96,7 @@ function StoryPage() {
                   key={item.year}
                   className="relative rounded-3xl border border-brand-blue/10 bg-neutral-50 p-6 shadow-card transition hover:border-brand-blue/25 hover:shadow-xl"
                 >
-                  <span className="pointer-events-none absolute -left-4 top-6 flex h-8 w-8 items-center justify-center">
+                  <span className="pointer-events-none absolute -left-9 top-1/2 flex -translate-y-1/2 h-8 w-8 items-center justify-center sm:-left-[3.25rem]">
                     <span className="absolute inline-flex h-6 w-6 rounded-full bg-brand-blue/30 animate-ping-slow" />
                     <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-brand-blue shadow-[0_0_0_4px_rgba(255,255,255,1)]" />
                   </span>

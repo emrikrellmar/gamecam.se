@@ -58,7 +58,7 @@ function HomePage() {
                 name: 'Do we need a specialist to install?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'No special contractor is required. We provide a simple mounting kit and step‑by‑step guidance. Our support can assist live if needed.'
+                  text: 'No special contractor is required. We provide a simple mounting kit and step-by-step guidance. Our support can assist live if needed.'
                 }
               },
               {
@@ -92,6 +92,20 @@ function HomePage() {
             <p className="text-lg leading-relaxed text-neutral-700">
               Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
             </p>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link
+              to="/products"
+              className="inline-flex items-center justify-center rounded-full bg-brand-blue px-8 py-4 text-sm font-semibold text-white transition hover:bg-brand-pink shadow-lg shadow-brand-blue/20"
+            >
+              View Products
+            </Link>
+            <Link
+              to="/support"
+              className="inline-flex items-center justify-center rounded-full border border-brand-blue/20 px-8 py-4 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink bg-white"
+            >
+              Contact Sales
+            </Link>
           </div>
         </div>
         <div className="grid gap-4">
