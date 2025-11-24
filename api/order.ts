@@ -256,6 +256,7 @@ ${payload.message || '-'}
       <div style="border-top: 1px solid #eeeeee; padding-top: 30px; margin-top: 10px; text-align: center; color: #999; font-size: 12px;">
         <p style="margin: 0 0 10px;">&copy; ${new Date().getFullYear()} GameCam. All rights reserved.</p>
         <p style="margin: 0;">If you have any questions, contact <a href="mailto:sales@gamecam.se" style="color: #0056b3; text-decoration: none;">sales@gamecam.se</a>.</p>
+        <div style="display:none; font-size:0; line-height:0; color:#ffffff;">${orderId} - ${new Date().toISOString()}</div>
       </div>
     </div>
     `;
@@ -264,7 +265,7 @@ ${payload.message || '-'}
       from: '"GameCam" <emrik@gamecam.se>',
       replyTo: 'sales@gamecam.se',
       to: payload.email,
-      subject: `Order Confirmation: ${payload.product}`,
+      subject: `Order Confirmation #${orderId}: ${payload.product}`,
       text: customerText,
       html: customerHtml,
     });
