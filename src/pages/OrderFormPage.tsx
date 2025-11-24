@@ -84,7 +84,6 @@ function OrderFormPage() {
       .join(', ');
     return [
       `Product: ${product.name}`,
-      !isGametraq ? `Plan: One-time` : undefined,
       `Name: ${form.name}`,
       `Ordering as: ${companyOrPrivate}`,
       form.isCompany ? `Company name: ${form.companyName}` : undefined,
@@ -204,7 +203,6 @@ function OrderFormPage() {
         .join(', ');
       const payload = {
         product: product.name,
-        plan: isGametraq ? 'Subscription' : 'one-time',
         name: form.name,
         isCompany: form.isCompany,
         companyName: form.companyName,

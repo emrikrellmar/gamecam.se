@@ -119,7 +119,6 @@ async function sendOrderEmail(payload: any) {
 New Order Received!
 
 Product: ${payload.product}
-Plan: ${payload.plan || '-'}
 Quantity: ${payload.quantity}
 
 Customer Details:
@@ -299,7 +298,6 @@ export default async function handler(req, res) {
       const values = [[
         sanitizeCell(payload.name, 200),
         sanitizeCell(payload.product, 200),
-        sanitizeCell(payload.plan || '', 50),
         String(toInt(payload.quantity, 0)),
         isCompany ? 'Yes' : 'No',
         isCompany ? sanitizeCell(payload.companyName, 200) : 'Private person',
