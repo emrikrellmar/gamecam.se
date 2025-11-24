@@ -139,39 +139,73 @@ ${payload.message || '-'}
   `;
 
   // HTML version
+  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 40px; width: auto;" />
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; background-color: #ffffff;">
+      <!-- Logo -->
+      <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid #eeeeee;">
+        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 30px; width: auto;" />
       </div>
-      <h2 style="color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px;">New Order Received!</h2>
+
+      <div style="padding: 20px 0; text-align: center;">
+        <h2 style="color: #0056b3; margin: 0 0 5px; font-size: 22px;">New Order Received!</h2>
+        <p style="color: #666; margin: 0; font-size: 14px;">A new order request has been submitted.</p>
+      </div>
       
-      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0; color: #0056b3; font-size: 18px;">Product Details</h3>
-        ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px;" />` : ''}
-        <p style="margin: 5px 0;"><strong>Product:</strong> ${payload.product}</p>
-        <p style="margin: 5px 0;"><strong>Quantity:</strong> ${payload.quantity}</p>
+      <!-- Info Columns -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
+        <tr>
+          <td valign="top" width="50%" style="padding-right: 10px;">
+            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Customer</h4>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>${payload.name}</strong></p>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><a href="mailto:${payload.email}" style="color: #0056b3; text-decoration: none;">${payload.email}</a></p>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;">${payload.phone}</p>
+          </td>
+          <td valign="top" width="50%" style="padding-left: 10px;">
+            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Company Details</h4>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Is Company:</strong> ${isCompany ? 'Yes' : 'No'}</p>
+            ${isCompany ? `<p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Name:</strong> ${payload.companyName}</p>` : ''}
+            ${isCompany ? `<p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>VAT:</strong> ${payload.taxNumber}</p>` : ''}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding-top: 15px;">
+             <h4 style="margin: 0 0 5px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Delivery Address</h4>
+             <p style="margin: 0; font-size: 14px; line-height: 1.6;">${payload.deliveryAddress}</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Items Header -->
+      <div style="border-bottom: 2px solid #eeeeee; padding-bottom: 10px; margin-bottom: 15px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="left" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Item Request</td>
+            <td align="right" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Qty</td>
+          </tr>
+        </table>
       </div>
 
-      <div style="margin-bottom: 20px;">
-        <h3 style="color: #0056b3; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Customer Details</h3>
-        <p style="margin: 5px 0;"><strong>Name:</strong> ${payload.name}</p>
-        <p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:${payload.email}" style="color: #0056b3;">${payload.email}</a></p>
-        <p style="margin: 5px 0;"><strong>Phone:</strong> ${payload.phone}</p>
-        <p style="margin: 5px 0;"><strong>Address:</strong> ${payload.deliveryAddress}</p>
-      </div>
-
-      <div style="margin-bottom: 20px;">
-        <h3 style="color: #0056b3; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Company Details</h3>
-        <p style="margin: 5px 0;"><strong>Is Company:</strong> ${isCompany ? 'Yes' : 'No'}</p>
-        ${isCompany ? `<p style="margin: 5px 0;"><strong>Company Name:</strong> ${payload.companyName}</p>` : ''}
-        ${isCompany ? `<p style="margin: 5px 0;"><strong>Tax/VAT:</strong> ${payload.taxNumber}</p>` : ''}
-      </div>
+      <!-- Item Row -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        <tr>
+          <td width="80" valign="top" style="padding-bottom: 20px;">
+            ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="width: 80px; height: auto; border-radius: 6px; border: 1px solid #eee; display: block;" />` : ''}
+          </td>
+          <td valign="top" style="padding-left: 20px; padding-bottom: 20px;">
+            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${payload.product}</p>
+            <p style="margin: 5px 0 0; font-size: 14px; color: #666;">Order Request</p>
+          </td>
+          <td align="right" valign="top" style="font-size: 16px; font-weight: bold; color: #333; padding-bottom: 20px;">
+            ${payload.quantity}
+          </td>
+        </tr>
+      </table>
 
       ${payload.message ? `
       <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba; margin-top: 20px;">
-        <h3 style="margin-top: 0; color: #856404; font-size: 16px;">Message</h3>
-        <p style="margin: 0; white-space: pre-wrap;">${payload.message}</p>
+        <h3 style="margin-top: 0; color: #856404; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Message</h3>
+        <p style="margin: 0; white-space: pre-wrap; font-size: 14px; color: #856404;">${payload.message}</p>
       </div>
       ` : ''}
       
@@ -192,28 +226,72 @@ ${payload.message || '-'}
     console.log('[order] Admin email sent successfully');
 
     // Customer confirmation email
-    const customerText = `Hi ${payload.name},\n\nThank you for your order request for ${payload.product}.\nWe have received your details and will get back to you shortly with delivery details.\n\nOrder Summary:\nProduct: ${payload.product}\nQuantity: ${payload.quantity}\n\nBest regards,\nThe GameCam Team`;
+    const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const customerText = `Hi ${payload.name},\n\nThank you for your order request for ${payload.product}.\nWe have received your details and will get back to you shortly with an invoice.\n\nOrder Summary:\nProduct: ${payload.product}\nQuantity: ${payload.quantity}\n\nBest regards,\nThe GameCam Team`;
 
     const customerHtml = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 40px; width: auto;" />
-      </div>
-      <h2 style="color: #0056b3;">Thank you for your order!</h2>
-      <p>Hi ${payload.name},</p>
-      <p>We have received your order request for <strong>${payload.product}</strong>.</p>
-      <p>Our team will review your order and get back to you shortly with delivery details and payment information.</p>
-      
-      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #0056b3; font-size: 16px;">Order Summary</h3>
-        ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px;" />` : ''}
-        <p style="margin: 5px 0;"><strong>Product:</strong> ${payload.product}</p>
-        <p style="margin: 5px 0;"><strong>Quantity:</strong> ${payload.quantity}</p>
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; background-color: #ffffff;">
+      <!-- Logo -->
+      <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid #eeeeee;">
+        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 30px; width: auto;" />
       </div>
 
-      <p>If you have any questions in the meantime, feel free to reply to this email.</p>
-      
-      <p style="margin-top: 30px;">Best regards,<br>The GameCam Team</p>
+      <!-- Intro -->
+      <div style="padding: 30px 0; text-align: center;">
+        <h2 style="color: #333; margin: 0 0 10px; font-size: 24px;">Thank you for your request!</h2>
+        <p style="color: #666; margin: 0; font-size: 16px; line-height: 1.5;">We have received your order request. We will review it and send you an invoice shortly.</p>
+      </div>
+
+      <!-- Info Columns -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
+        <tr>
+          <td valign="top" width="50%" style="padding-right: 10px;">
+            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Summary</h4>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Order Date:</strong><br>${dateStr}</p>
+            <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Email:</strong><br><a href="mailto:${payload.email}" style="color: #0056b3; text-decoration: none;">${payload.email}</a></p>
+          </td>
+          <td valign="top" width="50%" style="padding-left: 10px;">
+            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Shipping Address</h4>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;">
+              <strong>${payload.name}</strong><br>
+              ${payload.deliveryAddress}<br>
+              ${payload.phone}
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Items Header -->
+      <div style="border-bottom: 2px solid #eeeeee; padding-bottom: 10px; margin-bottom: 15px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="left" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Item Request</td>
+            <td align="right" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Qty</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Item Row -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        <tr>
+          <td width="80" valign="top" style="padding-bottom: 20px;">
+            ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="width: 80px; height: auto; border-radius: 6px; border: 1px solid #eee; display: block;" />` : ''}
+          </td>
+          <td valign="top" style="padding-left: 20px; padding-bottom: 20px;">
+            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${payload.product}</p>
+            <p style="margin: 5px 0 0; font-size: 14px; color: #666;">Order Request</p>
+          </td>
+          <td align="right" valign="top" style="font-size: 16px; font-weight: bold; color: #333; padding-bottom: 20px;">
+            ${payload.quantity}
+          </td>
+        </tr>
+      </table>
+
+      <!-- Footer -->
+      <div style="border-top: 1px solid #eeeeee; padding-top: 30px; margin-top: 10px; text-align: center; color: #999; font-size: 12px;">
+        <p style="margin: 0 0 10px;">&copy; ${new Date().getFullYear()} GameCam. All rights reserved.</p>
+        <p style="margin: 0;">If you have any questions, please reply to this email or contact <a href="mailto:sales@gamecam.se" style="color: #0056b3; text-decoration: none;">sales@gamecam.se</a>.</p>
+      </div>
     </div>
     `;
 
