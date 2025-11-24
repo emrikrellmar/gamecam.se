@@ -219,7 +219,7 @@ ${payload.message || '-'}
     await transporter.sendMail({
       from: '"GameCam Order" <no-reply@gamecam.se>',
       to: 'emrik@gamecam.se',
-      subject: `New order from ${payload.name}`,
+      subject: `New ${payload.product} order from ${payload.name}`,
       text: text,
       html: html,
     });
@@ -290,7 +290,7 @@ ${payload.message || '-'}
       <!-- Footer -->
       <div style="border-top: 1px solid #eeeeee; padding-top: 30px; margin-top: 10px; text-align: center; color: #999; font-size: 12px;">
         <p style="margin: 0 0 10px;">&copy; ${new Date().getFullYear()} GameCam. All rights reserved.</p>
-        <p style="margin: 0;">If you have any questions, please reply to this email or contact <a href="mailto:sales@gamecam.se" style="color: #0056b3; text-decoration: none;">sales@gamecam.se</a>.</p>
+        <p style="margin: 0;">If you have any questions, contact <a href="mailto:sales@gamecam.se" style="color: #0056b3; text-decoration: none;">sales@gamecam.se</a>.</p>
       </div>
     </div>
     `;
@@ -436,6 +436,9 @@ export default async function handler(req, res) {
         res.status(502).json({ ok: false, error: 'Upstream (Apps Script) error', status: fRes.status, body: text });
         return;
       }
+      // For legacy endpoint, we don't have the orderId generated here, so we generate a temporary one for email
+      const orderId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      await sendOrderEmail(payload, orderId);
     } else {
       console.log('[order] Using Google Sheets API');
       if (!privateKey || !email || !spreadsheetId) {
@@ -455,6 +458,9 @@ export default async function handler(req, res) {
       // Tax/VAT number (or "Private person"), Delivery address, Phone number, Email address, Extra message
       const isCompany = !!payload.isCompany;
       const submittedAt = formatTimestamp(new Date());
+      // Generate a random 8-digit Order ID
+      const orderId = Math.floor(10000000 + Math.random() * 90000000).toString();
+
       const values = [[
         sanitizeCell(payload.name, 200),
         sanitizeCell(payload.product, 200),
@@ -466,7 +472,8 @@ export default async function handler(req, res) {
         sanitizeCell(payload.phone, 100),
         sanitizeCell(payload.email, 200),
         sanitizeCell(payload.message, 2000),
-        submittedAt
+        submittedAt,
+        orderId
       ]];
 
       const appendRes = await sheets.spreadsheets.values.append({
@@ -478,9 +485,9 @@ export default async function handler(req, res) {
         requestBody: { values }
       });
       console.log('[order] Sheets append done', appendRes.status);
+      
+      await sendOrderEmail(payload, orderId);
     }
-
-    await sendOrderEmail(payload);
 
     res.status(200).json({ ok: true });
   } catch (err) {
