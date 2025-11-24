@@ -138,80 +138,43 @@ Message:
 ${payload.message || '-'}
   `;
 
-  // HTML version
-  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  // Simple HTML version for Admin (Internal Use)
   const html = `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; background-color: #ffffff;">
-      <!-- Logo -->
-      <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid #eeeeee;">
-        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 30px; width: auto;" />
-      </div>
-
-      <div style="padding: 20px 0; text-align: center;">
-        <h2 style="color: #0056b3; margin: 0 0 5px; font-size: 22px;">New Order Received!</h2>
-        <p style="color: #666; margin: 0; font-size: 14px;">A new order request has been submitted.</p>
-      </div>
+    <div style="font-family: Arial, sans-serif; color: #333; font-size: 14px;">
+      <h2 style="margin-bottom: 10px;">Order #${orderId}</h2>
       
-      <!-- Info Columns -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
-        <tr>
-          <td valign="top" width="50%" style="padding-right: 10px;">
-            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Customer</h4>
-            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>${payload.name}</strong></p>
-            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><a href="mailto:${payload.email}" style="color: #0056b3; text-decoration: none;">${payload.email}</a></p>
-            <p style="margin: 0; font-size: 14px; line-height: 1.6;">${payload.phone}</p>
-          </td>
-          <td valign="top" width="50%" style="padding-left: 10px;">
-            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Company Details</h4>
-            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Is Company:</strong> ${isCompany ? 'Yes' : 'No'}</p>
-            ${isCompany ? `<p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Name:</strong> ${payload.companyName}</p>` : ''}
-            ${isCompany ? `<p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>VAT:</strong> ${payload.taxNumber}</p>` : ''}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="padding-top: 15px;">
-             <h4 style="margin: 0 0 5px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Delivery Address</h4>
-             <p style="margin: 0; font-size: 14px; line-height: 1.6;">${payload.deliveryAddress}</p>
-          </td>
-        </tr>
-      </table>
+      <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background-color: #f9f9f9;">
+        <h3 style="margin-top: 0; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Invoice Data</h3>
+        
+        <p style="margin-bottom: 15px;">
+          <strong>Product:</strong> ${payload.product}<br>
+          <strong>Quantity:</strong> ${payload.quantity}
+        </p>
 
-      <!-- Items Header -->
-      <div style="border-bottom: 2px solid #eeeeee; padding-bottom: 10px; margin-bottom: 15px;">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td align="left" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Item Request</td>
-            <td align="right" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Qty</td>
-          </tr>
-        </table>
+        <p style="margin-bottom: 15px;">
+          <strong>Billing / Customer:</strong><br>
+          ${isCompany ? `Company: ${payload.companyName}<br>` : ''}
+          Name: ${payload.name}<br>
+          Email: <a href="mailto:${payload.email}">${payload.email}</a><br>
+          Phone: ${payload.phone}
+        </p>
+
+        <p style="margin-bottom: 15px;">
+          <strong>Address:</strong><br>
+          ${payload.deliveryAddress}
+        </p>
+
+        <p style="margin-bottom: 0;">
+          <strong>VAT / Tax ID:</strong> ${isCompany ? payload.taxNumber : 'N/A'}
+        </p>
       </div>
-
-      <!-- Item Row -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
-        <tr>
-          <td width="80" valign="top" style="padding-bottom: 20px;">
-            ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="width: 80px; height: auto; border-radius: 6px; border: 1px solid #eee; display: block;" />` : ''}
-          </td>
-          <td valign="top" style="padding-left: 20px; padding-bottom: 20px;">
-            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${payload.product}</p>
-            <p style="margin: 5px 0 0; font-size: 14px; color: #666;">Order Request</p>
-          </td>
-          <td align="right" valign="top" style="font-size: 16px; font-weight: bold; color: #333; padding-bottom: 20px;">
-            ${payload.quantity}
-          </td>
-        </tr>
-      </table>
 
       ${payload.message ? `
-      <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba; margin-top: 20px;">
-        <h3 style="margin-top: 0; color: #856404; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Message</h3>
-        <p style="margin: 0; white-space: pre-wrap; font-size: 14px; color: #856404;">${payload.message}</p>
+      <div style="border: 1px solid #ffeeba; background-color: #fff3cd; padding: 10px;">
+        <strong>Message:</strong><br>
+        ${payload.message}
       </div>
       ` : ''}
-      
-      <p style="font-size: 12px; color: #999; margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; text-align: center;">
-        Sent from GameCam.io Order Form
-      </p>
     </div>
   `;
 
@@ -238,6 +201,7 @@ ${payload.message || '-'}
 
       <!-- Intro -->
       <div style="padding: 30px 0; text-align: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Neo_checkmark_green.svg" alt="Success" style="height: 50px; width: 50px; margin-bottom: 15px;" />
         <h2 style="color: #333; margin: 0 0 10px; font-size: 24px;">Thank you for your request!</h2>
         <p style="color: #666; margin: 0; font-size: 16px; line-height: 1.5;">We have received your order request. We will review it and send you an invoice shortly.</p>
       </div>
