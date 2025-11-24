@@ -115,6 +115,8 @@ async function sendOrderEmail(payload: any) {
   });
 
   const isCompany = !!payload.isCompany;
+  
+  // Plain text version (fallback)
   const text = `
 New Order Received!
 
@@ -136,12 +138,52 @@ Message:
 ${payload.message || '-'}
   `;
 
+  // HTML version
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+      <h2 style="color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px;">New Order Received!</h2>
+      
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0; color: #0056b3; font-size: 18px;">Product Details</h3>
+        <p style="margin: 5px 0;"><strong>Product:</strong> ${payload.product}</p>
+        <p style="margin: 5px 0;"><strong>Quantity:</strong> ${payload.quantity}</p>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="color: #0056b3; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Customer Details</h3>
+        <p style="margin: 5px 0;"><strong>Name:</strong> ${payload.name}</p>
+        <p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:${payload.email}" style="color: #0056b3;">${payload.email}</a></p>
+        <p style="margin: 5px 0;"><strong>Phone:</strong> ${payload.phone}</p>
+        <p style="margin: 5px 0;"><strong>Address:</strong> ${payload.deliveryAddress}</p>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="color: #0056b3; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Company Details</h3>
+        <p style="margin: 5px 0;"><strong>Is Company:</strong> ${isCompany ? 'Yes' : 'No'}</p>
+        ${isCompany ? `<p style="margin: 5px 0;"><strong>Company Name:</strong> ${payload.companyName}</p>` : ''}
+        ${isCompany ? `<p style="margin: 5px 0;"><strong>Tax/VAT:</strong> ${payload.taxNumber}</p>` : ''}
+      </div>
+
+      ${payload.message ? `
+      <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba; margin-top: 20px;">
+        <h3 style="margin-top: 0; color: #856404; font-size: 16px;">Message</h3>
+        <p style="margin: 0; white-space: pre-wrap;">${payload.message}</p>
+      </div>
+      ` : ''}
+      
+      <p style="font-size: 12px; color: #999; margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; text-align: center;">
+        Sent from GameCam.io Order Form
+      </p>
+    </div>
+  `;
+
   try {
     await transporter.sendMail({
       from: '"GameCam Order" <no-reply@gamecam.se>',
       to: 'emrik@gamecam.se',
       subject: `New Order: ${payload.product} - ${payload.name}`,
       text: text,
+      html: html,
     });
     console.log('[order] Email sent successfully');
   } catch (error) {
