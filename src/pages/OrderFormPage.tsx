@@ -203,6 +203,7 @@ function OrderFormPage() {
         .join(', ');
       const payload = {
         product: product.name,
+        productImage: `https://gamecam.io${product.image}`,
         name: form.name,
         isCompany: form.isCompany,
         companyName: form.companyName,
@@ -356,8 +357,7 @@ function OrderFormPage() {
           <div className="mt-6 rounded-2xl border border-brand-blue/20 bg-brand-blue/5 p-6 text-sm text-brand-blue">
             <p className="font-semibold">Thanks! Your order request was sent.</p>
             <p className="mt-2 text-neutral-700">
-              We will get back to you shortly with delivery details and next steps. If you don’t hear from us, please
-              email <a className="underline" href="mailto:sales@gamecam.se">sales@gamecam.se</a> and include your product and contact details.
+              A GameCam team member will follow up with delivery details and next steps. If you didnt receive a confirmation email, please check your spam folder or contact us at <a href="mailto:sales@gamecam.se">sales@gamecam.se</a>.
             </p>
           </div>
         ) : (

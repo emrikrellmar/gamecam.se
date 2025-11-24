@@ -141,10 +141,14 @@ ${payload.message || '-'}
   // HTML version
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 40px; width: auto;" />
+      </div>
       <h2 style="color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px;">New Order Received!</h2>
       
       <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
         <h3 style="margin-top: 0; color: #0056b3; font-size: 18px;">Product Details</h3>
+        ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px;" />` : ''}
         <p style="margin: 5px 0;"><strong>Product:</strong> ${payload.product}</p>
         <p style="margin: 5px 0;"><strong>Quantity:</strong> ${payload.quantity}</p>
       </div>
@@ -181,7 +185,7 @@ ${payload.message || '-'}
     await transporter.sendMail({
       from: '"GameCam Order" <no-reply@gamecam.se>',
       to: 'emrik@gamecam.se',
-      subject: `New Order: ${payload.product} - ${payload.name}`,
+      subject: `New order from ${payload.name}`,
       text: text,
       html: html,
     });
@@ -192,6 +196,9 @@ ${payload.message || '-'}
 
     const customerHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 40px; width: auto;" />
+      </div>
       <h2 style="color: #0056b3;">Thank you for your order!</h2>
       <p>Hi ${payload.name},</p>
       <p>We have received your order request for <strong>${payload.product}</strong>.</p>
@@ -199,6 +206,7 @@ ${payload.message || '-'}
       
       <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
         <h3 style="margin-top: 0; color: #0056b3; font-size: 16px;">Order Summary</h3>
+        ${payload.productImage ? `<img src="${payload.productImage}" alt="${payload.product}" style="max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px;" />` : ''}
         <p style="margin: 5px 0;"><strong>Product:</strong> ${payload.product}</p>
         <p style="margin: 5px 0;"><strong>Quantity:</strong> ${payload.quantity}</p>
       </div>
