@@ -202,7 +202,7 @@ ${payload.message || '-'}
 
       <!-- Intro -->
       <div style="padding: 30px 0; text-align: center;">
-        <img src="https://gamecam.io/assets/svg/checkmark.svg" alt="Success" style="height: 50px; width: 50px; margin-bottom: 15px;" />
+        <img src="https://gamecam.io/assets/images/logos/checkmark.png" alt="Success" style="height: 50px; width: 50px; margin-bottom: 15px;" />
         <h2 style="color: #333; margin: 0 0 10px; font-size: 24px;">Thank you for your request!</h2>
         <p style="color: #666; margin: 0; font-size: 16px; line-height: 1.5;">We have received your order request. We will review it and send you an invoice shortly.</p>
       </div>
@@ -214,6 +214,8 @@ ${payload.message || '-'}
             <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Summary</h4>
             <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Order Date:</strong><br>${dateStr}</p>
             <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Email:</strong><br><a href="mailto:${payload.email}" style="color: #0056b3; text-decoration: none;">${payload.email}</a></p>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Order ID:</strong><br>${orderId}</p>
+
           </td>
           <td valign="top" width="50%" style="padding-left: 10px;">
             <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Shipping Address</h4>
