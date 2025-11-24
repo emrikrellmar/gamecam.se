@@ -10,6 +10,7 @@
 
 // @ts-nocheck
 import { google } from 'googleapis';
+import nodemailer from 'nodemailer';
 
 // Allowlist for Origins that can post orders. Configurable via env `ALLOWED_ORIGINS` (comma-separated).
 function getAllowedOrigins(): Set<string> {
@@ -99,6 +100,56 @@ function formatTimestamp(d: Date, timeZone = 'Europe/Stockholm') {
   const hh = get('hour');
   const min = get('minute');
   return `${mm}/${dd}/${yyyy} ${hh}:${min}`;
+}
+
+async function sendOrderEmail(payload: any) {
+  // Configure transporter using environment variables
+  // Defaulting to Gmail settings as a fallback example, but env vars should be used.
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT || '465'),
+    secure: (process.env.SMTP_PORT || '465') === '465', // true for 465, false for other ports
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const isCompany = !!payload.isCompany;
+  const text = `
+New Order Received!
+
+Product: ${payload.product}
+Plan: ${payload.plan || '-'}
+Quantity: ${payload.quantity}
+
+Customer Details:
+Name: ${payload.name}
+Email: ${payload.email}
+Phone: ${payload.phone}
+Address: ${payload.deliveryAddress}
+
+Company Details:
+Is Company: ${isCompany ? 'Yes' : 'No'}
+Company Name: ${isCompany ? payload.companyName : '-'}
+Tax/VAT: ${isCompany ? payload.taxNumber : '-'}
+
+Message:
+${payload.message || '-'}
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: '"GameCam Order" <no-reply@gamecam.se>',
+      to: 'emrik@gamecam.se',
+      subject: `New Order: ${payload.product} - ${payload.name}`,
+      text: text,
+    });
+    console.log('[order] Email sent successfully');
+  } catch (error) {
+    console.error('[order] Failed to send email', error);
+    // We don't throw here to avoid failing the request if the sheet update was successful
+  }
 }
 
 export default async function handler(req, res) {
@@ -271,6 +322,8 @@ export default async function handler(req, res) {
       });
       console.log('[order] Sheets append done', appendRes.status);
     }
+
+    await sendOrderEmail(payload);
 
     res.status(200).json({ ok: true });
   } catch (err) {
