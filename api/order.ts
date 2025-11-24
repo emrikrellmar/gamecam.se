@@ -102,7 +102,7 @@ function formatTimestamp(d: Date, timeZone = 'Europe/Stockholm') {
   return `${mm}/${dd}/${yyyy} ${hh}:${min}`;
 }
 
-async function sendOrderEmail(payload: any) {
+async function sendOrderEmail(payload: any, orderId: string) {
   // Configure transporter using environment variables
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
