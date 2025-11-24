@@ -214,7 +214,7 @@ ${payload.message || '-'}
             <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Summary</h4>
             <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Order Date:</strong><br>${dateStr}</p>
             <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Email:</strong><br><a href="mailto:${payload.email}" style="color: #0056b3; text-decoration: none;">${payload.email}</a></p>
-            <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Order ID:</strong>${orderId}</p>
+            <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Order ID:</strong><br>${orderId}</p>
 
           </td>
           <td valign="top" width="50%" style="padding-left: 10px;">
