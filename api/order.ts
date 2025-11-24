@@ -165,7 +165,8 @@ ${payload.message || '-'}
         </p>
 
         <p style="margin-bottom: 0;">
-          <strong>VAT / Tax ID:</strong> ${isCompany ? payload.taxNumber : 'N/A'}
+          <strong>VAT / Tax ID:</strong><br>
+          ${isCompany ? payload.taxNumber : 'N/A'}
         </p>
       </div>
 
@@ -201,7 +202,7 @@ ${payload.message || '-'}
 
       <!-- Intro -->
       <div style="padding: 30px 0; text-align: center;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Neo_checkmark_green.svg" alt="Success" style="height: 50px; width: 50px; margin-bottom: 15px;" />
+        <img src="https://gamecam.io/assets/svg/checkmark.svg" alt="Success" style="height: 50px; width: 50px; margin-bottom: 15px;" />
         <h2 style="color: #333; margin: 0 0 10px; font-size: 24px;">Thank you for your request!</h2>
         <p style="color: #666; margin: 0; font-size: 16px; line-height: 1.5;">We have received your order request. We will review it and send you an invoice shortly.</p>
       </div>
