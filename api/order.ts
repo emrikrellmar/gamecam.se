@@ -185,7 +185,39 @@ ${payload.message || '-'}
       text: text,
       html: html,
     });
-    console.log('[order] Email sent successfully');
+    console.log('[order] Admin email sent successfully');
+
+    // Customer confirmation email
+    const customerText = `Hi ${payload.name},\n\nThank you for your order request for ${payload.product}.\nWe have received your details and will get back to you shortly with delivery details.\n\nOrder Summary:\nProduct: ${payload.product}\nQuantity: ${payload.quantity}\n\nBest regards,\nThe GameCam Team`;
+
+    const customerHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+      <h2 style="color: #0056b3;">Thank you for your order!</h2>
+      <p>Hi ${payload.name},</p>
+      <p>We have received your order request for <strong>${payload.product}</strong>.</p>
+      <p>Our team will review your order and get back to you shortly with delivery details and payment information.</p>
+      
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #0056b3; font-size: 16px;">Order Summary</h3>
+        <p style="margin: 5px 0;"><strong>Product:</strong> ${payload.product}</p>
+        <p style="margin: 5px 0;"><strong>Quantity:</strong> ${payload.quantity}</p>
+      </div>
+
+      <p>If you have any questions in the meantime, feel free to reply to this email.</p>
+      
+      <p style="margin-top: 30px;">Best regards,<br>The GameCam Team</p>
+    </div>
+    `;
+
+    await transporter.sendMail({
+      from: '"GameCam" <emrik@gamecam.se>',
+      replyTo: 'sales@gamecam.se',
+      to: payload.email,
+      subject: `Order Confirmation: ${payload.product}`,
+      text: customerText,
+      html: customerHtml,
+    });
+    console.log('[order] Customer confirmation email sent');
   } catch (error) {
     console.error('[order] Failed to send email', error);
     // We don't throw here to avoid failing the request if the sheet update was successful
