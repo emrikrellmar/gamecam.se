@@ -371,7 +371,7 @@ function ProductPage() {
                 </article>
                 
                 <article className="flex items-center gap-4 rounded-xl bg-white/80 p-4 backdrop-blur-sm border border-brand-blue/10">
-                  <img src="/assets/svg/dynamicspincontrolicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
+                  <img src="/assets/svg/shotgunicon.svg" alt="" className="h-14 w-14 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-brand-blue">Dynamic Spin Control</h3>
                     <p className="mt-1 text-sm text-neutral-700">Dial in side and top spin with ±12° oscillation and repeatable presets for every shot type.</p>
