@@ -8,7 +8,6 @@ const MeetPage: React.FC = () => {
         style={{ border: 0 }} 
         width="100%" 
         height="100%" 
-        frameBorder="0"
         title="Schedule a meeting"
         allow="camera; microphone; fullscreen"
       ></iframe>
