@@ -12,6 +12,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const OrderFormPage = lazy(() => import('./pages/OrderFormPage'));
 const InstallPage = lazy(() => import('./pages/InstallPage'));
 const ShotgunInstallPage = lazy(() => import('./pages/ShotgunInstallPage'));
+const MeetPage = lazy(() => import('./pages/MeetPage'));
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route path="/install/shotgun" element={<ShotgunInstallPage />} />
             <Route path="/install/shotgun/:step" element={<ShotgunInstallPage />} />
             <Route path="/about-us" element={<AboutPage />} />
+            <Route path="/meet" element={<MeetPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
