@@ -24,6 +24,10 @@
   "redirects": [
     {
       "source": "/(.*)",
+      "has": [
+        { "type": "host", "value": "gamecam.se" },
+        { "type": "host", "value": "www.gamecam.se" }
+      ],
       "destination": "https://gamecam.io/$1",
       "permanent": true
     }
