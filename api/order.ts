@@ -138,7 +138,7 @@ Message:
 ${payload.message || '-'}
   `;
 
-  // Simple HTML version for Admin (Internal Use)
+  // Simple HTML for Internal Use
   const html = `
     <div style="font-family: Arial, sans-serif; color: #333; font-size: 14px;">
       <h2 style="margin-bottom: 10px;">Order #${orderId}</h2>
@@ -220,7 +220,7 @@ ${payload.message || '-'}
           <td valign="top" width="50%" style="padding-left: 10px;">
             <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Shipping Address</h4>
             <p style="margin: 0; font-size: 14px; line-height: 1.6;">
-              <strong>${payload.name}</strong><br>
+              ${payload.name}<br>
               ${payload.deliveryAddress}<br>
               ${payload.phone}
             </p>
@@ -267,7 +267,7 @@ ${payload.message || '-'}
       from: '"GameCam" <no-reply@gamecam.se>',
       replyTo: 'sales@gamecam.se',
       to: payload.email,
-      subject: `Order Confirmation #${orderId}: ${payload.product}`,
+      subject: `Order Confirmation #${orderId}`,
       text: customerText,
       html: customerHtml,
     });
