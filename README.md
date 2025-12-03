@@ -1,5 +1,3 @@
-# GameCam.io
-
 ## Getting Started
 
 ### Prerequisites
