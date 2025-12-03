@@ -93,24 +93,34 @@ function HomePage() {
               Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
             </p>
           </div>
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-col gap-4 w-fit">
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#products"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-8 py-4 text-sm font-semibold text-white transition hover:bg-brand-pink shadow-lg shadow-brand-blue/20 cursor-pointer"
+              >
+                View Products
+              </a>
+              <a
+                href="https://calendly.com/gamecam-sales/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-brand-blue/20 px-8 py-4 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink bg-white"
+              >
+                Contact Sales
+              </a>
+            </div>
             <a
-              href="#products"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="inline-flex items-center justify-center rounded-full bg-brand-blue px-8 py-4 text-sm font-semibold text-white transition hover:bg-brand-pink shadow-lg shadow-brand-blue/20 cursor-pointer"
-            >
-              View Products
-            </a>
-            <a
-              href="https://calendly.com/gamecam-sales/30min"
+              href="http://localhost:5173/order/gametraq"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-brand-blue/20 px-8 py-4 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink bg-white"
+              className="inline-flex w-full items-center justify-center rounded-full border border-brand-blue/20 px-8 py-4 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink bg-white"
             >
-              Contact Sales
+              Get an estimate
             </a>
           </div>
         </div>
