@@ -52,7 +52,7 @@ function OrderFormPage() {
   const [billing, setBilling] = useState<'quarterly' | 'yearly'>('quarterly');
   const sortedCountries = useMemo(() => [...countries].sort((a, b) => a.localeCompare(b)), []);
 
-  const title = product ? `Order ${product.name} │ GameCam` : 'Order │ GameCam';
+  const title = product ? `Get an estimate for ${product.name} │ GameCam` : 'Get an estimate │ GameCam';
   const canonical = product ? `/order/${product.slug}` : '/order';
 
   const formatCurrency = (amount: number) =>
@@ -255,7 +255,7 @@ function OrderFormPage() {
       setSubmitted(true);
     } catch (err: any) {
       // If the network fails, I fall back to email to guarantee delivery
-      setSubmitError('We could not reach the order endpoint. We will open your mail app as a fallback.');
+      setSubmitError('We could not reach the estimate endpoint. We will open your mail app as a fallback.');
       window.location.href = mailtoHref;
     } finally {
       setSubmitting(false);
@@ -273,7 +273,7 @@ function OrderFormPage() {
     <div className="min-h-screen bg-gradient-to-b from-brand-blue/5 via-white to-white p-4 sm:p-6">
       <SEO
         title={title}
-        description={`Submit a purchase request for ${product.name}. A GameCam team member will follow up with delivery details and next steps.`}
+        description={`Submit an estimate request for ${product.name}. A GameCam team member will follow up with delivery details and next steps.`}
         canonical={canonical}
         image={product.image}
       />
@@ -283,7 +283,7 @@ function OrderFormPage() {
           {/* I show the product summary here to keep the form context clear */}
           <aside className="rounded-2xl border border-brand-blue/10 bg-white p-5">
             <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Order</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Estimate</p>
               <h1 className="text-3xl font-bold text-brand-blue">{product.name}</h1>
               <p className="text-sm font-medium text-brand-blue/80">{product.tagline}</p>
               <p className="text-sm text-neutral-700">{product.summary}</p>
@@ -350,7 +350,7 @@ function OrderFormPage() {
           {/* I keep the full order form in this panel */}
           <section className="rounded-2xl border border-brand-blue/10 bg-white p-5">
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Order form</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Estimate form</p>
               <p className="text-sm text-neutral-700">Fill in your details below. If you are a private individual, VAT will be added.</p>
             </div>
         {submitted ? (
@@ -527,15 +527,6 @@ function OrderFormPage() {
               className="mt-1 w-full rounded-xl border border-brand-blue/20 bg-white px-3 py-2 text-sm outline-none focus:border-brand-pink"
               required
             />
-            {errors.quantity && <p className="mt-1 text-xs text-red-600">{errors.quantity}</p>}
-            {!isGametraq && (
-              <>
-                <div className="mt-2 text-xs text-neutral-700">
-                  {form.quantity || 0} × {formatCurrency(unitPrice)} = <span className="font-semibold">{formatCurrency(subtotal)}</span>
-                </div>
-                <div className="mt-2 text-sm font-semibold text-brand-blue">Estimate (excl. VAT): {formatCurrency(subtotal)} + shipping</div>
-              </>
-            )}
           </div>
 
           <div className="lg:col-span-2">
@@ -554,7 +545,7 @@ function OrderFormPage() {
               className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink disabled:opacity-60"
               disabled={submitting}
             >
-              {submitting ? 'Submitting…' : 'Submit order request'}
+              {submitting ? 'Submitting…' : 'Submit estimate request'}
             </button>
             {submitError && <p className="mt-2 text-xs text-red-600">{submitError}</p>}
           </div>
