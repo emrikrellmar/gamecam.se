@@ -126,7 +126,6 @@ ${message || '-'}
               <p style="margin: 0; white-space: pre-wrap;">${message || 'No additional message provided.'}</p>
             </div>
           </div>
-          
           <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
             <p>This email was sent from the GameCam Estimate Form.</p>
           </div>

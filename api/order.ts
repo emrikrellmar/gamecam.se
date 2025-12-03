@@ -176,6 +176,9 @@ ${payload.message || '-'}
         ${payload.message}
       </div>
       ` : ''}
+          <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
+            <p>This email was sent from the GameCam Order Form.</p>
+          </div>
     </div>
   `;
 
@@ -260,6 +263,9 @@ ${payload.message || '-'}
         <p style="margin: 0;">If you have any questions, contact <a href="mailto:sales@gamecam.se" style="color: #0056b3; text-decoration: none;">sales@gamecam.se</a>.</p>
         <div style="display:none; font-size:0; line-height:0; color:#ffffff;">${orderId} - ${new Date().toISOString()}</div>
       </div>
+          <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
+            <p>This email was sent from the GameCam Order Form.</p>
+          </div>
     </div>
     `;
 
