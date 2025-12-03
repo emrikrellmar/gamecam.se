@@ -138,7 +138,7 @@ Message:
 ${payload.message || '-'}
   `;
 
-  // Simple HTML for Internal Use
+  // Internal use email
   const html = `
     <div style="font-family: Arial, sans-serif; color: #333; font-size: 14px;">
       <h2 style="margin-bottom: 10px;">Order #${orderId}</h2>
@@ -184,8 +184,8 @@ ${payload.message || '-'}
 
   try {
     await transporter.sendMail({
-      from: '"GameCam Order" <no-reply@gamecam.se>',
-      to: 'emrik@gamecam.se,magnus@gamecam.se,sales@gamecam.se',
+      from: '"GameCam Order"',
+      to: 'magnus@gamecam.se',
       subject: `New ${payload.product} order from ${payload.name}`,
       text: text,
       html: html,
@@ -270,8 +270,8 @@ ${payload.message || '-'}
     `;
 
     await transporter.sendMail({
-      from: '"GameCam" <no-reply@gamecam.se>',
-      replyTo: 'sales@gamecam.se',
+      from: '"GameCam"',
+      replyTo: 'magnus@gamecam.se',
       to: payload.email,
       subject: `Order Confirmation #${orderId}`,
       text: customerText,
