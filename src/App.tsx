@@ -10,6 +10,7 @@ const SupportPage = lazy(() => import('./pages/SupportPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const OrderFormPage = lazy(() => import('./pages/OrderFormPage'));
+const EstimatePage = lazy(() => import('./pages/EstimatePage'));
 const InstallPage = lazy(() => import('./pages/InstallPage'));
 const ShotgunInstallPage = lazy(() => import('./pages/ShotgunInstallPage'));
 const MeetPage = lazy(() => import('./pages/MeetPage'));
@@ -22,7 +23,8 @@ function App() {
       <Suspense fallback={null}>
         <Routes>
           {/* I keep the order form outside the layout (no header/footer) */}
-          <Route path="/order/:slug" element={<OrderFormPage />} />
+          <Route path="/estimate" element={<EstimatePage />} />
+          <Route path="/products/:slug/order" element={<OrderFormPage />} />
 
           {/* Everything else uses my shared site layout */}
           <Route element={<Layout />}>

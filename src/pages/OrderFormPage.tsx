@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
+import NotFoundPage from './NotFoundPage';
 import { getProductBySlug } from '../data/products';
 import { countries, countryDialCode } from '../data/countries';
 
@@ -39,6 +40,11 @@ const initialState: FormState = {
 function OrderFormPage() {
   const { slug } = useParams();
   const product = slug ? getProductBySlug(slug) : undefined;
+
+  if (!product) {
+    return <NotFoundPage />;
+  }
+
   const isGametraq = product?.slug === 'gametraq';
   const isShotgun = product?.slug === 'shotgun';
 
@@ -52,8 +58,8 @@ function OrderFormPage() {
   const [billing, setBilling] = useState<'quarterly' | 'yearly'>('quarterly');
   const sortedCountries = useMemo(() => [...countries].sort((a, b) => a.localeCompare(b)), []);
 
-  const title = product ? `Get an estimate for ${product.name} │ GameCam` : 'Get an estimate │ GameCam';
-  const canonical = product ? `/order/${product.slug}` : '/order';
+  const title = product ? `Get an order for ${product.name} │ GameCam` : 'Get an order │ GameCam';
+  const canonical = product ? `/products/${product.slug}/order` : '/order';
 
   const formatCurrency = (amount: number) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount);
@@ -114,10 +120,6 @@ function OrderFormPage() {
   }, [emailSubject, emailBodyEncoded]);
 
   // I only surface Gmail compose in the UI to keep the flow simple
-
-  if (!product) {
-    return <Navigate to="/products" replace />;
-  }
 
   const setField = (key: keyof FormState, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
 
@@ -255,7 +257,7 @@ function OrderFormPage() {
       setSubmitted(true);
     } catch (err: any) {
       // If the network fails, I fall back to email to guarantee delivery
-      setSubmitError('We could not reach the estimate endpoint. We will open your mail app as a fallback.');
+      setSubmitError('We could not reach the order endpoint. We will open your mail app as a fallback.');
       window.location.href = mailtoHref;
     } finally {
       setSubmitting(false);
@@ -273,7 +275,7 @@ function OrderFormPage() {
     <div className="min-h-screen bg-gradient-to-b from-brand-blue/5 via-white to-white p-4 sm:p-6">
       <SEO
         title={title}
-        description={`Submit an estimate request for ${product.name}. A GameCam team member will follow up with delivery details and next steps.`}
+        description={`Submit an order request for ${product.name}. A GameCam team member will follow up with delivery details and next steps.`}
         canonical={canonical}
         image={product.image}
       />
@@ -283,7 +285,7 @@ function OrderFormPage() {
           {/* I show the product summary here to keep the form context clear */}
           <aside className="rounded-2xl border border-brand-blue/10 bg-white p-5">
             <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Estimate</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Order</p>
               <h1 className="text-3xl font-bold text-brand-blue">{product.name}</h1>
               <p className="text-sm font-medium text-brand-blue/80">{product.tagline}</p>
               <p className="text-sm text-neutral-700">{product.summary}</p>
@@ -350,14 +352,14 @@ function OrderFormPage() {
           {/* I keep the full order form in this panel */}
           <section className="rounded-2xl border border-brand-blue/10 bg-white p-5">
             <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Estimate form</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue/70">Order form</p>
               <p className="text-sm text-neutral-700">Fill in your details below. If you are a private individual, VAT will be added.</p>
             </div>
         {submitted ? (
           <div className="mt-6 rounded-2xl border border-brand-blue/20 bg-brand-blue/5 p-6 text-sm text-brand-blue">
             <p className="font-semibold">Thanks! Your order request was sent.</p>
             <p className="mt-2 text-neutral-700">
-              A GameCam team member will follow up with delivery details and next steps. If you didnt receive a confirmation email, please check your spam folder or contact us at <a href="mailto:sales@gamecam.se">sales@gamecam.se</a>.
+              A GameCam team member will follow up with details and next steps. If you didnt receive a confirmation email, please check your spam folder or contact us at <a href="mailto:sales@gamecam.se">sales@gamecam.se</a>.
             </p>
           </div>
         ) : (
@@ -545,7 +547,7 @@ function OrderFormPage() {
               className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink disabled:opacity-60"
               disabled={submitting}
             >
-              {submitting ? 'Submitting…' : 'Submit estimate request'}
+              {submitting ? 'Submitting…' : 'Submit order request'}
             </button>
             {submitError && <p className="mt-2 text-xs text-red-600">{submitError}</p>}
           </div>

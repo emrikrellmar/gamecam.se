@@ -115,7 +115,7 @@ function HomePage() {
               </a>
             </div>
             <a
-              href="http://localhost:5173/order/gametraq"
+              href="/estimate"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full items-center justify-center rounded-full border border-brand-blue/20 px-8 py-4 text-sm font-semibold text-brand-blue transition hover:border-brand-pink hover:text-brand-pink bg-white"
@@ -219,8 +219,8 @@ function HomePage() {
                     View product page
                   </Link>
                   <CheckoutButton
-                    href={`/order/${product.slug}`}
-                    label={`Get an estimate for ${product.name}`}
+                    href={`/products/${product.slug}/order`}
+                    label={`Order ${product.name}`}
                     className="inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-pink"
                   />
                 </div>

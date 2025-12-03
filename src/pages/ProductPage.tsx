@@ -154,8 +154,8 @@ function ProductPage() {
 
             <div className="flex flex-wrap items-center gap-3">
               <CheckoutButton
-                href={`/order/${product.slug}`}
-                label={`Get an estimate`}
+                href={`/products/${product.slug}/order`}
+                label={`Order ${product.name}`}
                 className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
               />
               {productDeck && (
