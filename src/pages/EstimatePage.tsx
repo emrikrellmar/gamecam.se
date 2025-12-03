@@ -205,8 +205,11 @@ function EstimatePage() {
           </div>
 
           {submitted ? (
-            <div className="rounded-2xl border border-brand-blue/20 bg-brand-blue/5 p-6 text-sm text-brand-blue">
-              <p className="font-semibold">Thanks! Your estimate request was sent.</p>
+            <div className="rounded-2xl border border-brand-blue/20 bg-brand-blue/5 p-6 text-sm text-brand-blue text-center">
+              <p className="font-semibold">Thanks! Your estimate request was sent. We'll reach out to you shortly.</p>
+              <div className="mt-4 flex justify-center">
+                <img src="/assets/images/logos/checkmark.png" alt="Success" className="h-12 w-12" />
+              </div>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="grid gap-6">
