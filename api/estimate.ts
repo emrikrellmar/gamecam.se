@@ -74,7 +74,7 @@ export default async function handler(req: any, res: any) {
     });
 
     const mailOptions = {
-      from: `"GameCam Estimate"`,
+      from: `"GameCam Estimate Form" <${process.env.SMTP_USER}>`,
       replyTo: email,
       to: 'magnus@gamecam.se',
       subject: `New Estimate Request from ${clubName}`,
