@@ -35,6 +35,11 @@ const teamMembers: TeamMember[] = [
         label: 'Email',
         href: 'mailto:magnus@gamecam.se',
         display: 'magnus@gamecam.se'
+      },
+      {
+        label: 'Book a Meeting',
+        href: 'https://www.gamecam.io/meet',
+        display: 'gamecam.io/meet'
       }
     ]
   },
