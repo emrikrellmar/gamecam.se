@@ -74,7 +74,7 @@ export default async function handler(req: any, res: any) {
     });
 
     const mailOptions = {
-      from: `"GameCam Estimate" <${process.env.SMTP_USER}>`,
+      from: `"GameCam Estimate"`,
       replyTo: email,
       to: 'magnus@gamecam.se',
       subject: `New Estimate Request from ${clubName}`,
@@ -127,7 +127,7 @@ ${message || '-'}
             </div>
           </div>
           <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
-            <p>This email was sent from the GameCam Estimate Form.</p>
+            <p>This email was sent from the GameCam Estimate Form.<br>Reply to this email to contact the customer.</p>
           </div>
         </div>
       `

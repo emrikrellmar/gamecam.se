@@ -61,15 +61,6 @@ function Header() {
             >
               <img src="/assets/images/logos/instagram_logo.png" alt="Instagram" className="h-10 w-auto" loading="lazy" decoding="async" width="40" height="40" />
             </a>
-            <a
-              href="https://www.gamecam.io/estimate"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Get an estimate (opens in a new tab)"
-              className="hidden md:inline-flex inline-flex items-center justify-center rounded-full bg-brand-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-pink/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-            >
-              Get an estimate
-            </a>
             <button
               className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-blue/20 text-brand-blue transition hover:border-brand-pink hover:text-brand-pink focus-visible:outline-none focus-visible:ring focus-visible:ring-brand-pink/40 min-[1350px]:hidden"
               onClick={() => setOpen((value) => !value)}

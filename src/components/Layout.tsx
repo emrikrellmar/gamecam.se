@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Navigation/Header';
 import Footer from './Navigation/Footer';
+import EstimateWidget from './EstimateWidget';
 
 // I add a visually hidden live region for announcing route changes for screen readers
 import { useEffect, useRef } from 'react';
@@ -38,6 +39,7 @@ function Layout() {
       >
         <Outlet />
       </main>
+      <EstimateWidget />
       <Footer />
     </div>
   );
