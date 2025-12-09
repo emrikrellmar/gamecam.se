@@ -272,7 +272,7 @@ function OrderFormPage() {
         : undefined;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-brand-blue/5 via-white to-white p-4 sm:p-6">
+    <div>
       <SEO
         title={title}
         description={`Submit an order request for ${product.name}. A GameCam team member will follow up with delivery details and next steps.`}

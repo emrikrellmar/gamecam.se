@@ -22,16 +22,13 @@ function App() {
       <ScrollToTop />
       <Suspense fallback={null}>
         <Routes>
-          {/* I keep the order form outside the layout (no header/footer) */}
-          <Route path="/estimate" element={<EstimatePage />} />
-          <Route path="/products/:slug/order" element={<OrderFormPage />} />
-
-          {/* Everything else uses my shared site layout */}
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/products/:slug" element={<ProductPage />} />
             <Route path="/our-story" element={<StoryPage />} />
             <Route path="/support" element={<SupportPage />} />
+            <Route path="/estimate" element={<EstimatePage />} />
+            <Route path="/products/:slug/order" element={<OrderFormPage />} />
             {/* Redirect legacy setup routes to new /install flows */}
             <Route path="/support/gametraq-setup" element={<Navigate to="/install" replace />} />
             <Route path="/support/shotgun-setup" element={<Navigate to="/install/shotgun" replace />} />
