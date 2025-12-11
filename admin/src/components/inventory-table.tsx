@@ -23,6 +23,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export type InventoryItem = {
   id: string;
@@ -41,6 +51,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   const [inventory, setInventory] = useState<InventoryItem[]>(initialInventory);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<InventoryItem>>({});
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const supabase = createClient();
 
   const handleEdit = (item: InventoryItem) => {
@@ -62,8 +73,15 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
     setEditForm(newItem);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this item?")) return;
+  const handleDeleteClick = (id: string) => {
+    setItemToDelete(id);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    
+    const id = itemToDelete;
+    setItemToDelete(null); // Close dialog immediately
 
     // Optimistic update
     setInventory(inventory.filter(item => item.id !== id));
@@ -264,7 +282,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
                             <Edit className="mr-2 h-4 w-4" /> Edit
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(item.id)}>
+                          <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteClick(item.id)}>
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -277,6 +295,23 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
           </Table>
         </CardContent>
       </Card>
+
+      <AlertDialog open={!!itemToDelete} onOpenChange={(open) => !open && setItemToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the item from your inventory.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
