@@ -4,7 +4,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function LoginPage() {
+export default async function LoginPage(props: {
+  searchParams: Promise<{ error?: string }>
+}) {
+  const searchParams = await props.searchParams
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gray-50">
       <Card className="w-full max-w-sm">
@@ -26,6 +29,11 @@ export default function LoginPage() {
                 <Input id="password" name="password" type="password" required />
               </div>
               <Button className="w-full">Sign in</Button>
+              {searchParams.error && (
+                <div className="text-red-500 text-sm text-center font-medium">
+                  {searchParams.error}
+                </div>
+              )}
             </div>
           </form>
         </CardContent>
