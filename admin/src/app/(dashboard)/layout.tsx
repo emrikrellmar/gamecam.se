@@ -1,13 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
+import { DashboardNav } from '@/components/dashboard-nav'
 import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  Users, 
-  FileText, 
-  BarChart3, 
   LogOut,
   Plus,
   Search,
@@ -35,59 +29,7 @@ export default async function DashboardLayout({
       {/* Sidebar */}
       <aside className="hidden w-64 flex-col border-r bg-white md:flex">
         <div className="flex-1 overflow-auto py-4">
-          <nav className="grid items-start px-4 text-sm font-medium">
-            <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Home
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Dashboard
-            </Link>
-            <Link
-              href="/orders"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 hover:bg-gray-100"
-            >
-              <ShoppingCart className="h-4 w-4" />
-              Orders
-            </Link>
-            <Link
-              href="/inventory"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 hover:bg-gray-100"
-            >
-              <Package className="h-4 w-4" />
-              Inventory
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 hover:bg-gray-100"
-            >
-              <Users className="h-4 w-4" />
-              Customers
-            </Link>
-
-            <Separator className="my-4" />
-
-            <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Documents
-            </div>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 hover:bg-gray-100"
-            >
-              <FileText className="h-4 w-4" />
-              Reports
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 hover:bg-gray-100"
-            >
-              <BarChart3 className="h-4 w-4" />
-              Analytics
-            </Link>
-          </nav>
+          <DashboardNav />
         </div>
         <div className="border-t p-4">
           <div className="flex items-center gap-3 px-2">
