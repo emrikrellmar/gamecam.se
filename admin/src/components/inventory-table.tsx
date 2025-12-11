@@ -48,6 +48,37 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
     setEditForm(item);
   };
 
+  const handleAdd = () => {
+    const newItem: InventoryItem = {
+      id: "new",
+      name: "",
+      stock: 0,
+      supplier: "",
+      last_updated: new Date().toISOString(),
+      category: "Uncategorized"
+    };
+    setInventory([newItem, ...inventory]);
+    setEditingId("new");
+    setEditForm(newItem);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this item?")) return;
+
+    // Optimistic update
+    setInventory(inventory.filter(item => item.id !== id));
+
+    const { error } = await supabase
+      .from('inventory')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting item:', error);
+      // Revert would go here
+    }
+  };
+
   const handleSave = async () => {
     if (!editingId) return;
     
@@ -56,28 +87,50 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
       last_updated: new Date().toISOString()
     };
 
-    // Optimistic update
-    setInventory(inventory.map(item => 
-      item.id === editingId 
-        ? { ...item, ...updatedItem } as InventoryItem
-        : item
-    ));
+    if (editingId === 'new') {
+      // Remove the temporary item from state first to avoid duplicates/flicker
+      const { data, error } = await supabase
+        .from('inventory')
+        .insert([{
+          name: updatedItem.name,
+          stock: updatedItem.stock,
+          supplier: updatedItem.supplier,
+          category: updatedItem.category,
+          last_updated: updatedItem.last_updated
+        }])
+        .select()
+        .single();
 
-    // Save to Supabase
-    const { error } = await supabase
-      .from('inventory')
-      .update({
-        name: updatedItem.name,
-        stock: updatedItem.stock,
-        supplier: updatedItem.supplier,
-        category: updatedItem.category,
-        last_updated: updatedItem.last_updated
-      })
-      .eq('id', editingId);
+      if (error) {
+        console.error('Error adding item:', error);
+        return;
+      }
 
-    if (error) {
-      console.error('Error updating inventory:', error);
-      // Revert optimistic update if needed (omitted for brevity)
+      // Replace the "new" item with the real one from DB
+      setInventory(prev => [data as InventoryItem, ...prev.filter(i => i.id !== 'new')]);
+    } else {
+      // Optimistic update for existing items
+      setInventory(inventory.map(item => 
+        item.id === editingId 
+          ? { ...item, ...updatedItem } as InventoryItem
+          : item
+      ));
+
+      // Save to Supabase
+      const { error } = await supabase
+        .from('inventory')
+        .update({
+          name: updatedItem.name,
+          stock: updatedItem.stock,
+          supplier: updatedItem.supplier,
+          category: updatedItem.category,
+          last_updated: updatedItem.last_updated
+        })
+        .eq('id', editingId);
+
+      if (error) {
+        console.error('Error updating inventory:', error);
+      }
     }
 
     setEditingId(null);
@@ -85,6 +138,9 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   };
 
   const handleCancel = () => {
+    if (editingId === 'new') {
+      setInventory(inventory.filter(item => item.id !== 'new'));
+    }
     setEditingId(null);
     setEditForm({});
   };
@@ -100,7 +156,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
           <h1 className="text-3xl font-bold tracking-tight">Inventory</h1>
           <p className="text-muted-foreground">Manage your stock, suppliers, and components.</p>
         </div>
-        <Button>
+        <Button onClick={handleAdd}>
           <Plus className="mr-2 h-4 w-4" /> Add Item
         </Button>
       </div>
@@ -208,7 +264,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
                             <Edit className="mr-2 h-4 w-4" /> Edit
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(item.id)}>
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>

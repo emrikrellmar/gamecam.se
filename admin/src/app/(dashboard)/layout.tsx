@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+// Dashboard Layout
 import { redirect } from 'next/navigation'
 import { DashboardNav } from '@/components/dashboard-nav'
 import { 
@@ -10,7 +11,6 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
 
 export default async function DashboardLayout({
   children,
