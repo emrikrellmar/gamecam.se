@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge'
 import { 
   ArrowUpRight, 
   ArrowDownRight, 
-  MoreHorizontal, 
   Plus,
   Settings
 } from 'lucide-react'

@@ -8,7 +8,6 @@ import {
   Users, 
   FileText, 
   BarChart3, 
-  Settings, 
   LogOut,
   Plus,
   Search,
