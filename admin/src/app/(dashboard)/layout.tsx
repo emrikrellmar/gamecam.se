@@ -35,12 +35,6 @@ export default async function DashboardLayout({
     <div className="flex min-h-screen w-full bg-gray-50/50">
       {/* Sidebar */}
       <aside className="hidden w-64 flex-col border-r bg-white md:flex">
-        <div className="flex h-16 items-center gap-2 border-b px-6">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white font-bold">
-            G
-          </div>
-          <span className="font-bold text-lg">GameCam Admin</span>
-        </div>
         <div className="flex-1 overflow-auto py-4">
           <nav className="grid items-start px-4 text-sm font-medium">
             <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
