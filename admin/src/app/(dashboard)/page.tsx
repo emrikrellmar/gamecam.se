@@ -5,7 +5,8 @@ import {
   ArrowUpRight, 
   ArrowDownRight, 
   MoreHorizontal, 
-  Plus 
+  Plus,
+  Settings
 } from 'lucide-react'
 
 export default function DashboardPage() {
