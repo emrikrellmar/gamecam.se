@@ -16,16 +16,15 @@ export type Order = {
 
 export async function getOrders(): Promise<Order[]> {
   try {
-    const scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
-    const jwt = new google.auth.JWT(
-      process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      undefined,
-      // Handle escaped newlines in private key
-      process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      scopes
-    );
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      },
+      scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+    });
 
-    const sheets = google.sheets({ version: 'v4', auth: jwt });
+    const sheets = google.sheets({ version: 'v4', auth });
     
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
