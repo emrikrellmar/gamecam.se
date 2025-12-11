@@ -60,8 +60,8 @@ export default async function OrdersPage() {
                     <TableCell>{order.quantity}</TableCell>
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="font-medium">{order.companyName || 'Private Person'}</span>
-                        {order.company === 'Yes' && <span className="text-xs text-muted-foreground">Business</span>}
+                        <span className="font-medium">{order.customerName || order.companyName || 'Private Person'}</span>
+                        {order.company === 'Yes' && <span className="text-xs text-muted-foreground">{order.companyName}</span>}
                       </div>
                     </TableCell>
                     <TableCell>

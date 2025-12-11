@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 
 export type Order = {
+  customerName: string;
   product: string;
   quantity: string;
   company: string;
@@ -28,7 +29,7 @@ export async function getOrders(): Promise<Order[]> {
     
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
-      range: 'Orders!A2:L', // Assuming headers are in row 1 and data starts from A2 to L
+      range: 'Orders!A2:L', 
     });
 
     const rows = response.data.values;
@@ -37,34 +38,36 @@ export async function getOrders(): Promise<Order[]> {
       return [];
     }
 
-    // Map rows to Order objects based on the spreadsheet columns
-    // A: Product, B: Quantity, C: Company, D: Company name, E: Tax/VAT, F: Address, G: Phone, H: Email, I: Message, J: Timestamp, K: Order Id
-    // Note: The screenshot shows columns A-L. 
-    // A: Product
-    // B: Quantity
-    // C: Company (Yes/No)
-    // D: Company name
-    // E: Tax/VAT number
-    // F: Delivery address
-    // G: Phone number
-    // H: Email
-    // I: Message
-    // J: Time stamp
-    // K: Order Id
+    // Based on observation, there is a hidden/extra column at index 0 (Customer Name)
+    // 0: Customer Name
+    // 1: Product (A)
+    // 2: Quantity (B)
+    // 3: Company (C)
+    // 4: Company Name (D)
+    // 5: Tax/VAT (E)
+    // 6: Address (F)
+    // 7: Phone (G)
+    // 8: Email (H)
+    // 9: Message (I)
+    // 10: Timestamp (J)
+    // 11: Order Id (K)
     
-    return rows.map((row) => ({
-      product: row[0] || '',
-      quantity: row[1] || '',
-      company: row[2] || '',
-      companyName: row[3] || '',
-      taxVatNumber: row[4] || '',
-      deliveryAddress: row[5] || '',
-      phoneNumber: row[6] || '',
-      email: row[7] || '',
-      message: row[8] || '',
-      timestamp: row[9] || '',
-      orderId: row[10] || '',
-    }));
+    return rows
+      .filter(row => row[1] && row[10]) // Filter out empty rows (must have Product and Timestamp)
+      .map((row) => ({
+        customerName: row[0] || '',
+        product: row[1] || '',
+        quantity: row[2] || '',
+        company: row[3] || '',
+        companyName: row[4] || '',
+        taxVatNumber: row[5] || '',
+        deliveryAddress: row[6] || '',
+        phoneNumber: row[7] || '',
+        email: row[8] || '',
+        message: row[9] || '',
+        timestamp: row[10] || '',
+        orderId: row[11] || '',
+      }));
   } catch (error) {
     console.error('Error fetching orders from Google Sheets:', error);
     return [];
