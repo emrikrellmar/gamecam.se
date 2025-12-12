@@ -82,9 +82,12 @@ export async function addOrder(formData: FormData) {
 export async function updateOrderStatus(orderId: string, newStatus: string, trackingNumber?: string) {
   const supabase = await createClient()
 
-  const updateData: { status: string; tracking_number?: string } = { status: newStatus }
+  const updateData: { status: string; tracking_number?: string | null } = { status: newStatus }
+  
   if (trackingNumber) {
     updateData.tracking_number = trackingNumber
+  } else if (['Order placed', 'Invoice payed', 'Preparing order'].includes(newStatus)) {
+    updateData.tracking_number = null
   }
 
   const { error } = await supabase
