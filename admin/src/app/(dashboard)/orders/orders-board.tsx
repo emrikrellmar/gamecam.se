@@ -75,6 +75,9 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const [selectedOrderForEdit, setSelectedOrderForEdit] = useState<SupabaseOrder | null>(null)
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null)
   
+  // Add Order State
+  const [addProductType, setAddProductType] = useState('GAMETRAQ')
+
   // Tracking Modal State
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false)
   const [trackingOrder, setTrackingOrder] = useState<string | null>(null)
@@ -477,15 +480,34 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
             <div className="p-6">
               <h2 className="text-xl font-bold mb-4">Add New Order</h2>
               <form action={async (formData) => {
+                // If product type is not 'Other', override the product field
+                if (addProductType !== 'Other') {
+                  formData.set('product', addProductType)
+                }
                 await addOrder(formData)
                 setIsAddModalOpen(false)
                 router.refresh()
               }} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="product">Product</Label>
-                    <Input id="product" name="product" required placeholder="e.g. GAMETRAQ" />
+                    <Label htmlFor="productType">Product</Label>
+                    <select 
+                      id="productType" 
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      value={addProductType}
+                      onChange={(e) => setAddProductType(e.target.value)}
+                    >
+                      <option value="GAMETRAQ">GAMETRAQ</option>
+                      <option value="SHOTGUN">SHOTGUN</option>
+                      <option value="Other">Other</option>
+                    </select>
                   </div>
+                  {addProductType === 'Other' && (
+                    <div className="space-y-2 col-span-2">
+                      <Label htmlFor="product">Product Name</Label>
+                      <Input id="product" name="product" required placeholder="e.g. Custom Item" />
+                    </div>
+                  )}
                   <div className="space-y-2">
                     <Label htmlFor="quantity">Quantity</Label>
                     <Input id="quantity" name="quantity" type="number" required defaultValue="1" />
