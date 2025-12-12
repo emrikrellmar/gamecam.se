@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Plus, Filter, MoreHorizontal, Edit, Save, X } from "lucide-react";
+import { Search, Plus, Filter, MoreHorizontal, Edit, Save, X, Calculator } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,6 +53,21 @@ export type InventoryItem = {
   category: string;
 };
 
+const GAMETRAQ_RECIPE: Record<string, number> = {
+  "Jetson Nano": 1,
+  "USB Panel mounts": 1,
+  "12v to 5v buck converter": 1,
+  "32gb SD card": 1,
+  "IMX 219 Camera": 1,
+  "TP Link Archer T2U Plus": 1,
+  "External Antenna": 1,
+  "Cooling Fan": 1,
+  "5.5 x 2.1mm DC Barrel Jack": 1,
+  "12mm Push Button Switch": 1,
+  "LED Diode": 1,
+  "3D Prints": 1,
+};
+
 interface InventoryTableProps {
   initialInventory: InventoryItem[];
 }
@@ -65,12 +80,38 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   
   // Add Dialog state
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isBatchOpen, setIsBatchOpen] = useState(false);
+  const [batchSize, setBatchSize] = useState(1);
   const [newItem, setNewItem] = useState({ name: "", stock: "0", supplier: "", category: "GAMETRAQ" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const supabase = createClient();
 
   const categories = ["GAMETRAQ", "SHOTGUN", "Packaging", "Other"];
+
+  const calculateMissingItems = () => {
+    const missingItems: { name: string; needed: number; stock: number; missing: number }[] = [];
+    
+    Object.entries(GAMETRAQ_RECIPE).forEach(([itemName, amountPerUnit]) => {
+      // Case-insensitive search
+      const item = inventory.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+      const totalNeeded = amountPerUnit * batchSize;
+      const currentStock = item ? item.stock : 0;
+      
+      if (currentStock < totalNeeded) {
+        missingItems.push({
+          name: itemName,
+          needed: totalNeeded,
+          stock: currentStock,
+          missing: totalNeeded - currentStock
+        });
+      }
+    });
+    
+    return missingItems;
+  };
+
+  const missingItems = calculateMissingItems();
 
   const handleEdit = (item: InventoryItem) => {
     setEditingId(item.id);
@@ -195,9 +236,16 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle>{category}</CardTitle>
-                  <Button size="sm" onClick={() => openAddDialog(category)}>
-                    <Plus className="mr-2 h-4 w-4" /> Add Item
-                  </Button>
+                  <div className="flex gap-2">
+                    {category === "GAMETRAQ" && (
+                      <Button size="sm" variant="outline" onClick={() => setIsBatchOpen(true)}>
+                        <Calculator className="mr-2 h-4 w-4" /> Calculate Batch
+                      </Button>
+                    )}
+                    <Button size="sm" onClick={() => openAddDialog(category)}>
+                      <Plus className="mr-2 h-4 w-4" /> Add Item
+                    </Button>
+                  </div>
                 </div>
                 <CardDescription>
                   {categoryItems.length} items in {category}.
@@ -352,6 +400,51 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
               {isSubmitting ? "Adding..." : "Add Item"}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isBatchOpen} onOpenChange={setIsBatchOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Calculate Batch Requirements</DialogTitle>
+            <DialogDescription>
+              Enter the number of GAMETRAQ units you want to build to see what parts you need to order.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="flex items-center gap-4">
+              <Label htmlFor="batch-size" className="whitespace-nowrap">Batch Size:</Label>
+              <Input 
+                id="batch-size" 
+                type="number" 
+                min="1"
+                value={batchSize} 
+                onChange={(e) => setBatchSize(parseInt(e.target.value) || 0)}
+                className="w-24"
+              />
+            </div>
+
+            <div className="rounded-md border p-4 bg-muted/50">
+              <h4 className="mb-2 font-semibold">Missing Components</h4>
+              {missingItems.length === 0 ? (
+                <div className="text-green-600 flex items-center gap-2">
+                  <span>✓</span> You have enough stock for this batch!
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {missingItems.map((item, idx) => (
+                    <div key={idx} className="flex justify-between text-sm">
+                      <span>{item.name}</span>
+                      <span className="font-medium text-red-600">
+                        Need {item.missing} more (Have {item.stock}/{item.needed})
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
