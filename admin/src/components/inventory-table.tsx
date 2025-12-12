@@ -174,28 +174,15 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
           <h1 className="text-3xl font-bold tracking-tight">Inventory</h1>
           <p className="text-muted-foreground">Manage your stock, suppliers, and components.</p>
         </div>
-        <Button onClick={handleAdd}>
-          <Plus className="mr-2 h-4 w-4" /> Add Item
-        </Button>
       </div>
 
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle>Current Stock</CardTitle>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search items..."
-                  className="w-[200px] pl-8 lg:w-[300px]"
-                />
-              </div>
-              <Button variant="outline" size="icon">
-                <Filter className="h-4 w-4" />
-              </Button>
-            </div>
+            <Button onClick={handleAdd}>
+              <Plus className="mr-2 h-4 w-4" /> Add Item
+            </Button>
           </div>
           <CardDescription>
             You have {inventory.length} items in your inventory.

@@ -54,20 +54,28 @@ export async function getOrders(): Promise<Order[]> {
     
     return rows
       .filter(row => row[1] && row[10]) // Filter out empty rows (must have Product and Timestamp)
-      .map((row) => ({
-        customerName: row[0] || '',
-        product: row[1] || '',
-        quantity: row[2] || '',
-        company: row[3] || '',
-        companyName: row[4] || '',
-        taxVatNumber: row[5] || '',
-        deliveryAddress: row[6] || '',
-        phoneNumber: row[7] || '',
-        email: row[8] || '',
-        message: row[9] || '',
-        timestamp: row[10] || '',
-        orderId: row[11] || '',
-      }));
+      .map((row) => {
+        const clean = (val: any) => {
+          if (!val) return '';
+          const str = String(val);
+          return str.startsWith("'") ? str.substring(1) : str;
+        };
+
+        return {
+          customerName: clean(row[0]),
+          product: clean(row[1]),
+          quantity: clean(row[2]),
+          company: clean(row[3]),
+          companyName: clean(row[4]),
+          taxVatNumber: clean(row[5]),
+          deliveryAddress: clean(row[6]),
+          phoneNumber: clean(row[7]),
+          email: clean(row[8]),
+          message: clean(row[9]),
+          timestamp: clean(row[10]),
+          orderId: clean(row[11]),
+        };
+      });
   } catch (error) {
     console.error('Error fetching orders from Google Sheets:', error);
     return [];

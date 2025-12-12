@@ -25,7 +25,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-gray-50/50">
+    <div className="flex h-screen w-full overflow-hidden bg-gray-50/50">
       {/* Sidebar */}
       <aside className="hidden w-64 flex-col border-r bg-white md:flex">
         <div className="flex-1 overflow-auto py-4">
@@ -51,19 +51,14 @@ export default async function DashboardLayout({
       </aside>
 
       {/* Main Content */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-16 items-center gap-4 border-b bg-white px-6">
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-5 w-5" />
           </Button>
           <div className="w-full flex-1">
-            <h1 className="font-semibold text-lg">Overview</h1>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm" className="hidden sm:flex gap-2">
-              <Search className="h-4 w-4" />
-              Search...
-            </Button>
             <Button variant="ghost" size="icon">
               <Bell className="h-4 w-4" />
             </Button>

@@ -39,3 +39,32 @@ insert into inventory (name, stock, supplier, last_updated, category) values
 ('12mm Push Button Switch', 35, 'AliExpress', '2023-08-15', 'Electronics'),
 ('LED Diode', 100, 'AliExpress', '2023-08-15', 'Electronics'),
 ('3D Prints', 2, 'In-house', '2023-11-10', 'Enclosure');
+
+-- Create the orders table
+create table if not exists orders (
+  id uuid default gen_random_uuid() primary key,
+  order_id text unique,
+  customer_name text,
+  product text,
+  quantity text,
+  company text,
+  company_name text,
+  tax_vat_number text,
+  delivery_address text,
+  phone_number text,
+  email text,
+  message text,
+  timestamp text,
+  status text default 'Order placed',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable Row Level Security (RLS)
+alter table orders enable row level security;
+
+-- Create policies for orders
+create policy "Enable read access for authenticated users" on orders
+  for select using (auth.role() = 'authenticated');
+
+create policy "Enable write access for authenticated users" on orders
+  for all using (auth.role() = 'authenticated');
