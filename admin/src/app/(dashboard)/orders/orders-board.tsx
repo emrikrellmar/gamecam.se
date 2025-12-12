@@ -6,8 +6,8 @@ import { Order } from '@/lib/google-sheets' // We might need to update this type
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil } from 'lucide-react'
-import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails } from './actions'
+import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil, Trash2 } from 'lucide-react'
+import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails, deleteOrder } from './actions'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import {
   Dialog,
   DialogContent,
@@ -63,6 +73,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState<SupabaseOrder | null>(null)
   const [selectedOrderForEdit, setSelectedOrderForEdit] = useState<SupabaseOrder | null>(null)
+  const [orderToDelete, setOrderToDelete] = useState<string | null>(null)
   
   // Tracking Modal State
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false)
@@ -117,6 +128,24 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
     
     if (!result.success) {
       console.error('Failed to update status')
+      router.refresh()
+    } else {
+      router.refresh()
+    }
+  }
+
+  const handleDeleteOrder = async () => {
+    if (!orderToDelete) return
+
+    // Optimistic update
+    setOrders(orders.filter(o => o.id !== orderToDelete))
+    
+    const result = await deleteOrder(orderToDelete)
+    
+    setOrderToDelete(null)
+    
+    if (!result.success) {
+      console.error('Failed to delete order')
       router.refresh()
     } else {
       router.refresh()
@@ -195,6 +224,9 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                       <DropdownMenuItem onClick={() => setSelectedOrderForEdit(order)}>
                         <Pencil className="mr-2 h-4 w-4" /> Edit Order
                       </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setOrderToDelete(order.id)} className="text-red-600 focus:text-red-600">
+                        <Trash2 className="mr-2 h-4 w-4" /> Delete Order
+                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuLabel>Move to...</DropdownMenuLabel>
                       <DropdownMenuSeparator />
@@ -248,6 +280,24 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
           ))
         )}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={!!orderToDelete} onOpenChange={(open) => !open && setOrderToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the order from the database.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteOrder} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Invoice Data Modal */}
       {selectedOrderForInvoice && (

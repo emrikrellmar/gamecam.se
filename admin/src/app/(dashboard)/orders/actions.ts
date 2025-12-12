@@ -120,8 +120,20 @@ export async function updateOrderDetails(orderId: string, formData: FormData) {
     .update(rawData)
     .eq('id', orderId)
 
+  revalidatePath('/orders')
+  return { success: true }
+}
+
+export async function deleteOrder(orderId: string) {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('orders')
+    .delete()
+    .eq('id', orderId)
+
   if (error) {
-    console.error('Error updating order details:', error)
+    console.error('Error deleting order:', error)
     return { success: false, error: error.message }
   }
 
