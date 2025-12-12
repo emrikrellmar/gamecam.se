@@ -50,7 +50,7 @@ export function DashboardNav() {
       <Separator className="my-4" />
 
       <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-        Sales & Customers
+        Sales
       </div>
       <Link
         href="/orders"
@@ -61,16 +61,6 @@ export function DashboardNav() {
       >
         <ShoppingCart className="h-4 w-4" />
         Orders
-      </Link>
-      <Link
-        href="/customers"
-        className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/customers') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
-        )}
-      >
-        <Users className="h-4 w-4" />
-        Customers
       </Link>
       
       <AlertDialog>
