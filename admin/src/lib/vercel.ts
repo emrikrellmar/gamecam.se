@@ -8,7 +8,7 @@ export async function getVercelAnalytics() {
     return null;
   }
 
-  const url = new URL("https://api.vercel.com/v1/web/analytics/stats");
+  const url = new URL("https://api.vercel.com/v1/web/analytics/visitors");
   url.searchParams.set("projectId", projectId);
   if (teamId) url.searchParams.set("teamId", teamId);
   
