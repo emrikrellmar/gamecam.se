@@ -183,61 +183,49 @@ export function CustomersTable({ orders, manualCustomers }: CustomersTableProps)
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add New Customer</DialogTitle>
+              <DialogTitle>Create New Customer</DialogTitle>
               <DialogDescription>
-                Manually add a customer to your database.
+                Add a new customer to the database.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   value={newCustomer.name}
                   onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
-                  className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-right">
-                  Email
-                </Label>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   value={newCustomer.email}
                   onChange={(e) => setNewCustomer({ ...newCustomer, email: e.target.value })}
-                  className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="phone" className="text-right">
-                  Phone
-                </Label>
+              <div className="grid gap-2">
+                <Label htmlFor="phone">Phone</Label>
                 <Input
                   id="phone"
                   value={newCustomer.phone}
                   onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })}
-                  className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="address" className="text-right">
-                  Address
-                </Label>
+              <div className="grid gap-2">
+                <Label htmlFor="address">Address</Label>
                 <Input
                   id="address"
                   value={newCustomer.address}
                   onChange={(e) => setNewCustomer({ ...newCustomer, address: e.target.value })}
-                  className="col-span-3"
                 />
               </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
               <Button onClick={handleAddCustomer} disabled={isSubmitting}>
-                {isSubmitting ? "Saving..." : "Save Customer"}
+                {isSubmitting ? "Creating..." : "Create Customer"}
               </Button>
             </DialogFooter>
           </DialogContent>
