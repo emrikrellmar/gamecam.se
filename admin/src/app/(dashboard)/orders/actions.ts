@@ -79,12 +79,17 @@ export async function addOrder(formData: FormData) {
   return { success: true }
 }
 
-export async function updateOrderStatus(orderId: string, newStatus: string) {
+export async function updateOrderStatus(orderId: string, newStatus: string, trackingNumber?: string) {
   const supabase = await createClient()
+
+  const updateData: { status: string; tracking_number?: string } = { status: newStatus }
+  if (trackingNumber) {
+    updateData.tracking_number = trackingNumber
+  }
 
   const { error } = await supabase
     .from('orders')
-    .update({ status: newStatus })
+    .update(updateData)
     .eq('id', orderId)
 
   if (error) {

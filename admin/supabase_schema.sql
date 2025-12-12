@@ -56,6 +56,7 @@ create table if not exists orders (
   message text,
   timestamp text,
   status text default 'Order placed',
+  tracking_number text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

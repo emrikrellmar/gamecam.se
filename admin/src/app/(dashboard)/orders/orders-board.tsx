@@ -16,6 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -36,6 +44,7 @@ export type SupabaseOrder = {
   timestamp: string
   status: string
   created_at: string
+  tracking_number?: string
 }
 
 const STATUSES = [
@@ -53,6 +62,11 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const [activeTab, setActiveTab] = useState('Order placed')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState<SupabaseOrder | null>(null)
+  
+  // Tracking Modal State
+  const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false)
+  const [trackingOrder, setTrackingOrder] = useState<string | null>(null)
+  const [trackingNumber, setTrackingNumber] = useState('')
 
   const handleSync = async () => {
     setIsSyncing(true)
@@ -69,6 +83,12 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   }
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
+    if (newStatus === 'Shipped') {
+      setTrackingOrder(orderId)
+      setIsTrackingModalOpen(true)
+      return
+    }
+
     // Optimistic update
     setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o))
     
@@ -77,6 +97,26 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
       // Revert
       console.error('Failed to update status')
       router.refresh() // Revert by refreshing
+    } else {
+      router.refresh()
+    }
+  }
+
+  const confirmShippedStatus = async () => {
+    if (!trackingOrder) return
+    
+    // Optimistic update
+    setOrders(orders.map(o => o.id === trackingOrder ? { ...o, status: 'Shipped', tracking_number: trackingNumber } : o))
+    
+    const result = await updateOrderStatus(trackingOrder, 'Shipped', trackingNumber)
+    
+    setIsTrackingModalOpen(false)
+    setTrackingOrder(null)
+    setTrackingNumber('')
+    
+    if (!result.success) {
+      console.error('Failed to update status')
+      router.refresh()
     } else {
       router.refresh()
     }
@@ -178,6 +218,19 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                   <div>
                     <p className="font-medium text-gray-900">Delivery</p>
                     <p className="whitespace-pre-wrap">{order.delivery_address}</p>
+                    {order.tracking_number && (
+                      <div className="mt-2">
+                        <a 
+                          href={`https://www.fedex.com/fedextrack/?trknbr=${order.tracking_number}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline text-sm flex items-center gap-1"
+                        >
+                          <Truck className="h-3 w-3" />
+                          Track Package ({order.tracking_number})
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {order.message && (
@@ -251,6 +304,36 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
           </div>
         </div>
       )}
+
+      {/* Tracking Number Modal */}
+      <Dialog open={isTrackingModalOpen} onOpenChange={setIsTrackingModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Enter Tracking Number</DialogTitle>
+            <DialogDescription>
+              Please enter the FedEx tracking number for this order.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="tracking" className="text-right">
+                Tracking #
+              </Label>
+              <Input
+                id="tracking"
+                value={trackingNumber}
+                onChange={(e) => setTrackingNumber(e.target.value)}
+                className="col-span-3"
+                placeholder="e.g. 886962630319"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsTrackingModalOpen(false)}>Cancel</Button>
+            <Button onClick={confirmShippedStatus}>Confirm Shipped</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Simple Add Modal */}
       {isAddModalOpen && (
