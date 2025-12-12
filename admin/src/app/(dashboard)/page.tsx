@@ -7,9 +7,11 @@ import {
   AlertTriangle, 
   Activity,
   Truck,
-  CheckCircle2
+  CheckCircle2,
+  Users
 } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
+import { getVercelAnalytics } from '@/lib/vercel'
 
 export const revalidate = 0;
 
@@ -21,6 +23,9 @@ export default async function DashboardPage() {
   
   // Fetch Orders
   const { data: orders } = await supabase.from('orders').select('*')
+
+  // Fetch Analytics
+  const analytics = await getVercelAnalytics()
 
   // Calculate Capacity
   let capacity = 0
@@ -59,7 +64,7 @@ export default async function DashboardPage() {
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{capacity} Units</div>
+            <div className="text-2xl font-bold">{capacity} GAMETRAQS</div>
             <p className="text-xs text-muted-foreground mt-2">
               Limited by <span className="font-medium text-red-500">{limitingItem?.name || 'Nothing'}</span>
             </p>
@@ -100,14 +105,16 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Low Stock Alerts
+              Website Visitors
             </CardTitle>
-            <AlertTriangle className="h-4 w-4 text-red-500" />
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{lowStockItems.length}</div>
+            <div className="text-2xl font-bold">
+              {analytics ? analytics.visitors.toLocaleString() : '-'}
+            </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Items below 5 units
+              Last 30 days on gamecam.io
             </p>
           </CardContent>
         </Card>
