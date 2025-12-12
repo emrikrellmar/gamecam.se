@@ -8,7 +8,6 @@ import {
   ShoppingCart, 
   Users, 
   FileText, 
-  Wrench,
   Camera
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
@@ -82,16 +81,6 @@ export function DashboardNav() {
       <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
         Operations
       </div>
-      <Link
-        href="/routines"
-        className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/routines') && !isActive('/routines/build-camera') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
-        )}
-      >
-        <Wrench className="h-4 w-4" />
-        Routines
-      </Link>
       <Link
         href="/routines/build-camera"
         className={cn(
