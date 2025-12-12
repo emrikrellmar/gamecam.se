@@ -92,8 +92,33 @@ export async function updateOrderStatus(orderId: string, newStatus: string, trac
     .update(updateData)
     .eq('id', orderId)
 
+  revalidatePath('/orders')
+  return { success: true }
+}
+
+export async function updateOrderDetails(orderId: string, formData: FormData) {
+  const supabase = await createClient()
+  
+  const rawData = {
+    customer_name: formData.get('customerName') as string,
+    product: formData.get('product') as string,
+    quantity: formData.get('quantity') as string,
+    company: formData.get('company') as string,
+    company_name: formData.get('companyName') as string,
+    tax_vat_number: formData.get('taxVatNumber') as string,
+    delivery_address: formData.get('deliveryAddress') as string,
+    phone_number: formData.get('phoneNumber') as string,
+    email: formData.get('email') as string,
+    message: formData.get('message') as string,
+  }
+
+  const { error } = await supabase
+    .from('orders')
+    .update(rawData)
+    .eq('id', orderId)
+
   if (error) {
-    console.error('Error updating status:', error)
+    console.error('Error updating order details:', error)
     return { success: false, error: error.message }
   }
 

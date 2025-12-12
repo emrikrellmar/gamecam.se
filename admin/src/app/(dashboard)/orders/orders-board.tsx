@@ -6,8 +6,8 @@ import { Order } from '@/lib/google-sheets' // We might need to update this type
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck } from 'lucide-react'
-import { syncOrders, addOrder, updateOrderStatus } from './actions'
+import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil } from 'lucide-react'
+import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails } from './actions'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,6 +62,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const [activeTab, setActiveTab] = useState('Order placed')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState<SupabaseOrder | null>(null)
+  const [selectedOrderForEdit, setSelectedOrderForEdit] = useState<SupabaseOrder | null>(null)
   
   // Tracking Modal State
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false)
@@ -190,6 +191,9 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => setSelectedOrderForInvoice(order)}>
                         <FileText className="mr-2 h-4 w-4" /> View Invoice Data
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSelectedOrderForEdit(order)}>
+                        <Pencil className="mr-2 h-4 w-4" /> Edit Order
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuLabel>Move to...</DropdownMenuLabel>
@@ -334,6 +338,87 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Edit Order Modal */}
+      {selectedOrderForEdit && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <h2 className="text-xl font-bold mb-4">Edit Order</h2>
+              <form action={async (formData) => {
+                await updateOrderDetails(selectedOrderForEdit.id, formData)
+                setSelectedOrderForEdit(null)
+                router.refresh()
+              }} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-product">Product</Label>
+                    <Input id="edit-product" name="product" required defaultValue={selectedOrderForEdit.product} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-quantity">Quantity</Label>
+                    <Input id="edit-quantity" name="quantity" type="number" required defaultValue={selectedOrderForEdit.quantity} />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="edit-customerName">Customer Name</Label>
+                  <Input id="edit-customerName" name="customerName" required defaultValue={selectedOrderForEdit.customer_name} />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-email">Email</Label>
+                  <Input id="edit-email" name="email" type="email" required defaultValue={selectedOrderForEdit.email} />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-phoneNumber">Phone</Label>
+                  <Input id="edit-phoneNumber" name="phoneNumber" defaultValue={selectedOrderForEdit.phone_number} />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-deliveryAddress">Delivery Address</Label>
+                  <Input id="edit-deliveryAddress" name="deliveryAddress" required defaultValue={selectedOrderForEdit.delivery_address} />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-company">Is Company?</Label>
+                    <select 
+                      id="edit-company" 
+                      name="company" 
+                      defaultValue={selectedOrderForEdit.company}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-companyName">Company Name</Label>
+                    <Input id="edit-companyName" name="companyName" defaultValue={selectedOrderForEdit.company_name} />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-taxVatNumber">VAT / Tax ID</Label>
+                  <Input id="edit-taxVatNumber" name="taxVatNumber" defaultValue={selectedOrderForEdit.tax_vat_number} />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-message">Message</Label>
+                  <Input id="edit-message" name="message" defaultValue={selectedOrderForEdit.message} />
+                </div>
+
+                <div className="flex justify-end gap-2 pt-4">
+                  <Button type="button" variant="outline" onClick={() => setSelectedOrderForEdit(null)}>Cancel</Button>
+                  <Button type="submit">Save Changes</Button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Simple Add Modal */}
       {isAddModalOpen && (
