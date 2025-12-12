@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
 import { getVercelAnalytics } from '@/lib/vercel'
+import { InventoryPieChart } from '@/components/inventory-pie-chart'
 
 export const revalidate = 0;
 
@@ -48,8 +49,20 @@ export default async function DashboardPage() {
   const activeOrders = orders?.filter(o => ['Order placed', 'Invoice payed', 'Preparing order'].includes(o.status)).length || 0
   const completedOrders = orders?.filter(o => ['Shipped', 'Onboarding done'].includes(o.status)).length || 0
   
-  // Low stock items (e.g. < 5)
-  const lowStockItems = inventory?.filter(i => i.stock < 5 && i.category === 'GAMETRAQ').sort((a, b) => a.stock - b.stock) || []
+  // Low stock items (e.g. < 5) - Show ALL items
+  const lowStockItems = inventory?.filter(i => i.stock < 5).sort((a, b) => a.stock - b.stock) || []
+
+  // Prepare Pie Chart Data
+  const categoryCounts = ((inventory as any[]) || []).reduce((acc: Record<string, number>, item: any) => {
+    const cat = item.category || 'Uncategorized'
+    acc[cat] = (acc[cat] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  const pieChartData = Object.entries(categoryCounts).map(([name, value]) => ({
+    name,
+    value,
+  }))
 
   return (
     <div className="space-y-6">
@@ -168,26 +181,7 @@ export default async function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {/* We can group by category here if we want, for now let's just show top categories */}
-              {Object.entries(
-                ((inventory as any[]) || []).reduce((acc: Record<string, number>, item: any) => {
-                  const cat = item.category
-                  acc[cat] = (acc[cat] || 0) + 1
-                  return acc
-                }, {} as Record<string, number>)
-              ).map(([category, count]) => (
-                <div key={category} className="flex items-center">
-                  <div className="w-full space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">{category}</span>
-                      <span className="text-xs text-muted-foreground">{count} items</span>
-                    </div>
-                    <Progress value={(count / (inventory?.length || 1)) * 100} className="h-2" />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <InventoryPieChart data={pieChartData} />
           </CardContent>
         </Card>
       </div>
