@@ -53,21 +53,6 @@ export type InventoryItem = {
   category: string;
 };
 
-const GAMETRAQ_RECIPE: Record<string, number> = {
-  "Jetson Nano": 1,
-  "USB Panel mounts": 1,
-  "12v to 5v buck converter": 1,
-  "32gb SD card": 1,
-  "IMX 219 Camera": 1,
-  "TP Link Archer T2U Plus": 1,
-  "External Antenna": 1,
-  "Cooling Fan": 1,
-  "5.5 x 2.1mm DC Barrel Jack": 1,
-  "12mm Push Button Switch": 1,
-  "LED Diode": 1,
-  "3D Prints": 1,
-};
-
 interface InventoryTableProps {
   initialInventory: InventoryItem[];
 }
@@ -92,15 +77,18 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   const calculateMissingItems = () => {
     const missingItems: { name: string; needed: number; stock: number; missing: number }[] = [];
     
-    Object.entries(GAMETRAQ_RECIPE).forEach(([itemName, amountPerUnit]) => {
-      // Case-insensitive search
-      const item = inventory.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+    // Get all items in GAMETRAQ category
+    const gametraqItems = inventory.filter(item => item.category === "GAMETRAQ");
+    
+    gametraqItems.forEach((item) => {
+      // Assume 1 unit needed per item for now
+      const amountPerUnit = 1;
       const totalNeeded = amountPerUnit * batchSize;
-      const currentStock = item ? item.stock : 0;
+      const currentStock = item.stock;
       
       if (currentStock < totalNeeded) {
         missingItems.push({
-          name: itemName,
+          name: item.name,
           needed: totalNeeded,
           stock: currentStock,
           missing: totalNeeded - currentStock
@@ -111,14 +99,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
     return missingItems;
   };
 
-  const calculateUntrackedItems = () => {
-    return Object.keys(GAMETRAQ_RECIPE).filter(itemName => 
-      !inventory.some(i => i.name.toLowerCase() === itemName.toLowerCase())
-    );
-  };
-
   const missingItems = calculateMissingItems();
-  const untrackedItems = calculateUntrackedItems();
 
   const handleEdit = (item: InventoryItem) => {
     setEditingId(item.id);
@@ -153,35 +134,6 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
     } catch (error) {
       console.error('Error adding item:', error);
       alert('Failed to add item');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleCreateMissingItems = async () => {
-    setIsSubmitting(true);
-    try {
-      const newItems = untrackedItems.map(name => ({
-        name,
-        stock: 0,
-        supplier: "",
-        category: "GAMETRAQ",
-        last_updated: new Date().toISOString()
-      }));
-
-      const { data, error } = await supabase
-        .from('inventory')
-        .insert(newItems)
-        .select();
-
-      if (error) throw error;
-
-      if (data) {
-        setInventory([...(data as InventoryItem[]), ...inventory]);
-      }
-    } catch (error) {
-      console.error('Error creating missing items:', error);
-      alert('Failed to create missing items');
     } finally {
       setIsSubmitting(false);
     }
@@ -460,28 +412,6 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
                 className="w-24"
               />
             </div>
-
-            {untrackedItems.length > 0 && (
-              <div className="rounded-md border p-4 bg-yellow-50 border-yellow-200">
-                <h4 className="mb-2 font-semibold text-yellow-800">Missing from Inventory List</h4>
-                <p className="text-sm text-yellow-700 mb-3">
-                  The following items are required for the recipe but don't exist in your inventory list yet:
-                </p>
-                <ul className="list-disc list-inside text-sm text-yellow-700 mb-4">
-                  {untrackedItems.map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <Button 
-                  size="sm" 
-                  onClick={handleCreateMissingItems} 
-                  disabled={isSubmitting}
-                  className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
-                >
-                  {isSubmitting ? "Adding Items..." : "Add Missing Items to Inventory"}
-                </Button>
-              </div>
-            )}
 
             <div className="rounded-md border p-4 bg-muted/50">
               <h4 className="mb-2 font-semibold">Missing Components</h4>
