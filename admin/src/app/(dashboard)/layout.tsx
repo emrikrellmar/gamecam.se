@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { QuickCreate } from '@/components/quick-create'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { signout } from '@/app/login/actions'
 
 export default async function DashboardLayout({
   children,
@@ -43,8 +44,8 @@ export default async function DashboardLayout({
               <span className="text-sm font-medium truncate w-32">{user.email}</span>
               <span className="text-xs text-muted-foreground">Admin</span>
             </div>
-            <form action="/auth/signout" method="post">
-               <Button variant="ghost" size="icon" className="ml-auto h-8 w-8">
+            <form action={signout}>
+               <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 text-muted-foreground hover:text-red-600">
                   <LogOut className="h-4 w-4" />
                </Button>
             </form>
@@ -76,6 +77,11 @@ export default async function DashboardLayout({
                       <span className="text-sm font-medium truncate w-32">{user.email}</span>
                       <span className="text-xs text-muted-foreground">Admin</span>
                     </div>
+                    <form action={signout}>
+                      <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 text-muted-foreground hover:text-red-600">
+                          <LogOut className="h-4 w-4" />
+                      </Button>
+                    </form>
                   </div>
                 </div>
               </div>

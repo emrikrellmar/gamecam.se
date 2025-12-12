@@ -8,12 +8,10 @@ import {
   ShoppingCart, 
   Users, 
   FileText, 
-  Camera,
-  LogOut
+  Camera
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { signout } from '@/app/login/actions'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -117,18 +115,6 @@ export function DashboardNav() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
-      <Separator className="my-4" />
-
-      <button
-        onClick={() => signout()}
-        className={cn(
-          "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 text-gray-500 hover:bg-gray-100 text-red-500 hover:text-red-600 hover:bg-red-50"
-        )}
-      >
-        <LogOut className="h-4 w-4" />
-        Sign Out
-      </button>
     </nav>
   )
 }
