@@ -41,7 +41,7 @@ export function QuickCreate() {
     customer_name: "", 
     email: "", 
     phone_number: "",
-    product: "", 
+    product: "GAMETRAQ", 
     quantity: "1",
     delivery_address: "",
     company: "No",
@@ -49,6 +49,7 @@ export function QuickCreate() {
     tax_vat_number: "",
     message: ""
   })
+  const [productType, setProductType] = useState("GAMETRAQ")
 
   const handleCreateCustomer = async () => {
     setIsLoading(true)
@@ -89,9 +90,14 @@ export function QuickCreate() {
     setIsLoading(true)
     try {
       // Generate a random Order ID for now
-      const orderId = `ORD-${Math.floor(Math.random() * 10000)}`
+      const orderId = Math.floor(10000000 + Math.random() * 90000000).toString()
+      
+      // Determine final product name
+      const finalProduct = productType === 'Other' ? orderForm.product : productType
+
       const { error } = await supabase.from('orders').insert([{
         ...orderForm,
+        product: finalProduct,
         order_id: orderId,
         status: 'Order placed',
         timestamp: new Date().toISOString()
@@ -237,13 +243,35 @@ export function QuickCreate() {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label>Product</Label>
-                <Input value={orderForm.product} onChange={e => setOrderForm({...orderForm, product: e.target.value})} />
+                <select 
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={productType}
+                  onChange={e => {
+                    setProductType(e.target.value)
+                    if (e.target.value !== 'Other') {
+                      setOrderForm({...orderForm, product: e.target.value})
+                    } else {
+                      setOrderForm({...orderForm, product: ''})
+                    }
+                  }}
+                >
+                  <option value="GAMETRAQ">GAMETRAQ</option>
+                  <option value="SHOTGUN">SHOTGUN</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
               <div className="grid gap-2">
                 <Label>Quantity</Label>
                 <Input type="number" value={orderForm.quantity} onChange={e => setOrderForm({...orderForm, quantity: e.target.value})} />
               </div>
             </div>
+
+            {productType === 'Other' && (
+              <div className="grid gap-2">
+                <Label>Product Name</Label>
+                <Input value={orderForm.product} onChange={e => setOrderForm({...orderForm, product: e.target.value})} placeholder="e.g. Custom Item" />
+              </div>
+            )}
             
             <div className="grid gap-2">
               <Label>Customer Name</Label>
