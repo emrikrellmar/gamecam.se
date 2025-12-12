@@ -8,7 +8,8 @@ import {
   ShoppingCart, 
   Users, 
   FileText, 
-  Camera
+  Camera,
+  Tag
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
@@ -45,6 +46,12 @@ export function DashboardNav() {
         <LayoutDashboard className="h-4 w-4" />
         Dashboard
       </Link>
+
+      <Separator className="my-4" />
+
+      <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+        Sales & Customers
+      </div>
       <Link
         href="/orders"
         className={cn(
@@ -56,16 +63,6 @@ export function DashboardNav() {
         Orders
       </Link>
       <Link
-        href="/inventory"
-        className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/inventory') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
-        )}
-      >
-        <Package className="h-4 w-4" />
-        Inventory
-      </Link>
-      <Link
         href="/customers"
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
@@ -75,6 +72,36 @@ export function DashboardNav() {
         <Users className="h-4 w-4" />
         Customers
       </Link>
+      
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            className={cn(
+              "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 text-gray-500 hover:bg-gray-100"
+            )}
+          >
+            <Tag className="h-4 w-4" />
+            Discounts
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Coming Soon</AlertDialogTitle>
+            <AlertDialogDescription>
+              The Discounts feature is currently under development and will be available in a future update.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>Okay</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <Separator className="my-4" />
+
+      <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+        Routines
+      </div>
       <Link
         href="/build-camera"
         className={cn(
@@ -83,7 +110,17 @@ export function DashboardNav() {
         )}
       >
         <Camera className="h-4 w-4" />
-        Build Camera
+        Build a GameTraq
+      </Link>
+      <Link
+        href="/inventory"
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
+          isActive('/inventory') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+        )}
+      >
+        <Package className="h-4 w-4" />
+        Inventory
       </Link>
 
       <Separator className="my-4" />
