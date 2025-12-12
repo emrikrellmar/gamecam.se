@@ -6,8 +6,9 @@ import { Order } from '@/lib/google-sheets' // We might need to update this type
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil, Trash2 } from 'lucide-react'
+import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil, Trash2, LayoutGrid, List } from 'lucide-react'
 import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails, deleteOrder } from './actions'
+import { OrdersTable } from './orders-table'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -82,6 +83,9 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false)
   const [trackingOrder, setTrackingOrder] = useState<string | null>(null)
   const [trackingNumber, setTrackingNumber] = useState('')
+  
+  // View State
+  const [viewMode, setViewMode] = useState<'board' | 'list'>('board')
 
   const handleSync = async () => {
     setIsSyncing(true)
@@ -164,7 +168,27 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
           <h1 className="text-3xl font-bold tracking-tight">Orders</h1>
           <p className="text-muted-foreground">Manage orders, track status, and sync with Google Sheets.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center border rounded-md bg-background mr-2">
+            <Button
+              variant={viewMode === 'board' ? 'secondary' : 'ghost'}
+              size="sm"
+              className="h-8 px-2 rounded-r-none"
+              onClick={() => setViewMode('board')}
+            >
+              <LayoutGrid className="h-4 w-4 mr-2" />
+              Board
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+              size="sm"
+              className="h-8 px-2 rounded-l-none"
+              onClick={() => setViewMode('list')}
+            >
+              <List className="h-4 w-4 mr-2" />
+              List
+            </Button>
+          </div>
           <Button variant="outline" onClick={handleSync} disabled={isSyncing}>
             <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
             {isSyncing ? 'Syncing...' : 'Sync Sheets'}
@@ -175,35 +199,44 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
         </div>
       </div>
 
-      {/* Status Tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {STATUSES.map(status => (
-          <Button
-            key={status}
-            variant={activeTab === status ? 'default' : 'outline'}
-            onClick={() => setActiveTab(status)}
-            className="whitespace-nowrap"
-          >
-            {status}
-            <Badge variant="secondary" className="ml-2 bg-white/20 text-inherit">
-              {orders.filter(o => o.status === status).length}
-            </Badge>
-          </Button>
-        ))}
-      </div>
+      {viewMode === 'list' ? (
+        <OrdersTable 
+          orders={orders}
+          onEdit={(order) => setSelectedOrderForEdit(order)}
+          onDelete={(id) => setOrderToDelete(id)}
+          onStatusChange={handleStatusChange}
+        />
+      ) : (
+        <>
+          {/* Status Tabs */}
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {STATUSES.map(status => (
+              <Button
+                key={status}
+                variant={activeTab === status ? 'default' : 'outline'}
+                onClick={() => setActiveTab(status)}
+                className="whitespace-nowrap"
+              >
+                {status}
+                <Badge variant="secondary" className="ml-2 bg-white/20 text-inherit">
+                  {orders.filter(o => o.status === status).length}
+                </Badge>
+              </Button>
+            ))}
+          </div>
 
-      {/* Orders List */}
-      <div className="grid gap-4">
-        {filteredOrders.length === 0 ? (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-              <Package className="h-12 w-12 mb-4 opacity-20" />
-              <p>No orders in this stage.</p>
-            </CardContent>
-          </Card>
-        ) : (
-          filteredOrders.map(order => (
-            <Card key={order.id}>
+          {/* Orders List */}
+          <div className="grid gap-4">
+            {filteredOrders.length === 0 ? (
+              <Card>
+                <CardContent className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+                  <Package className="h-12 w-12 mb-4 opacity-20" />
+                  <p>No orders in this stage.</p>
+                </CardContent>
+              </Card>
+            ) : (
+              filteredOrders.map(order => (
+                <Card key={order.id}>
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start">
                   <div>
@@ -282,7 +315,9 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
             </Card>
           ))
         )}
-      </div>
+          </div>
+        </>
+      )}
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={!!orderToDelete} onOpenChange={(open) => !open && setOrderToDelete(null)}>
