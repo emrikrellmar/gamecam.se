@@ -15,5 +15,10 @@ export default async function CustomersPage() {
     .select('*')
     .order('created_at', { ascending: false })
 
-  return <CustomersTable orders={orders || []} />
+  const { data: manualCustomers } = await supabase
+    .from('customers')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  return <CustomersTable orders={orders || []} manualCustomers={manualCustomers || []} />
 }

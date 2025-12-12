@@ -68,3 +68,23 @@ create policy "Enable read access for authenticated users" on orders
 
 create policy "Enable write access for authenticated users" on orders
   for all using (auth.role() = 'authenticated');
+
+-- Create the customers table
+create table if not exists customers (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  email text,
+  phone text,
+  address text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable Row Level Security (RLS)
+alter table customers enable row level security;
+
+-- Create policies for customers
+create policy "Enable read access for authenticated users" on customers
+  for select using (auth.role() = 'authenticated');
+
+create policy "Enable write access for authenticated users" on customers
+  for all using (auth.role() = 'authenticated');
