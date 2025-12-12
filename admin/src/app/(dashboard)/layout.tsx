@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { QuickCreate } from '@/components/quick-create'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 export default async function DashboardLayout({
   children,
@@ -54,9 +55,32 @@ export default async function DashboardLayout({
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-16 items-center gap-4 border-b bg-white px-6">
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64 p-0">
+              <div className="flex h-full flex-col">
+                <div className="flex-1 overflow-auto py-4">
+                  <DashboardNav />
+                </div>
+                <div className="border-t p-4">
+                  <div className="flex items-center gap-3 px-2">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="" />
+                      <AvatarFallback>{user.email?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium truncate w-32">{user.email}</span>
+                      <span className="text-xs text-muted-foreground">Admin</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
           <div className="w-full flex-1">
           </div>
           <div className="flex items-center gap-4">
