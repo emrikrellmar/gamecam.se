@@ -8,10 +8,21 @@ import {
   ShoppingCart, 
   Users, 
   FileText, 
-  Wrench
+  Wrench,
+  Camera
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export function DashboardNav() {
   const pathname = usePathname()
@@ -75,22 +86,46 @@ export function DashboardNav() {
         href="/routines"
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/routines') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+          isActive('/routines') && !isActive('/routines/build-camera') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
         )}
       >
         <Wrench className="h-4 w-4" />
         Routines
       </Link>
       <Link
-        href="#"
+        href="/routines/build-camera"
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/reports') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+          isActive('/routines/build-camera') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
         )}
       >
-        <FileText className="h-4 w-4" />
-        Reports
+        <Camera className="h-4 w-4" />
+        Build Camera
       </Link>
+      
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            className={cn(
+              "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 text-gray-500 hover:bg-gray-100"
+            )}
+          >
+            <FileText className="h-4 w-4" />
+            Reports
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Coming Soon</AlertDialogTitle>
+            <AlertDialogDescription>
+              The Reports feature is currently under development and will be available in a future update.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>Okay</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </nav>
   )
 }

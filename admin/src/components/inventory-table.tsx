@@ -65,14 +65,21 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   
   // Add Dialog state
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [newItem, setNewItem] = useState({ name: "", stock: "0", supplier: "", category: "" });
+  const [newItem, setNewItem] = useState({ name: "", stock: "0", supplier: "", category: "GAMETRAQ" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const supabase = createClient();
 
+  const categories = ["GAMETRAQ", "SHOTGUN", "Packaging", "Other"];
+
   const handleEdit = (item: InventoryItem) => {
     setEditingId(item.id);
     setEditForm(item);
+  };
+
+  const openAddDialog = (category: string) => {
+    setNewItem({ name: "", stock: "0", supplier: "", category });
+    setIsAddOpen(true);
   };
 
   const handleCreate = async () => {
@@ -94,7 +101,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
 
       setInventory([data as InventoryItem, ...inventory]);
       setIsAddOpen(false);
-      setNewItem({ name: "", stock: "0", supplier: "", category: "" });
+      setNewItem({ name: "", stock: "0", supplier: "", category: "GAMETRAQ" });
     } catch (error) {
       console.error('Error adding item:', error);
       alert('Failed to add item');
@@ -180,112 +187,119 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
         </div>
       </div>
 
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle>Current Stock</CardTitle>
-            <Button onClick={() => setIsAddOpen(true)}>
-              <Plus className="mr-2 h-4 w-4" /> Add Item
-            </Button>
-          </div>
-          <CardDescription>
-            You have {inventory.length} items in your inventory.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead>Supplier</TableHead>
-                <TableHead>Last Updated</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {inventory.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">
-                    {editingId === item.id ? (
-                      <Input 
-                        value={editForm.name} 
-                        onChange={(e) => handleChange('name', e.target.value)}
-                        className="h-8 w-[180px]" 
-                      />
+      <div className="grid gap-6 md:grid-cols-2">
+        {categories.map((category) => {
+          const categoryItems = inventory.filter(item => item.category === category);
+          return (
+            <Card key={category} className="h-full">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle>{category}</CardTitle>
+                  <Button size="sm" onClick={() => openAddDialog(category)}>
+                    <Plus className="mr-2 h-4 w-4" /> Add Item
+                  </Button>
+                </div>
+                <CardDescription>
+                  {categoryItems.length} items in {category}.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Stock</TableHead>
+                      <TableHead>Supplier</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {categoryItems.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center h-24 text-muted-foreground">
+                          No items in this category.
+                        </TableCell>
+                      </TableRow>
                     ) : (
-                      item.name
+                      categoryItems.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell className="font-medium">
+                            {editingId === item.id ? (
+                              <Input 
+                                value={editForm.name} 
+                                onChange={(e) => handleChange('name', e.target.value)}
+                                className="h-8 w-[140px]" 
+                              />
+                            ) : (
+                              item.name
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {editingId === item.id ? (
+                              <Input 
+                                type="number"
+                                value={editForm.stock} 
+                                onChange={(e) => handleChange('stock', parseInt(e.target.value) || 0)}
+                                className="h-8 w-[60px]" 
+                              />
+                            ) : (
+                              <span className={item.stock < 5 ? "text-red-500 font-bold" : ""}>
+                                {item.stock}
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {editingId === item.id ? (
+                              <Input 
+                                value={editForm.supplier} 
+                                onChange={(e) => handleChange('supplier', e.target.value)}
+                                className="h-8 w-[100px]" 
+                              />
+                            ) : (
+                              item.supplier
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {editingId === item.id ? (
+                              <div className="flex justify-end gap-2">
+                                <Button size="icon" variant="ghost" onClick={handleSave} className="h-8 w-8 text-green-600">
+                                  <Save className="h-4 w-4" />
+                                </Button>
+                                <Button size="icon" variant="ghost" onClick={handleCancel} className="h-8 w-8 text-red-600">
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ) : (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                  <DropdownMenuItem onClick={() => handleEdit(item)}>
+                                    <Edit className="mr-2 h-4 w-4" /> Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteClick(item.id)}>
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))
                     )}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary" className="font-normal">
-                      {item.category}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {editingId === item.id ? (
-                      <Input 
-                        type="number"
-                        value={editForm.stock} 
-                        onChange={(e) => handleChange('stock', parseInt(e.target.value) || 0)}
-                        className="h-8 w-[80px]" 
-                      />
-                    ) : (
-                      <span className={item.stock < 5 ? "text-red-500 font-bold" : ""}>
-                        {item.stock}
-                      </span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {editingId === item.id ? (
-                      <Input 
-                        value={editForm.supplier} 
-                        onChange={(e) => handleChange('supplier', e.target.value)}
-                        className="h-8 w-[150px]" 
-                      />
-                    ) : (
-                      item.supplier
-                    )}
-                  </TableCell>
-                  <TableCell>{new Date(item.last_updated).toLocaleDateString()}</TableCell>
-                  <TableCell className="text-right">
-                    {editingId === item.id ? (
-                      <div className="flex justify-end gap-2">
-                        <Button size="icon" variant="ghost" onClick={handleSave} className="h-8 w-8 text-green-600">
-                          <Save className="h-4 w-4" />
-                        </Button>
-                        <Button size="icon" variant="ghost" onClick={handleCancel} className="h-8 w-8 text-red-600">
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ) : (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => handleEdit(item)}>
-                            <Edit className="mr-2 h-4 w-4" /> Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteClick(item.id)}>
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
 
       <AlertDialog open={!!itemToDelete} onOpenChange={(open) => !open && setItemToDelete(null)}>
         <AlertDialogContent>

@@ -198,7 +198,17 @@ export function QuickCreate() {
               </div>
               <div className="grid gap-2">
                 <Label>Category</Label>
-                <Input value={inventoryForm.category} onChange={e => setInventoryForm({...inventoryForm, category: e.target.value})} />
+                <select 
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={inventoryForm.category}
+                  onChange={e => setInventoryForm({...inventoryForm, category: e.target.value})}
+                >
+                  <option value="" disabled>Select Category</option>
+                  <option value="GAMETRAQ">GAMETRAQ</option>
+                  <option value="SHOTGUN">SHOTGUN</option>
+                  <option value="Packaging">Packaging</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
             </div>
             <div className="grid gap-2">

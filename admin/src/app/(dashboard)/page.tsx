@@ -32,11 +32,15 @@ export default async function DashboardPage() {
   let limitingItem = null
   
   if (inventory && inventory.length > 0) {
-    // Find item with lowest stock
-    // We assume 1 of each item is needed for 1 GAMETRAQ
-    const sorted = [...inventory].sort((a, b) => a.stock - b.stock)
-    limitingItem = sorted[0]
-    capacity = limitingItem.stock
+    // Filter for GAMETRAQ category only
+    const gametraqItems = inventory.filter(i => i.category === 'GAMETRAQ')
+    
+    if (gametraqItems.length > 0) {
+      // Find item with lowest stock in this category
+      const sorted = [...gametraqItems].sort((a, b) => a.stock - b.stock)
+      limitingItem = sorted[0]
+      capacity = limitingItem.stock
+    }
   }
 
   // Calculate Order Stats
@@ -111,14 +115,10 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {analytics && 'visitors' in analytics ? analytics.visitors.toLocaleString() : '-'}
+              -
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              {analytics && 'error' in analytics ? (
-                <span className="text-red-500">{analytics.error}</span>
-              ) : (
-                "Last 30 days on gamecam.io"
-              )}
+              Coming Soon
             </p>
           </CardContent>
         </Card>
