@@ -111,10 +111,14 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {analytics ? analytics.visitors.toLocaleString() : '-'}
+              {analytics && 'visitors' in analytics ? analytics.visitors.toLocaleString() : '-'}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Last 30 days on gamecam.io
+              {analytics && 'error' in analytics ? (
+                <span className="text-red-500">{analytics.error}</span>
+              ) : (
+                "Last 30 days on gamecam.io"
+              )}
             </p>
           </CardContent>
         </Card>

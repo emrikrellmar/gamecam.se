@@ -31,7 +31,7 @@ export async function getVercelAnalytics() {
     if (!res.ok) {
       const error = await res.text();
       console.error(`Vercel Analytics Error (${res.status}):`, error);
-      return null;
+      return { error: `Error ${res.status}: ${error}` };
     }
 
     const data = await res.json();
@@ -45,6 +45,6 @@ export async function getVercelAnalytics() {
     };
   } catch (error) {
     console.error("Failed to fetch Vercel analytics:", error);
-    return null;
+    return { error: "Failed to fetch data" };
   }
 }
