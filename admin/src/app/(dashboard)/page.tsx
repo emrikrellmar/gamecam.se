@@ -72,7 +72,7 @@ export default async function DashboardPage() {
             <p className="text-xs text-muted-foreground mt-2">
               Limited by <span className="font-medium text-red-500">{limitingItem?.name || 'Nothing'}</span>
             </p>
-            <Progress value={Math.min(capacity, 100)} className="mt-3 h-2" />
+            <Progress value={Math.min((capacity / 5) * 100, 100)} className="mt-3 h-2" />
           </CardContent>
         </Card>
 
