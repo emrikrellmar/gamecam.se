@@ -15,6 +15,7 @@ import { QuickCreate } from '@/components/quick-create'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { signout } from '@/app/login/actions'
 import { SignOutButton } from '@/components/sign-out-button'
+import { Notifications } from '@/components/notifications'
 
 export default async function DashboardLayout({
   children,
@@ -43,7 +44,6 @@ export default async function DashboardLayout({
             </Avatar>
             <div className="flex flex-col">
               <span className="text-sm font-medium truncate w-32">{user.email}</span>
-              <span className="text-xs text-muted-foreground">Admin</span>
             </div>
             <form action={signout}>
                <SignOutButton />
@@ -87,9 +87,7 @@ export default async function DashboardLayout({
           <div className="w-full flex-1">
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-4 w-4" />
-            </Button>
+            <Notifications />
             <QuickCreate />
           </div>
         </header>

@@ -60,32 +60,19 @@ export function DashboardNav() {
         )}
       >
         <ShoppingCart className="h-4 w-4" />
-        Orders
+        Orders and customers
       </Link>
       
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <button
-            className={cn(
-              "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 text-gray-500 hover:bg-gray-100"
-            )}
-          >
-            <Tag className="h-4 w-4" />
-            Discounts
-          </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Coming Soon</AlertDialogTitle>
-            <AlertDialogDescription>
-              The Discounts feature is currently under development and will be available in a future update.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction>Okay</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Link
+        href="/discounts"
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
+          isActive('/discounts') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+        )}
+      >
+        <Tag className="h-4 w-4" />
+        Prices and discounts
+      </Link>
 
       <Separator className="my-4" />
 
@@ -100,7 +87,7 @@ export function DashboardNav() {
         )}
       >
         <Camera className="h-4 w-4" />
-        Build a GameTraq
+        Build a gametraq
       </Link>
       <Link
         href="/inventory"
@@ -112,36 +99,32 @@ export function DashboardNav() {
         <Package className="h-4 w-4" />
         Inventory
       </Link>
+      <Link
+        href="/issues"
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
+          isActive('/issues') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+        )}
+      >
+        <FileText className="h-4 w-4" />
+        Issues & support
+      </Link>
 
       <Separator className="my-4" />
 
       <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
         Analytics
       </div>
-      
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <button
-            className={cn(
-              "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 text-gray-500 hover:bg-gray-100"
-            )}
-          >
-            <FileText className="h-4 w-4" />
-            Reports
-          </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Coming Soon</AlertDialogTitle>
-            <AlertDialogDescription>
-              The Reports feature is currently under development and will be available in a future update.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction>Okay</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Link
+        href="/reports"
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
+          isActive('/reports') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+        )}
+      >
+        <FileText className="h-4 w-4" />
+        Reports
+      </Link>
     </nav>
   )
 }

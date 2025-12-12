@@ -22,8 +22,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Edit, Trash2, Search } from "lucide-react";
-import { format } from "date-fns";
+import { MoreHorizontal, Edit, Trash2, Search, Archive, Clock } from "lucide-react";
+import { format, formatDistanceToNow } from "date-fns";
 
 interface OrdersTableProps {
   orders: SupabaseOrder[];
@@ -56,6 +56,7 @@ export function OrdersTable({ orders, onEdit, onDelete, onStatusChange }: Orders
       case 'Preparing order': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100';
       case 'Shipped': return 'bg-orange-100 text-orange-800 hover:bg-orange-100';
       case 'Onboarding done': return 'bg-green-100 text-green-800 hover:bg-green-100';
+      case 'Archived': return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
       default: return 'bg-gray-100 text-gray-800 hover:bg-gray-100';
     }
   };
@@ -110,25 +111,33 @@ export function OrdersTable({ orders, onEdit, onDelete, onStatusChange }: Orders
                   <TableCell>{order.product}</TableCell>
                   <TableCell>{order.quantity}</TableCell>
                   <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Badge className={`cursor-pointer ${getStatusColor(order.status)} border-0`}>
-                          {order.status}
-                        </Badge>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start">
-                        <DropdownMenuLabel>Change Status</DropdownMenuLabel>
-                        {STATUSES.map((status) => (
-                          <DropdownMenuItem 
-                            key={status}
-                            onClick={() => onStatusChange(order.id, status)}
-                            disabled={status === order.status}
-                          >
-                            {status}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex items-center gap-2">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Badge className={`cursor-pointer ${getStatusColor(order.status)} border-0`}>
+                            {order.status}
+                          </Badge>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                          <DropdownMenuLabel>Change Status</DropdownMenuLabel>
+                          {STATUSES.map((status) => (
+                            <DropdownMenuItem 
+                              key={status}
+                              onClick={() => onStatusChange(order.id, status)}
+                              disabled={status === order.status}
+                            >
+                              {status}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      {order.status_updated_at && (
+                        <div className="flex items-center text-xs text-muted-foreground" title={`In status since ${new Date(order.status_updated_at).toLocaleString()}`}>
+                          <Clock className="mr-1 h-3 w-3" />
+                          {formatDistanceToNow(new Date(order.status_updated_at))}
+                        </div>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
@@ -143,6 +152,20 @@ export function OrdersTable({ orders, onEdit, onDelete, onStatusChange }: Orders
                         <DropdownMenuItem onClick={() => onEdit(order)}>
                           <Edit className="mr-2 h-4 w-4" /> Edit Order
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onStatusChange(order.id, 'Archived')}>
+                          <Archive className="mr-2 h-4 w-4" /> Archive Order
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuLabel>Move to...</DropdownMenuLabel>
+                        {STATUSES.map((status) => (
+                          <DropdownMenuItem 
+                            key={status}
+                            onClick={() => onStatusChange(order.id, status)}
+                            disabled={status === order.status}
+                          >
+                            {status}
+                          </DropdownMenuItem>
+                        ))}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-red-600" onClick={() => onDelete(order.id)}>
                           <Trash2 className="mr-2 h-4 w-4" /> Delete Order

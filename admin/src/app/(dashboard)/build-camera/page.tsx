@@ -166,8 +166,8 @@ export default function BuildCameraPage() {
                 <span className="text-gray-500">[ENTER]</span><br/>
                 yes<br/>
                 <br/>
-                Gamecam@6916123789456<br/>
-                Gamecam@6916123789456
+               <span className="text-gray-500">[PASSWORD]</span><br/>
+               <span className="text-gray-500">[PASSWORD]</span>
               </div>
             </div>
 
@@ -218,8 +218,8 @@ export default function BuildCameraPage() {
           </CardHeader>
           <CardContent className="pl-16 space-y-4">
             <p>After the reboot, open a web browser on your laptop and go to:</p>
-            <a href="https://install.gamecam.se/" target="_blank" className="text-blue-600 hover:underline font-medium block">
-              https://install.gamecam.se/
+            <a href="https://install.gamecam.se/check.php" target="_blank" className="text-blue-600 hover:underline font-medium block">
+              https://install.gamecam.se/check.php
             </a>
             <div className="flex items-center gap-2 text-green-600 bg-green-50 p-3 rounded border border-green-200">
               <CheckCircle2 className="h-5 w-5" />

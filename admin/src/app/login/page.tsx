@@ -22,11 +22,11 @@ export default async function LoginPage(props: {
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" placeholder="admin@gamecam.io" required />
+                <Input id="email" name="email" type="email" placeholder="your.email@example.com" required />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" type="password" required />
+                <Input id="password" name="password" type="password" placeholder="••••••" required />
               </div>
               <SubmitButton className="w-full" text="Sign in" loadingText="Signing in..." />
               {searchParams.error && (

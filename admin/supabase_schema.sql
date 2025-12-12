@@ -89,3 +89,43 @@ create policy "Enable read access for authenticated users" on customers
 
 create policy "Enable write access for authenticated users" on customers
   for all using (auth.role() = 'authenticated');
+
+-- Create the issues table
+create table if not exists issues (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  description text,
+  status text default 'Open',
+  priority text default 'Medium',
+  created_by text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable Row Level Security (RLS)
+alter table issues enable row level security;
+
+-- Create policies for issues
+create policy "Enable read access for authenticated users" on issues
+  for select using (auth.role() = 'authenticated');
+
+create policy "Enable write access for authenticated users" on issues
+  for all using (auth.role() = 'authenticated');
+
+-- Create the issue_comments table
+create table if not exists issue_comments (
+  id uuid default gen_random_uuid() primary key,
+  issue_id uuid references issues(id) on delete cascade,
+  content text not null,
+  created_by text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable Row Level Security (RLS)
+alter table issue_comments enable row level security;
+
+-- Create policies for issue_comments
+create policy "Enable read access for authenticated users" on issue_comments
+  for select using (auth.role() = 'authenticated');
+
+create policy "Enable write access for authenticated users" on issue_comments
+  for all using (auth.role() = 'authenticated');

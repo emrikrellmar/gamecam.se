@@ -1,14 +1,14 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { Order } from '@/lib/google-sheets' // We might need to update this type or create a new one for Supabase
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil, Trash2, LayoutGrid, List } from 'lucide-react'
+import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil, Trash2, LayoutGrid, List, Archive, Clock } from 'lucide-react'
 import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails, deleteOrder } from './actions'
 import { OrdersTable } from './orders-table'
+import { formatDistanceToNow } from 'date-fns'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,6 +56,7 @@ export type SupabaseOrder = {
   status: string
   created_at: string
   tracking_number?: string
+  status_updated_at?: string
 }
 
 const STATUSES = [
@@ -68,9 +69,18 @@ const STATUSES = [
 
 export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [orders, setOrders] = useState<SupabaseOrder[]>(initialOrders)
   const [isSyncing, setIsSyncing] = useState(false)
   const [activeTab, setActiveTab] = useState('Order placed')
+  
+  useEffect(() => {
+    const statusParam = searchParams.get('status')
+    if (statusParam && STATUSES.includes(statusParam)) {
+      setActiveTab(statusParam)
+    }
+  }, [searchParams])
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState<SupabaseOrder | null>(null)
   const [selectedOrderForEdit, setSelectedOrderForEdit] = useState<SupabaseOrder | null>(null)
@@ -86,6 +96,10 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   
   // View State
   const [viewMode, setViewMode] = useState<'board' | 'list'>('board')
+
+  useEffect(() => {
+    setOrders(initialOrders)
+  }, [initialOrders])
 
   const handleSync = async () => {
     setIsSyncing(true)
@@ -159,14 +173,18 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
     }
   }
 
-  const filteredOrders = orders.filter(o => o.status === activeTab)
+  const visibleOrders = viewMode === 'board' 
+    ? orders.filter(o => o.status !== 'Archived')
+    : orders
+
+  const filteredOrders = visibleOrders.filter(o => o.status === activeTab)
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Orders</h1>
-          <p className="text-muted-foreground">Manage orders, track status, and sync with Google Sheets.</p>
+          <h1 className="text-3xl font-bold tracking-tight">Orders and customers</h1>
+          <p className="text-muted-foreground">Manage orders, track status, all synced with Google Sheets.</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center border rounded-md bg-background mr-2">
@@ -201,7 +219,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
 
       {viewMode === 'list' ? (
         <OrdersTable 
-          orders={orders}
+          orders={visibleOrders}
           onEdit={(order) => setSelectedOrderForEdit(order)}
           onDelete={(id) => setOrderToDelete(id)}
           onStatusChange={handleStatusChange}
@@ -219,7 +237,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
               >
                 {status}
                 <Badge variant="secondary" className="ml-2 bg-white/20 text-inherit">
-                  {orders.filter(o => o.status === status).length}
+                  {visibleOrders.filter(o => o.status === status).length}
                 </Badge>
               </Button>
             ))}
@@ -245,6 +263,12 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                     </CardTitle>
                     <CardDescription>
                       {order.order_id} • {new Date(order.timestamp || order.created_at).toLocaleDateString()}
+                    {order.status_updated_at && (
+                      <div className="flex items-center text-xs text-muted-foreground mt-1">
+                        <Clock className="mr-1 h-3 w-3" />
+                        In status for {formatDistanceToNow(new Date(order.status_updated_at))}
+                      </div>
+                    )}
                     </CardDescription>
                   </div>
                   <DropdownMenu>
@@ -254,18 +278,18 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuItem onClick={() => setSelectedOrderForInvoice(order)}>
                         <FileText className="mr-2 h-4 w-4" /> View Invoice Data
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => setSelectedOrderForEdit(order)}>
                         <Pencil className="mr-2 h-4 w-4" /> Edit Order
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setOrderToDelete(order.id)} className="text-red-600 focus:text-red-600">
-                        <Trash2 className="mr-2 h-4 w-4" /> Delete Order
+                      <DropdownMenuItem onClick={() => handleStatusChange(order.id, 'Archived')}>
+                        <Archive className="mr-2 h-4 w-4" /> Archive Order
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuLabel>Move to...</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
                       {STATUSES.map(status => (
                         <DropdownMenuItem 
                           key={status} 
@@ -275,6 +299,10 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                           {status}
                         </DropdownMenuItem>
                       ))}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => setOrderToDelete(order.id)} className="text-red-600 focus:text-red-600">
+                        <Trash2 className="mr-2 h-4 w-4" /> Delete Order
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -438,6 +466,16 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                 setSelectedOrderForEdit(null)
                 router.refresh()
               }} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-date">Order Date</Label>
+                  <Input 
+                    id="edit-date" 
+                    name="date" 
+                    type="datetime-local" 
+                    required 
+                    defaultValue={selectedOrderForEdit.created_at ? new Date(selectedOrderForEdit.created_at).toISOString().slice(0, 16) : ''} 
+                  />
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="edit-product">Product</Label>

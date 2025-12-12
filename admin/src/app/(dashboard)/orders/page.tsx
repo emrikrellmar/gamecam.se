@@ -13,7 +13,7 @@ export default async function OrdersPage() {
   const { data: orders } = await supabase
     .from('orders')
     .select('*')
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: true })
 
   return <OrdersBoard initialOrders={orders || []} />
 }
