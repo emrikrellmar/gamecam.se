@@ -241,10 +241,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                     {selectedOrderForInvoice.message}
                   </div>
                 )}
-                
-                <div className="bg-gray-100 p-4 text-center text-xs text-gray-500 mt-4">
-                  <p>This email was sent from the GameCam Order Form.</p>
-                </div>
+
               </div>
 
               <div className="flex justify-end gap-2 mt-6">
@@ -269,7 +266,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="product">Product</Label>
-                    <Input id="product" name="product" required placeholder="e.g. GameCam Pro" />
+                    <Input id="product" name="product" required placeholder="e.g. GAMETRAQ" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="quantity">Quantity</Label>

@@ -56,7 +56,7 @@ export function DashboardNav() {
         Inventory
       </Link>
       <Link
-        href="#"
+        href="/customers"
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
           isActive('/customers') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"

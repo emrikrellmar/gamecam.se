@@ -1,0 +1,19 @@
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
+import { CustomersTable } from './customers-table'
+
+export const revalidate = 0;
+
+export default async function CustomersPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return redirect('/login')
+
+  const { data: orders } = await supabase
+    .from('orders')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  return <CustomersTable orders={orders || []} />
+}
