@@ -8,7 +8,7 @@ import {
   ShoppingCart, 
   Users, 
   FileText, 
-  BarChart3
+  Wrench
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
@@ -17,7 +17,7 @@ export function DashboardNav() {
   const pathname = usePathname()
 
   const isActive = (path: string) => {
-    return pathname === path
+    return pathname.startsWith(path)
   }
 
   return (
@@ -29,7 +29,7 @@ export function DashboardNav() {
         href="/"
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+          pathname === "/" ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
         )}
       >
         <LayoutDashboard className="h-4 w-4" />
@@ -69,8 +69,18 @@ export function DashboardNav() {
       <Separator className="my-4" />
 
       <div className="px-2 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-        Documents
+        Operations
       </div>
+      <Link
+        href="/routines"
+        className={cn(
+          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
+          isActive('/routines') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
+        )}
+      >
+        <Wrench className="h-4 w-4" />
+        Routines
+      </Link>
       <Link
         href="#"
         className={cn(
@@ -80,16 +90,6 @@ export function DashboardNav() {
       >
         <FileText className="h-4 w-4" />
         Reports
-      </Link>
-      <Link
-        href="#"
-        className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900",
-          isActive('/analytics') ? "bg-gray-100 text-gray-900" : "text-gray-500 hover:bg-gray-100"
-        )}
-      >
-        <BarChart3 className="h-4 w-4" />
-        Analytics
       </Link>
     </nav>
   )
