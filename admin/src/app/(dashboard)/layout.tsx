@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { QuickCreate } from '@/components/quick-create'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { signout } from '@/app/login/actions'
+import { SignOutButton } from '@/components/sign-out-button'
 
 export default async function DashboardLayout({
   children,
@@ -45,9 +46,7 @@ export default async function DashboardLayout({
               <span className="text-xs text-muted-foreground">Admin</span>
             </div>
             <form action={signout}>
-               <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 text-muted-foreground hover:text-red-600">
-                  <LogOut className="h-4 w-4" />
-               </Button>
+               <SignOutButton />
             </form>
           </div>
         </div>
@@ -78,9 +77,7 @@ export default async function DashboardLayout({
                       <span className="text-xs text-muted-foreground">Admin</span>
                     </div>
                     <form action={signout}>
-                      <Button variant="ghost" size="icon" className="ml-auto h-8 w-8 text-muted-foreground hover:text-red-600">
-                          <LogOut className="h-4 w-4" />
-                      </Button>
+                      <SignOutButton />
                     </form>
                   </div>
                 </div>
