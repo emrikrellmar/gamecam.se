@@ -65,7 +65,7 @@ export async function addOrder(formData: FormData) {
     message: formData.get('message') as string,
     status: 'Order placed',
     timestamp: new Date().toISOString(),
-    order_id: `MANUAL-${Date.now()}` // Generate a simple ID for manual orders
+    order_id: Math.floor(10000000 + Math.random() * 90000000).toString() // Generate 8-digit ID
   }
 
   const { error } = await supabase.from('orders').insert(rawData)
