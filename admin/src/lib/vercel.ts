@@ -8,7 +8,7 @@ export async function getVercelAnalytics() {
     return null;
   }
 
-  const url = new URL("https://vercel.com/api/v1/web/analytics/stats");
+  const url = new URL("https://api.vercel.com/v1/web/analytics/stats");
   url.searchParams.set("projectId", projectId);
   if (teamId) url.searchParams.set("teamId", teamId);
   
@@ -20,6 +20,7 @@ export async function getVercelAnalytics() {
   url.searchParams.set("environment", "production");
 
   try {
+    console.log(`Fetching Vercel Analytics for project ${projectId}`);
     const res = await fetch(url.toString(), {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -29,7 +30,7 @@ export async function getVercelAnalytics() {
 
     if (!res.ok) {
       const error = await res.text();
-      console.error("Vercel Analytics Error:", error);
+      console.error(`Vercel Analytics Error (${res.status}):`, error);
       return null;
     }
 
