@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { QuickCreate } from '@/components/quick-create'
 
 export default async function DashboardLayout({
   children,
@@ -62,10 +63,7 @@ export default async function DashboardLayout({
             <Button variant="ghost" size="icon">
               <Bell className="h-4 w-4" />
             </Button>
-            <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white gap-2">
-              <Plus className="h-4 w-4" />
-              Quick Create
-            </Button>
+            <QuickCreate />
           </div>
         </header>
         <main className="flex-1 overflow-auto p-6">
