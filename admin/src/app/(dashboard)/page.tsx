@@ -160,8 +160,9 @@ export default async function DashboardPage() {
             <div className="space-y-4">
               {/* We can group by category here if we want, for now let's just show top categories */}
               {Object.entries(
-                (inventory || []).reduce((acc, item) => {
-                  acc[item.category] = (acc[item.category] || 0) + 1
+                ((inventory as any[]) || []).reduce((acc: Record<string, number>, item: any) => {
+                  const cat = item.category
+                  acc[cat] = (acc[cat] || 0) + 1
                   return acc
                 }, {} as Record<string, number>)
               ).map(([category, count]) => (
