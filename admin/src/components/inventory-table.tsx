@@ -33,6 +33,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 export type InventoryItem = {
   id: string;
@@ -52,6 +62,12 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<InventoryItem>>({});
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+  
+  // Add Dialog state
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [newItem, setNewItem] = useState({ name: "", stock: "0", supplier: "", category: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const supabase = createClient();
 
   const handleEdit = (item: InventoryItem) => {
@@ -59,18 +75,32 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
     setEditForm(item);
   };
 
-  const handleAdd = () => {
-    const newItem: InventoryItem = {
-      id: "new",
-      name: "",
-      stock: 0,
-      supplier: "",
-      last_updated: new Date().toISOString(),
-      category: "Uncategorized"
-    };
-    setInventory([newItem, ...inventory]);
-    setEditingId("new");
-    setEditForm(newItem);
+  const handleCreate = async () => {
+    setIsSubmitting(true);
+    try {
+      const { data, error } = await supabase
+        .from('inventory')
+        .insert([{
+          name: newItem.name,
+          stock: parseInt(newItem.stock) || 0,
+          supplier: newItem.supplier,
+          category: newItem.category,
+          last_updated: new Date().toISOString()
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      setInventory([data as InventoryItem, ...inventory]);
+      setIsAddOpen(false);
+      setNewItem({ name: "", stock: "0", supplier: "", category: "" });
+    } catch (error) {
+      console.error('Error adding item:', error);
+      alert('Failed to add item');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleDeleteClick = (id: string) => {
@@ -105,50 +135,27 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
       last_updated: new Date().toISOString()
     };
 
-    if (editingId === 'new') {
-      // Remove the temporary item from state first to avoid duplicates/flicker
-      const { data, error } = await supabase
-        .from('inventory')
-        .insert([{
-          name: updatedItem.name,
-          stock: updatedItem.stock,
-          supplier: updatedItem.supplier,
-          category: updatedItem.category,
-          last_updated: updatedItem.last_updated
-        }])
-        .select()
-        .single();
+    // Optimistic update for existing items
+    setInventory(inventory.map(item => 
+      item.id === editingId 
+        ? { ...item, ...updatedItem } as InventoryItem
+        : item
+    ));
 
-      if (error) {
-        console.error('Error adding item:', error);
-        return;
-      }
+    // Save to Supabase
+    const { error } = await supabase
+      .from('inventory')
+      .update({
+        name: updatedItem.name,
+        stock: updatedItem.stock,
+        supplier: updatedItem.supplier,
+        category: updatedItem.category,
+        last_updated: updatedItem.last_updated
+      })
+      .eq('id', editingId);
 
-      // Replace the "new" item with the real one from DB
-      setInventory(prev => [data as InventoryItem, ...prev.filter(i => i.id !== 'new')]);
-    } else {
-      // Optimistic update for existing items
-      setInventory(inventory.map(item => 
-        item.id === editingId 
-          ? { ...item, ...updatedItem } as InventoryItem
-          : item
-      ));
-
-      // Save to Supabase
-      const { error } = await supabase
-        .from('inventory')
-        .update({
-          name: updatedItem.name,
-          stock: updatedItem.stock,
-          supplier: updatedItem.supplier,
-          category: updatedItem.category,
-          last_updated: updatedItem.last_updated
-        })
-        .eq('id', editingId);
-
-      if (error) {
-        console.error('Error updating inventory:', error);
-      }
+    if (error) {
+      console.error('Error updating inventory:', error);
     }
 
     setEditingId(null);
@@ -156,9 +163,6 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
   };
 
   const handleCancel = () => {
-    if (editingId === 'new') {
-      setInventory(inventory.filter(item => item.id !== 'new'));
-    }
     setEditingId(null);
     setEditForm({});
   };
@@ -180,7 +184,7 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle>Current Stock</CardTitle>
-            <Button onClick={handleAdd}>
+            <Button onClick={() => setIsAddOpen(true)}>
               <Plus className="mr-2 h-4 w-4" /> Add Item
             </Button>
           </div>
@@ -299,6 +303,43 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Item</DialogTitle>
+            <DialogDescription>
+              Add a new item to your inventory.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label>Item Name</Label>
+              <Input value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label>Stock</Label>
+                <Input type="number" value={newItem.stock} onChange={e => setNewItem({...newItem, stock: e.target.value})} />
+              </div>
+              <div className="grid gap-2">
+                <Label>Category</Label>
+                <Input value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} />
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <Label>Supplier</Label>
+              <Input value={newItem.supplier} onChange={e => setNewItem({...newItem, supplier: e.target.value})} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAddOpen(false)}>Cancel</Button>
+            <Button onClick={handleCreate} disabled={isSubmitting}>
+              {isSubmitting ? "Adding..." : "Add Item"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -40,9 +40,14 @@ export function QuickCreate() {
   const [orderForm, setOrderForm] = useState({ 
     customer_name: "", 
     email: "", 
+    phone_number: "",
     product: "", 
     quantity: "1",
-    delivery_address: "" 
+    delivery_address: "",
+    company: "No",
+    company_name: "",
+    tax_vat_number: "",
+    message: ""
   })
 
   const handleCreateCustomer = async () => {
@@ -93,7 +98,18 @@ export function QuickCreate() {
       }])
       if (error) throw error
       setOpenDialog(null)
-      setOrderForm({ customer_name: "", email: "", product: "", quantity: "1", delivery_address: "" })
+      setOrderForm({ 
+        customer_name: "", 
+        email: "", 
+        phone_number: "",
+        product: "", 
+        quantity: "1", 
+        delivery_address: "",
+        company: "No",
+        company_name: "",
+        tax_vat_number: "",
+        message: ""
+      })
       router.refresh()
     } catch (e) {
       console.error(e)
@@ -202,20 +218,12 @@ export function QuickCreate() {
 
       {/* Order Dialog */}
       <Dialog open={openDialog === "order"} onOpenChange={(open) => !open && setOpenDialog(null)}>
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create New Order</DialogTitle>
             <DialogDescription>Manually create a new order.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label>Customer Name</Label>
-              <Input value={orderForm.customer_name} onChange={e => setOrderForm({...orderForm, customer_name: e.target.value})} />
-            </div>
-            <div className="grid gap-2">
-              <Label>Email</Label>
-              <Input value={orderForm.email} onChange={e => setOrderForm({...orderForm, email: e.target.value})} />
-            </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label>Product</Label>
@@ -226,9 +234,57 @@ export function QuickCreate() {
                 <Input type="number" value={orderForm.quantity} onChange={e => setOrderForm({...orderForm, quantity: e.target.value})} />
               </div>
             </div>
+            
+            <div className="grid gap-2">
+              <Label>Customer Name</Label>
+              <Input value={orderForm.customer_name} onChange={e => setOrderForm({...orderForm, customer_name: e.target.value})} />
+            </div>
+
+            <div className="grid gap-2">
+              <Label>Email</Label>
+              <Input value={orderForm.email} onChange={e => setOrderForm({...orderForm, email: e.target.value})} />
+            </div>
+
+            <div className="grid gap-2">
+              <Label>Phone</Label>
+              <Input value={orderForm.phone_number} onChange={e => setOrderForm({...orderForm, phone_number: e.target.value})} />
+            </div>
+
             <div className="grid gap-2">
               <Label>Delivery Address</Label>
               <Input value={orderForm.delivery_address} onChange={e => setOrderForm({...orderForm, delivery_address: e.target.value})} />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label>Is Company?</Label>
+                <select 
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  value={orderForm.company}
+                  onChange={e => setOrderForm({...orderForm, company: e.target.value})}
+                >
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+              {orderForm.company === 'Yes' && (
+                <div className="grid gap-2">
+                  <Label>Company Name</Label>
+                  <Input value={orderForm.company_name} onChange={e => setOrderForm({...orderForm, company_name: e.target.value})} />
+                </div>
+              )}
+            </div>
+
+            {orderForm.company === 'Yes' && (
+              <div className="grid gap-2">
+                <Label>VAT Number</Label>
+                <Input value={orderForm.tax_vat_number} onChange={e => setOrderForm({...orderForm, tax_vat_number: e.target.value})} />
+              </div>
+            )}
+
+            <div className="grid gap-2">
+              <Label>Message</Label>
+              <Input value={orderForm.message} onChange={e => setOrderForm({...orderForm, message: e.target.value})} />
             </div>
           </div>
           <DialogFooter>
