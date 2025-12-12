@@ -49,7 +49,7 @@ export default async function DashboardPage() {
   const completedOrders = orders?.filter(o => ['Shipped', 'Onboarding done'].includes(o.status)).length || 0
   
   // Low stock items (e.g. < 5)
-  const lowStockItems = inventory?.filter(i => i.stock < 5).sort((a, b) => a.stock - b.stock) || []
+  const lowStockItems = inventory?.filter(i => i.stock < 5 && i.category === 'GAMETRAQ').sort((a, b) => a.stock - b.stock) || []
 
   return (
     <div className="space-y-6">
