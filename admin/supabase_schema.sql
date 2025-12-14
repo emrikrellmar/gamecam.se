@@ -129,3 +129,29 @@ create policy "Enable read access for authenticated users" on issue_comments
 
 create policy "Enable write access for authenticated users" on issue_comments
   for all using (auth.role() = 'authenticated');
+
+-- Create the products table
+create table if not exists products (
+  id uuid default gen_random_uuid() primary key,
+  name text not null unique,
+  price numeric not null default 0,
+  currency text not null default 'EUR',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable Row Level Security (RLS)
+alter table products enable row level security;
+
+-- Create policies for products
+create policy "Enable read access for authenticated users" on products
+  for select using (auth.role() = 'authenticated');
+
+create policy "Enable write access for authenticated users" on products
+  for all using (auth.role() = 'authenticated');
+
+-- Add status_updated_at to orders
+alter table orders add column if not exists status_updated_at timestamp with time zone default timezone('utc'::text, now());
+
+-- Add tracking_number to orders
+alter table orders add column if not exists tracking_number text;
+
