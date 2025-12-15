@@ -97,10 +97,10 @@ export async function sendUpdateEmail(order: any, type: 'preparing' | 'shipped',
 
   if (type === 'preparing') {
     subject = `Your order #${order.order_id} is being prepared!`;
-    text = `Hi ${order.customer_name},\n\nWe have received your payment and your order for ${order.product} is now being prepared.\n\nBest regards,\nThe GameCam Team`;
+    text = `Hi ${order.customer_name},\n\nWe are now preparing your order.\n\nBest regards,\nThe GameCam Team`;
     html = getHtmlTemplate(
       'Your order is being prepared!',
-      'We have received your payment and your order is now being prepared. We will notify you once it has been shipped.'
+      'We are now preparing your order. We will notify you once it has been shipped.'
     );
   } else if (type === 'shipped') {
     subject = `Your order #${order.order_id} has been shipped!`;
@@ -124,7 +124,8 @@ export async function sendUpdateEmail(order: any, type: 'preparing' | 'shipped',
 
   try {
     await transporter.sendMail({
-      from: '"GameCam" <magnus@gamecam.se>',
+      from: '"GameCam" <emrik@gamecam.se>',
+      replyTo: 'sales@gamecam.se',
       to: order.email,
       subject: subject,
       text: text,

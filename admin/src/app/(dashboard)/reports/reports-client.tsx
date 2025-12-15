@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { SupabaseOrder } from "../orders/orders-board"
-import { startOfMonth, endOfMonth, parseISO, format, isWithinInterval, addDays, getDaysInMonth, differenceInDays, differenceInHours, formatDistanceToNow } from "date-fns"
+import { startOfMonth, endOfMonth, parseISO, format, differenceInDays, differenceInHours, formatDistanceToNow, eachDayOfInterval, isSameDay, parse } from "date-fns"
 import {
   Table,
   TableBody,
@@ -21,39 +21,42 @@ interface ReportsClientProps {
 
 export function ReportsClient({ orders }: ReportsClientProps) {
   const router = useRouter()
-  // Process data for the chart
+  
   const currentDate = new Date()
   const monthStart = startOfMonth(currentDate)
-  const daysInMonth = getDaysInMonth(currentDate)
+  const monthEnd = endOfMonth(currentDate)
   
-  const weeks = []
-  for (let i = 0; i < 4; i++) {
-    const startDay = Math.floor((i * daysInMonth) / 4)
-    const endDay = Math.floor(((i + 1) * daysInMonth) / 4) - 1
-    
-    weeks.push({
-      start: addDays(monthStart, startDay),
-      end: addDays(monthStart, endDay)
-    })
+  const days = eachDayOfInterval({ start: monthStart, end: monthEnd })
+
+  const getOrderDate = (order: SupabaseOrder) => {
+    if (order.created_at) return parseISO(order.created_at)
+    if (order.timestamp) {
+      try {
+        return parse(order.timestamp, 'MM/dd/yyyy HH:mm', new Date())
+      } catch {
+        return null
+      }
+    }
+    return null
   }
 
-  const data = weeks.map((week) => {
-    const weekOrders = orders.filter(order => {
-      if (!order.created_at) return false
-      const orderDate = parseISO(order.created_at)
-      return isWithinInterval(orderDate, { start: week.start, end: week.end })
+  const data = days.map((day) => {
+    const dayOrders = orders.filter(order => {
+      const orderDate = getOrderDate(order)
+      if (!orderDate) return false
+      return isSameDay(orderDate, day)
     })
 
-    const shotgunCount = weekOrders
+    const shotgunCount = dayOrders
       .filter(order => order.product.toLowerCase().includes('shotgun'))
       .reduce((sum, order) => sum + (parseInt(order.quantity) || 0), 0)
 
-    const gametraqCount = weekOrders
+    const gametraqCount = dayOrders
       .filter(order => order.product.toLowerCase().includes('gametraq'))
       .reduce((sum, order) => sum + (parseInt(order.quantity) || 0), 0)
 
     return {
-      name: `${format(week.start, 'MMM d')} - ${format(week.end, 'MMM d')}`,
+      name: format(day, 'd MMM'),
       shotgun: shotgunCount,
       gametraq: gametraqCount
     }
