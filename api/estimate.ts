@@ -1,6 +1,15 @@
 // @ts-nocheck
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
+import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
+
+// Initialize Supabase Client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = (supabaseUrl && supabaseServiceKey) 
+  ? createClient(supabaseUrl, supabaseServiceKey) 
+  : null;
 
 // Allowlist for Origins
 function getAllowedOrigins(): Set<string> {
@@ -129,11 +138,13 @@ export default async function handler(req: any, res: any) {
 
         const sheets = google.sheets({ version: 'v4', auth });
         const submittedAt = formatTimestamp(new Date());
+        // Generate a unique ID for the estimate to allow syncing
+        const estimateId = crypto.randomUUID();
 
-        // Columns: Timestamp, Name, Email, Phone, City, Country, Products, Message
+        // Columns: Timestamp, Name, Email, Phone, City, Country, Products, Message, ID
         // Note: Club/Company is not in the screenshot headers, so I'll append it to the Name or Message, 
         // or just omit it if strictly following the image. 
-        // Based on the image: A=Timestamp, B=Name, C=Email, D=Phone, E=City, F=Country, G=Products, H=Message
+        // Based on the image: A=Timestamp, B=Name, C=Email, D=Phone, E=City, F=Country, G=Products, H=Message, I=ID
         
         // I will combine Name and ClubName into the Name column to ensure no data is lost, 
         // or you can add a column for ClubName in the sheet.
@@ -147,7 +158,8 @@ export default async function handler(req: any, res: any) {
           sanitizeCell(city, 200),
           sanitizeCell(country, 200),
           sanitizeCell(productListText, 2000),
-          sanitizeCell(message, 2000)
+          sanitizeCell(message, 2000),
+          estimateId
         ]];
 
         await sheets.spreadsheets.values.append({
@@ -158,6 +170,37 @@ export default async function handler(req: any, res: any) {
           requestBody: { values }
         });
         console.log('[estimate] Sheets append done');
+
+        // --- Supabase Integration ---
+        if (supabase) {
+          try {
+            const { error } = await supabase.from('estimates').insert({
+              id: estimateId,
+              name: name,
+              club_name: clubName,
+              email: email,
+              phone: phone,
+              city: city,
+              country: country,
+              products: productListText,
+              message: message,
+              timestamp: submittedAt,
+              status: 'New'
+            });
+            
+            if (error) {
+              console.error('[estimate] Supabase insert error:', error);
+            } else {
+              console.log('[estimate] Supabase insert done');
+            }
+          } catch (sbError) {
+            console.error('[estimate] Supabase exception:', sbError);
+          }
+        } else {
+          console.warn('[estimate] Supabase credentials missing, skipping DB insert');
+        }
+        // ----------------------------
+
       } catch (sheetError) {
         console.error('[estimate] Failed to append to sheets', sheetError);
         // Don't fail the request if sheets fails, still send email

@@ -11,6 +11,14 @@
 // @ts-nocheck
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase Client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // Use Service Role Key for backend writes
+const supabase = (supabaseUrl && supabaseServiceKey) 
+  ? createClient(supabaseUrl, supabaseServiceKey) 
+  : null;
 
 // Allowlist for Origins that can post orders. Configurable via env `ALLOWED_ORIGINS` (comma-separated).
 function getAllowedOrigins(): Set<string> {
@@ -459,6 +467,38 @@ export default async function handler(req, res) {
         requestBody: { values }
       });
       console.log('[order] Sheets append done', appendRes.status);
+
+      // --- Supabase Integration ---
+      if (supabase) {
+        try {
+          const { error } = await supabase.from('orders').insert({
+            order_id: orderId,
+            customer_name: payload.name,
+            product: payload.product,
+            quantity: String(toInt(payload.quantity, 0)),
+            company: isCompany ? 'Yes' : 'No',
+            company_name: isCompany ? payload.companyName : 'Private person',
+            tax_vat_number: isCompany ? payload.taxNumber : 'Private person',
+            delivery_address: payload.deliveryAddress,
+            phone_number: payload.phone,
+            email: payload.email,
+            message: payload.message,
+            timestamp: submittedAt,
+            status: 'Order placed'
+          });
+          
+          if (error) {
+            console.error('[order] Supabase insert error:', error);
+          } else {
+            console.log('[order] Supabase insert done');
+          }
+        } catch (sbError) {
+          console.error('[order] Supabase exception:', sbError);
+        }
+      } else {
+        console.warn('[order] Supabase credentials missing, skipping DB insert');
+      }
+      // ----------------------------
       
       await sendOrderEmail(payload, orderId);
     }

@@ -155,3 +155,28 @@ alter table orders add column if not exists status_updated_at timestamp with tim
 -- Add tracking_number to orders
 alter table orders add column if not exists tracking_number text;
 
+-- Create the estimates table
+create table if not exists estimates (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  club_name text,
+  email text,
+  phone text,
+  city text,
+  country text,
+  products text, -- JSON string or formatted text
+  message text,
+  timestamp text,
+  status text default 'New',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Enable Row Level Security (RLS)
+alter table estimates enable row level security;
+
+-- Create policies for estimates
+create policy "Enable read access for authenticated users" on estimates
+  for select using (auth.role() = 'authenticated');
+
+create policy "Enable write access for authenticated users" on estimates
+  for all using (auth.role() = 'authenticated');
