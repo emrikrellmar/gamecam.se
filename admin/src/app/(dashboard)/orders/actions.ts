@@ -20,33 +20,104 @@ export async function sendUpdateEmail(order: any, type: 'preparing' | 'shipped',
   let subject = '';
   let text = '';
   let html = '';
+  
+  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const currentYear = new Date().getFullYear();
+
+  // Common styles and structure
+  const getHtmlTemplate = (title: string, message: string, trackingSection: string = '') => `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; background-color: #ffffff;">
+      <!-- Logo -->
+      <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid #eeeeee;">
+        <img src="https://gamecam.io/assets/images/logos/gamecam_logo_horizontal_black.png" alt="GameCam" style="height: 30px; width: auto;" />
+      </div>
+
+      <!-- Intro -->
+      <div style="padding: 30px 0; text-align: center;">
+        <img src="https://gamecam.io/assets/images/logos/checkmark.png" alt="Success" style="height: 50px; width: 50px; margin-bottom: 15px;" />
+        <h2 style="color: #333; margin: 0 0 10px; font-size: 24px;">${title}</h2>
+        <p style="color: #666; margin: 0; font-size: 16px; line-height: 1.5;">${message}</p>
+      </div>
+
+      <!-- Info Columns -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
+        <tr>
+          <td valign="top" width="50%" style="padding-right: 10px;">
+            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Summary</h4>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;"><strong>Date:</strong><br>${dateStr}</p>
+            <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Email:</strong><br><a href="mailto:${order.email}" style="color: #0056b3; text-decoration: none;">${order.email}</a></p>
+            <p style="margin: 10px 0 0; font-size: 14px; line-height: 1.6;"><strong>Order ID:</strong><br>${order.order_id}</p>
+          </td>
+          <td valign="top" width="50%" style="padding-left: 10px;">
+            <h4 style="margin: 0 0 10px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Shipping Address</h4>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6;">
+              ${order.customer_name}<br>
+              ${order.delivery_address}<br>
+              ${order.phone_number}
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      ${trackingSection}
+
+      <!-- Items Header -->
+      <div style="border-bottom: 2px solid #eeeeee; padding-bottom: 10px; margin-bottom: 15px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="left" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Item</td>
+            <td align="right" style="font-size: 12px; font-weight: bold; color: #999; text-transform: uppercase; letter-spacing: 0.5px;">Qty</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Item Row -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        <tr>
+          <td valign="top" style="padding-bottom: 20px;">
+            <p style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${order.product}</p>
+          </td>
+          <td align="right" valign="top" style="font-size: 16px; font-weight: bold; color: #333; padding-bottom: 20px;">
+            ${order.quantity}
+          </td>
+        </tr>
+      </table>
+
+      <!-- Footer -->
+      <div style="border-top: 1px solid #eeeeee; padding-top: 30px; margin-top: 10px; text-align: center; color: #999; font-size: 12px;">
+        <p style="margin: 0 0 10px;">&copy; ${currentYear} GameCam. All rights reserved.</p>
+        <p style="margin: 0;">If you have any questions, contact <a href="mailto:sales@gamecam.se" style="color: #0056b3; text-decoration: none;">sales@gamecam.se</a>.</p>
+        <div style="display:none; font-size:0; line-height:0; color:#ffffff;">${order.order_id} - ${new Date().toISOString()}</div>
+      </div>
+      <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666;">
+        <p>This email was sent from the GameCam Team.</p>
+      </div>
+    </div>
+  `;
 
   if (type === 'preparing') {
     subject = `Your order #${order.order_id} is being prepared!`;
     text = `Hi ${order.customer_name},\n\nWe have received your payment and your order for ${order.product} is now being prepared.\n\nBest regards,\nThe GameCam Team`;
-    html = `
-      <div style="font-family: Arial, sans-serif; color: #333;">
-        <h2>Your order is being prepared!</h2>
-        <p>Hi ${order.customer_name},</p>
-        <p>We have received your payment and your order for <strong>${order.product}</strong> is now being prepared.</p>
-        <p>We will notify you once it has been shipped.</p>
-        <br>
-        <p>Best regards,<br>The GameCam Team</p>
-      </div>
-    `;
+    html = getHtmlTemplate(
+      'Your order is being prepared!',
+      'We have received your payment and your order is now being prepared. We will notify you once it has been shipped.'
+    );
   } else if (type === 'shipped') {
     subject = `Your order #${order.order_id} has been shipped!`;
     text = `Hi ${order.customer_name},\n\nYour order for ${order.product} has been shipped.\n\nTracking Number: ${trackingNumber || 'N/A'}\n\nBest regards,\nThe GameCam Team`;
-    html = `
-      <div style="font-family: Arial, sans-serif; color: #333;">
-        <h2>Your order has been shipped!</h2>
-        <p>Hi ${order.customer_name},</p>
-        <p>Your order for <strong>${order.product}</strong> has been shipped.</p>
-        ${trackingNumber ? `<p><strong>Tracking Number:</strong> ${trackingNumber}</p>` : ''}
-        <br>
-        <p>Best regards,<br>The GameCam Team</p>
+    
+    const trackingSection = trackingNumber ? `
+      <div style="margin-bottom: 30px; background-color: #e6f7ff; padding: 20px; border-radius: 8px; border: 1px solid #b3e0ff; text-align: center;">
+        <h4 style="margin: 0 0 10px; font-size: 14px; color: #0056b3; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Tracking Number</h4>
+        <p style="margin: 0; font-size: 18px; font-weight: bold; color: #333; letter-spacing: 1px;">${trackingNumber}</p>
       </div>
-    `;
+    ` : '';
+
+    html = getHtmlTemplate(
+      'Your order has been shipped!',
+      'Your order has been shipped! You can track your package using the tracking number below.',
+      trackingSection
+    );
   }
 
   try {
