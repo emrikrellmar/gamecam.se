@@ -28,14 +28,14 @@ function RouteAnnouncer() {
 
 function Layout() {
   return (
-    <div className="min-h-screen bg-neutral-75">
+    <div className="flex min-h-screen flex-col bg-neutral-75">
       <RouteAnnouncer />
       <Header />
       <main
         id="main-content"
         tabIndex={-1}
         role="main"
-        className="mx-auto w-full max-w-7xl px-4 pb-24 pt-28 sm:px-5 lg:px-6 xl:px-8 focus:outline-none focus-visible:ring focus-visible:ring-brand-blue/40"
+        className="mx-auto w-full max-w-7xl flex-1 px-4 pb-24 pt-28 sm:px-5 lg:px-6 xl:px-8 focus:outline-none focus-visible:ring focus-visible:ring-brand-blue/40"
       >
         <Outlet />
       </main>
