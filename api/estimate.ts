@@ -141,37 +141,8 @@ export default async function handler(req: any, res: any) {
         // Generate a unique ID for the estimate to allow syncing
         const estimateId = crypto.randomUUID();
 
-        // Columns: Timestamp, Name, Email, Phone, City, Country, Products, Message, ID
-        // Note: Club/Company is not in the screenshot headers, so I'll append it to the Name or Message, 
-        // or just omit it if strictly following the image. 
-        // Based on the image: A=Timestamp, B=Name, C=Email, D=Phone, E=City, F=Country, G=Products, H=Message, I=ID
-        
-        // I will combine Name and ClubName into the Name column to ensure no data is lost, 
-        // or you can add a column for ClubName in the sheet.
-        // For now, I'll stick to the exact columns in your image.
-        
-        const values = [[
-          submittedAt,
-          sanitizeCell(`${name} (${clubName})`, 200), // Combined Name + Club
-          sanitizeCell(email, 200),
-          sanitizeCell(phone, 100),
-          sanitizeCell(city, 200),
-          sanitizeCell(country, 200),
-          sanitizeCell(productListText, 2000),
-          sanitizeCell(message, 2000),
-          estimateId
-        ]];
-
-        await sheets.spreadsheets.values.append({
-          spreadsheetId,
-          range: `${sheetName}!A1`,
-          valueInputOption: 'RAW',
-          insertDataOption: 'INSERT_ROWS',
-          requestBody: { values }
-        });
-        console.log('[estimate] Sheets append done');
-
         // --- Supabase Integration ---
+        // We only write to Supabase now. The Webhook will sync to Google Sheets.
         if (supabase) {
           try {
             const { error } = await supabase.from('estimates').insert({

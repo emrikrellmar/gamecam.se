@@ -443,32 +443,8 @@ export default async function handler(req, res) {
       // Generate a random 8-digit Order ID
       const orderId = Math.floor(10000000 + Math.random() * 90000000).toString();
 
-      const values = [[
-        sanitizeCell(payload.name, 200),
-        sanitizeCell(payload.product, 200),
-        String(toInt(payload.quantity, 0)),
-        isCompany ? 'Yes' : 'No',
-        isCompany ? sanitizeCell(payload.companyName, 200) : 'Private person',
-        isCompany ? sanitizeCell(payload.taxNumber, 200) : 'Private person',
-        sanitizeCell(payload.deliveryAddress, 500),
-        sanitizeCell(payload.phone, 100),
-        sanitizeCell(payload.email, 200),
-        sanitizeCell(payload.message, 2000),
-        submittedAt,
-        orderId
-      ]];
-
-      const appendRes = await sheets.spreadsheets.values.append({
-        spreadsheetId,
-        range: `${sheetName}!A1`,
-        // Use RAW to prevent formula execution in Sheets
-        valueInputOption: 'RAW',
-        insertDataOption: 'INSERT_ROWS',
-        requestBody: { values }
-      });
-      console.log('[order] Sheets append done', appendRes.status);
-
       // --- Supabase Integration ---
+      // We only write to Supabase now. The Webhook will sync to Google Sheets.
       if (supabase) {
         try {
           const { error } = await supabase.from('orders').insert({

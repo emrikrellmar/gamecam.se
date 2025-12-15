@@ -43,18 +43,44 @@ export default async function handler(req: any, res: any) {
 
     } else if (table === 'estimates') {
       // Update Estimates
-      // We use id as the unique key
+      // We try to use ID if provided, otherwise we try to match by timestamp + email
       const { id, ...updateData } = data;
 
-      if (!id) {
-        return res.status(400).json({ error: 'Missing id' });
+      if (id) {
+        const { error } = await supabase
+          .from('estimates')
+          .upsert({ id, ...updateData }, { onConflict: 'id' });
+        if (error) throw error;
+      } else {
+        // No ID provided (e.g. from Google Sheets without ID column)
+        // Try to find by timestamp and email
+        if (!updateData.timestamp || !updateData.email) {
+           return res.status(400).json({ error: 'Missing timestamp or email for matching' });
+        }
+
+        // First, try to find the record
+        const { data: existing } = await supabase
+          .from('estimates')
+          .select('id')
+          .eq('timestamp', updateData.timestamp)
+          .eq('email', updateData.email)
+          .single();
+
+        if (existing) {
+          // Update existing
+          const { error } = await supabase
+            .from('estimates')
+            .update(updateData)
+            .eq('id', existing.id);
+          if (error) throw error;
+        } else {
+          // Create new (let Supabase generate ID)
+          const { error } = await supabase
+            .from('estimates')
+            .insert(updateData);
+          if (error) throw error;
+        }
       }
-
-      const { error } = await supabase
-        .from('estimates')
-        .upsert({ id, ...updateData }, { onConflict: 'id' });
-
-      if (error) throw error;
     } else {
       return res.status(400).json({ error: 'Unknown table' });
     }

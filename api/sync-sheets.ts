@@ -146,8 +146,9 @@ async function syncOrder(sheets: any, spreadsheetId: string, record: any, type: 
 async function syncEstimate(sheets: any, spreadsheetId: string, record: any, type: string) {
   const sheetName = 'Estimates';
   
-  // 1. Fetch all Estimate IDs (Column I, Index 8)
-  const range = `${sheetName}!A:I`;
+  // 1. Fetch all data to find a match
+  // We fetch A:H (Timestamp to Message)
+  const range = `${sheetName}!A:H`;
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId,
     range,
@@ -155,12 +156,15 @@ async function syncEstimate(sheets: any, spreadsheetId: string, record: any, typ
 
   const rows = response.data.values || [];
   
-  // Find the row index by ID
-  const idIndex = 8; 
+  // Find the row index by Timestamp (A) and Email (C)
+  // This is a heuristic since we removed the ID column
+  const timestampIndex = 0;
+  const emailIndex = 2;
   
   let rowIndex = -1;
   for (let i = 1; i < rows.length; i++) {
-    if (rows[i][idIndex] === record.id) {
+    // Check if Timestamp and Email match
+    if (rows[i][timestampIndex] === record.timestamp && rows[i][emailIndex] === record.email) {
       rowIndex = i;
       break;
     }
@@ -179,20 +183,20 @@ async function syncEstimate(sheets: any, spreadsheetId: string, record: any, typ
     sanitizeCell(record.city, 200),
     sanitizeCell(record.country, 200),
     sanitizeCell(record.products, 2000),
-    sanitizeCell(record.message, 2000),
-    record.id
+    sanitizeCell(record.message, 2000)
+    // ID removed
   ];
 
   if (rowIndex !== -1) {
     // Update existing row
-    const updateRange = `${sheetName}!A${rowIndex + 1}:I${rowIndex + 1}`;
+    const updateRange = `${sheetName}!A${rowIndex + 1}:H${rowIndex + 1}`;
     await sheets.spreadsheets.values.update({
       spreadsheetId,
       range: updateRange,
       valueInputOption: 'RAW',
       requestBody: { values: [values] }
     });
-    console.log(`[sync-sheets] Updated Estimate ${record.id} at row ${rowIndex + 1}`);
+    console.log(`[sync-sheets] Updated Estimate (by timestamp/email) at row ${rowIndex + 1}`);
   } else {
     // Insert new row
     await sheets.spreadsheets.values.append({
@@ -202,6 +206,6 @@ async function syncEstimate(sheets: any, spreadsheetId: string, record: any, typ
       insertDataOption: 'INSERT_ROWS',
       requestBody: { values: [values] }
     });
-    console.log(`[sync-sheets] Appended new Estimate ${record.id}`);
+    console.log(`[sync-sheets] Appended new Estimate`);
   }
 }
