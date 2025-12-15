@@ -109,7 +109,9 @@ export async function sendUpdateEmail(order: any, type: 'preparing' | 'shipped',
     const trackingSection = trackingNumber ? `
       <div style="margin-bottom: 30px; background-color: #e6f7ff; padding: 20px; border-radius: 8px; border: 1px solid #b3e0ff; text-align: center;">
         <h4 style="margin: 0 0 10px; font-size: 14px; color: #0056b3; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Tracking Number</h4>
-        <p style="margin: 0; font-size: 18px; font-weight: bold; color: #333; letter-spacing: 1px;">${trackingNumber}</p>
+        <p style="margin: 0; font-size: 18px; font-weight: bold; color: #333; letter-spacing: 1px;">
+          <a href="https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}" target="_blank" style="color: #0056b3; text-decoration: underline;">${trackingNumber}</a>
+        </p>
       </div>
     ` : '';
 

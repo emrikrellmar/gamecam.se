@@ -131,7 +131,7 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
       return
     }
 
-    if (order.status === 'Invoice payed' && newStatus === 'Preparing order') {
+    if (newStatus === 'Preparing order') {
       setEmailConfirmOrder(order)
       setEmailConfirmType('preparing')
       setIsEmailConfirmOpen(true)
