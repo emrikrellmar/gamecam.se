@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -24,6 +25,23 @@ export default async function DashboardPage() {
   
   // Fetch Orders
   const { data: orders } = await supabase.from('orders').select('*')
+
+  // Fetch Users (Admin)
+  let users: any[] = []
+  try {
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const supabaseAdmin = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      )
+      const { data: { users: fetchedUsers }, error } = await supabaseAdmin.auth.admin.listUsers()
+      if (!error && fetchedUsers) {
+        users = fetchedUsers
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error)
+  }
 
   // Fetch Analytics
   const analytics = await getVercelAnalytics()
@@ -119,20 +137,28 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Website Visitors
+              Signed Up Users
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              -
+            <div className="text-2xl font-bold mb-2">{users.length}</div>
+            <div className="h-[80px] overflow-y-auto space-y-1 pr-2">
+              {users.length > 0 ? (
+                users.map((user) => (
+                  <div key={user.id} className="text-xs text-muted-foreground truncate" title={user.email}>
+                    {user.email}
+                  </div>
+                ))
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  {process.env.SUPABASE_SERVICE_ROLE_KEY ? 'No users found' : 'Key missing'}
+                </p>
+              )}
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              Coming Soon
-            </p>
           </CardContent>
         </Card>
       </div>
