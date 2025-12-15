@@ -81,8 +81,8 @@ export function InventoryTable({ initialInventory }: InventoryTableProps) {
     const gametraqItems = inventory.filter(item => item.category === "GAMETRAQ");
     
     gametraqItems.forEach((item) => {
-      // Assume 1 unit needed per item for now
-      const amountPerUnit = 1;
+      // Default to 1 unit per item, but 2 for PoE to USB adapters
+      const amountPerUnit = item.name.toLowerCase().includes("poe to usb") ? 2 : 1;
       const totalNeeded = amountPerUnit * batchSize;
       const currentStock = item.stock;
       
