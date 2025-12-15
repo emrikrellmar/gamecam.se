@@ -171,7 +171,7 @@ export function EstimatesBoard({ initialEstimates }: { initialEstimates: Estimat
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-base font-medium">
-                      {estimate.club_name}
+                      {estimate.name}
                     </CardTitle>
                     <CardDescription className="flex items-center gap-1 mt-1">
                       <Clock className="h-3 w-3" />
@@ -211,7 +211,7 @@ export function EstimatesBoard({ initialEstimates }: { initialEstimates: Estimat
               <CardContent className="flex-1 flex flex-col gap-3 text-sm">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Building2 className="h-4 w-4 shrink-0" />
-                  <span className="truncate">{estimate.name}</span>
+                  <span className="truncate">{estimate.club_name}</span>
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Mail className="h-4 w-4 shrink-0" />
