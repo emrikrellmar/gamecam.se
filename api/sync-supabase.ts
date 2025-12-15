@@ -37,8 +37,7 @@ export default async function handler(req: any, res: any) {
 
       const { error } = await supabase
         .from('orders')
-        .update(updateData)
-        .eq('order_id', order_id);
+        .upsert({ order_id, ...updateData }, { onConflict: 'order_id' });
 
       if (error) throw error;
 
@@ -53,8 +52,7 @@ export default async function handler(req: any, res: any) {
 
       const { error } = await supabase
         .from('estimates')
-        .update(updateData)
-        .eq('id', id);
+        .upsert({ id, ...updateData }, { onConflict: 'id' });
 
       if (error) throw error;
     } else {
