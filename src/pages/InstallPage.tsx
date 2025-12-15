@@ -22,7 +22,9 @@ const steps: Step[] = [
         heading: 'From GAMECAM shipment',
         items: [
           'AI camera with microphone and USB splitter',
-          'Bird-view camera mount, install on court to place AI camera',
+          'CAT 6 cable',
+          '2 USB to PoE adapters',
+          'Camera mount, install on court to place AI camera',
           'Save ball rally button with USB cable, mount at the net post',
           'USB cable, from AI camera to the Save ball rally button',
           'GameCam TV device, connect to your venue TV',
@@ -74,11 +76,10 @@ const steps: Step[] = [
     sections: [
       {
         items: [
-          'Plug the 15m USB cable into the <span class="bg-gray-300/40 px-1 rounded">GAMETRAQ unit</span>.',
+          'Plug a <span class="bg-yellow-400/30 px-1 rounded">USB to PoE adapter</span> on the camera side.',
           'Run the 15m USB cable along the court in the <span class="bg-blue-500/20 px-1 rounded">blue path</span> shown in the picture.',
-          'Mount the USB splitter where the <span class="bg-purple-500/20 px-1 rounded">purple circle</span> is marked.',
+          'Connetct one more <span class="bg-yellow-400/30 px-1 rounded">USB to PoE adapter</span> on the button side.',
           'Connect the USB button where the <span class="bg-green-500/20 px-1 rounded">green circle</span> is marked.',
-          'Connect the microphone where the <span class="bg-yellow-400/30 px-1 rounded">yellow circle</span> is marked.',
           'Note that the <span class="bg-red-500/20 px-1 rounded">red path</span> is the CAT6 cable from the PoE switch to the camera.',
           'Cable-tie or tape slack so nothing hangs or becomes a trip hazard.',
        ],
