@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { RefreshCw, Plus, MoreHorizontal, Check, Truck, Package, FileText, UserCheck, Pencil, Trash2, LayoutGrid, List, Archive, Clock } from 'lucide-react'
-import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails, deleteOrder } from './actions'
+import { syncOrders, addOrder, updateOrderStatus, updateOrderDetails, deleteOrder, sendUpdateEmail } from './actions'
 import { OrdersTable } from './orders-table'
 import { formatDistanceToNow } from 'date-fns'
 import {
@@ -93,6 +93,12 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false)
   const [trackingOrder, setTrackingOrder] = useState<string | null>(null)
   const [trackingNumber, setTrackingNumber] = useState('')
+
+  // Email Confirmation State
+  const [isEmailConfirmOpen, setIsEmailConfirmOpen] = useState(false)
+  const [emailConfirmType, setEmailConfirmType] = useState<'preparing' | 'shipped'>('preparing')
+  const [emailConfirmOrder, setEmailConfirmOrder] = useState<SupabaseOrder | null>(null)
+  const [emailTrackingNumber, setEmailTrackingNumber] = useState<string | undefined>(undefined)
   
   // View State
   const [viewMode, setViewMode] = useState<'board' | 'list'>('board')
@@ -116,10 +122,19 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   }
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
+    const order = orders.find(o => o.id === orderId)
+    if (!order) return
+
     if (newStatus === 'Shipped') {
       setTrackingOrder(orderId)
       setIsTrackingModalOpen(true)
       return
+    }
+
+    if (order.status === 'Invoice payed' && newStatus === 'Preparing order') {
+      setEmailConfirmOrder(order)
+      setEmailConfirmType('preparing')
+      setIsEmailConfirmOpen(true)
     }
 
     // Optimistic update
@@ -138,12 +153,23 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
   const confirmShippedStatus = async () => {
     if (!trackingOrder) return
     
+    const order = orders.find(o => o.id === trackingOrder)
+
     // Optimistic update
     setOrders(orders.map(o => o.id === trackingOrder ? { ...o, status: 'Shipped', tracking_number: trackingNumber } : o))
     
     const result = await updateOrderStatus(trackingOrder, 'Shipped', trackingNumber)
     
     setIsTrackingModalOpen(false)
+    
+    // Open email confirmation
+    if (order) {
+      setEmailConfirmOrder(order)
+      setEmailConfirmType('shipped')
+      setEmailTrackingNumber(trackingNumber)
+      setIsEmailConfirmOpen(true)
+    }
+
     setTrackingOrder(null)
     setTrackingNumber('')
     
@@ -153,6 +179,16 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
     } else {
       router.refresh()
     }
+  }
+
+  const handleSendEmail = async () => {
+    if (!emailConfirmOrder) return
+    
+    await sendUpdateEmail(emailConfirmOrder, emailConfirmType, emailTrackingNumber)
+    
+    setIsEmailConfirmOpen(false)
+    setEmailConfirmOrder(null)
+    setEmailTrackingNumber(undefined)
   }
 
   const handleDeleteOrder = async () => {
@@ -635,6 +671,26 @@ export function OrdersBoard({ initialOrders }: { initialOrders: SupabaseOrder[] 
           </div>
         </div>
       )}
+      {/* Email Confirmation Dialog */}
+      <AlertDialog open={isEmailConfirmOpen} onOpenChange={setIsEmailConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Send Update Email?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Do you want to send an email to {emailConfirmOrder?.customer_name} ({emailConfirmOrder?.email}) notifying them that their order is {emailConfirmType === 'preparing' ? 'being prepared' : 'shipped'}?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setIsEmailConfirmOpen(false)
+              setEmailConfirmOrder(null)
+              setEmailTrackingNumber(undefined)
+            }}>Skip</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSendEmail}>Send Email</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
     </div>
   )
 }
