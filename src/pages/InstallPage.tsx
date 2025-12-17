@@ -77,10 +77,10 @@ const steps: Step[] = [
       {
         items: [
           'Plug a <span class="bg-yellow-400/30 px-1 rounded">USB to PoE adapter</span> on the camera side.',
-          'Run the 15m USB cable along the court in the <span class="bg-blue-500/20 px-1 rounded">blue path</span> shown in the picture.',
+          'Run the 15m CAT6 cable along the court in the <span class="bg-blue-500/20 px-1 rounded">blue path</span> shown in the picture towards the where the button will be placed.',
           'Connetct one more <span class="bg-yellow-400/30 px-1 rounded">USB to PoE adapter</span> on the button side.',
           'Connect the USB button where the <span class="bg-green-500/20 px-1 rounded">green circle</span> is marked.',
-            'Note that the <span class="bg-red-500/20 px-1 rounded">red path</span> is the CAT6 cable from the PoE switch to the camera.',
+          'Note that the <span class="bg-red-500/20 px-1 rounded">red path</span> is the CAT6 cable from the PoE switch to the camera.',
           'Cable-tie or tape slack so nothing hangs or becomes a trip hazard.',
        ],
         imagePlaceholder: 'step4'

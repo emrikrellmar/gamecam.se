@@ -104,8 +104,8 @@ export async function sendUpdateEmail(order: any, type: 'preparing' | 'shipped',
     );
   } else if (type === 'shipped') {
     subject = `Your order #${order.order_id} has been shipped!`;
-    text = `Hi ${order.customer_name},\n\nYour order for ${order.product} has been shipped.\n\nTracking Number: ${trackingNumber || 'N/A'}\n\nBest regards,\nThe GameCam Team`;
-    
+    text = `Hi ${order.customer_name},\n\nYour order for ${order.product} has been shipped.\n\nTracking Number: ${trackingNumber || 'N/A'}\n\n---\n\n1. Prepare for installation\nYou can already start preparing the installation using our step-by-step manual: www.gamecam.io/install\n\n2. Book a pre-installation call\nWe recommend a short call with our tech team before you install the system. Book here: http://calendar.app.google/nNe8TWDQWeGDM7GbA\n\n3. WhatsApp support group\nWe will also create a dedicated WhatsApp group with you and our support team. There you can ask technical questions, share photos/videos during installation, and get quick help.\n\nBest regards,\nThe GameCam Team`;
+
     const trackingSection = trackingNumber ? `
       <div style="margin-bottom: 30px; background-color: #e6f7ff; padding: 20px; border-radius: 8px; border: 1px solid #b3e0ff; text-align: center;">
         <h4 style="margin: 0 0 10px; font-size: 14px; color: #0056b3; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Tracking Number</h4>
@@ -115,9 +115,33 @@ export async function sendUpdateEmail(order: any, type: 'preparing' | 'shipped',
       </div>
     ` : '';
 
+    const installSection = `
+      <div style="margin-bottom: 30px; padding: 20px; border-radius: 8px; border: 1px solid #e0e7ef; background: #f8fafc;">
+        <h3 style="margin: 0 0 10px; font-size: 18px; color: #0056b3;">1. Prepare for installation</h3>
+        <p style="margin: 0 0 10px;">You can already start preparing the installation using our step-by-step manual:</p>
+        <a href="http://www.gamecam.io/install" target="_blank" style="font-weight: bold; color: #0056b3; text-decoration: underline; font-size: 16px;">👉 www.gamecam.io/install</a>
+        <p style="margin: 16px 0 0;">There you’ll find everything you need to set up your new AI camera on your court.</p>
+      </div>
+      <div style="margin-bottom: 30px; padding: 20px; border-radius: 8px; border: 1px solid #e0e7ef; background: #f8fafc;">
+        <h3 style="margin: 0 0 10px; font-size: 18px; color: #0056b3;">2. Book a pre-installation call</h3>
+        <p style="margin: 0 0 10px;">We recommend a short call with our tech team before you install the system.</p>
+        <a href="http://calendar.app.google/nNe8TWDQWeGDM7GbA" target="_blank" style="font-weight: bold; color: #0056b3; text-decoration: underline; font-size: 16px;">👉 Book a time that suits you here</a>
+        <p style="margin: 16px 0 0;">We’ll walk you through the key steps so everything runs smoothly on installation day.</p>
+      </div>
+      <div style="margin-bottom: 30px; padding: 20px; border-radius: 8px; border: 1px solid #e0e7ef; background: #f8fafc;">
+        <h3 style="margin: 0 0 10px; font-size: 18px; color: #0056b3;">3. WhatsApp support group</h3>
+        <p style="margin: 0 0 10px;">We will also create a dedicated <b>WhatsApp group</b> with you and our support team.</p>
+        <ul style="margin: 0 0 0 20px; padding: 0; color: #333;">
+          <li>Ask technical questions</li>
+          <li>Share photos/videos during installation</li>
+          <li>Get quick help to get the AI camera up and running</li>
+        </ul>
+      </div>
+    `;
+
     html = getHtmlTemplate(
       'Your order has been shipped!',
-      'Your order has been shipped! You can track your package using the tracking number below.',
+      'Your order has been shipped! You can track your package using the tracking number below.' + installSection,
       trackingSection
     );
   }
