@@ -193,7 +193,7 @@ ${payload.message || '-'}
   try {
     await transporter.sendMail({
       from: `"GameCam Order Form" <${process.env.SMTP_USER}>`,
-      to: 'emrik@gamecam.se',
+      to: 'magnus@gamecam.se',
       subject: `New ${payload.product} order from ${payload.name}`,
       text: text,
       html: html,
@@ -278,8 +278,8 @@ ${payload.message || '-'}
     `;
 
     await transporter.sendMail({
-      from: '"GameCam"',
-      replyTo: 'sales@gamecam.se',
+      from: '"GameCam confirmation mail" <emrik@gamecam.se>',
+      replyTo: 'magnus@gamecam.se',
       to: payload.email,
       subject: `Order Confirmation #${orderId}`,
       text: customerText,
