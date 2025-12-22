@@ -80,17 +80,17 @@ function HomePage() {
       <section className="grid gap-8 rounded-3xl border border-brand-blue/15 bg-white p-8 shadow-card lg:grid-cols-2 lg:items-center">
         <div>
           <h1 className="mb-14 text-4xl font-bold leading-tight text-brand-blue sm:text-5xl">
-            GameCam hardware for padel<br className="sm:hidden" />
-            <span className="sm:inline-block sm:ml-2">
-              <span className="typewriter text-brand-pink"></span>
-            </span>
+            GAMETRAQ is the Smart AI Camera for Padel<br className="sm:hidden" />
           </h1>
           <div className="space-y-4">
             <p className="text-lg leading-relaxed text-neutral-700">
-              GAMETRAQ is the smart AI Camera for Padel that transforms your court into a smart court, the all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
+              GAMETRAQ is the Smart AI Camera for Padel wich will turn any padel court into a Smart Court with an all-in-one AI camera system that records every match in 4K, live streams to your YouTube channel, and delivers instant player analytics.
             </p>
             <p className="text-lg leading-relaxed text-neutral-700">
-              Players can replay their best rallies on the club TV, for venues, it means higher engagement, premium rental prices, and a tech-powered experience that keeps players coming back. Record. Analyze. Stream. Improve.
+              Players can instantly replay their best rallies on the club TV. For venues, GAMETRAQ drives higher engagement, premium court pricing, and a modern, tech-powered experience that keeps players coming back.
+            </p>
+            <p className="text-lg leading-relaxed text-neutral-700">
+              Record. Analyze. Stream. Improve.
             </p>
           </div>
           <div className="mt-8 flex flex-col gap-4 w-fit">

@@ -14,6 +14,7 @@ const EstimatePage = lazy(() => import('./pages/EstimatePage'));
 const InstallPage = lazy(() => import('./pages/InstallPage'));
 const ShotgunInstallPage = lazy(() => import('./pages/ShotgunInstallPage'));
 const MeetPage = lazy(() => import('./pages/MeetPage'));
+import VideoPage from './pages/VideoPage';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/products/:slug" element={<ProductPage />} />
+            {/* Short product URLs redirect to canonical product URLs */}
+            <Route path="/shotgun" element={<Navigate to="/products/shotgun" replace />} />
+            <Route path="/gametraq" element={<Navigate to="/products/gametraq" replace />} />
             <Route path="/our-story" element={<StoryPage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="/estimate" element={<EstimatePage />} />
@@ -38,6 +42,7 @@ function App() {
             <Route path="/install/shotgun/:step" element={<ShotgunInstallPage />} />
             <Route path="/about-us" element={<AboutPage />} />
             <Route path="/meet" element={<MeetPage />} />
+            <Route path="/video" element={<VideoPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

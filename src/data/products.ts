@@ -27,9 +27,9 @@ export const products: Product[] = [
   {
     slug: 'gametraq',
     name: 'GAMETRAQ',
-    tagline: 'Tool for all levels of padel players and venues.',
+    tagline: 'GAMETRAQ leading Ai camera',
     summary:
-      "Beginners enjoy GAMETRAQ for the stats and added fun in every game. Intermediate players track progression with objective metrics. Pros analyse opponents strengths and weaknesses for a decisive edge.",
+      "GAMETRAQ leading Ai camera. Players spend more time at the club. Differentiating from other clubs. New revenue for clubs with digital services.",
     description:
       'GAMETRAQ brings broadcast-grade capture, AI-led tagging, and coach-ready dashboards into a compact ceiling-mounted unit. Automated rally segmentation, ball tracking, and player heatmaps let clubs personalise feedback for every skill level.',
   priceLabel: 'From €300/month or €3,000/year + shipping',
